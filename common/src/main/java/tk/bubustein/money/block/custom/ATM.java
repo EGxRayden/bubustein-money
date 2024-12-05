@@ -33,6 +33,10 @@ public class ATM extends HorizontalDirectionalBlock {
         builder.add(FACING, HALF);
     }
     @Override
+    public @NotNull RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
     }
@@ -89,7 +93,7 @@ public class ATM extends HorizontalDirectionalBlock {
     }
     @SuppressWarnings("deprecated")
     @Override
-    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player playerEntity) {
+    public @NotNull BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player playerEntity) {
         BlockPos blockpos = pos.below();
         BlockState blockState = world.getBlockState(blockpos);
         if(state.getBlock() == this && state.getValue(HALF) == DoubleBlockHalf.UPPER) {
