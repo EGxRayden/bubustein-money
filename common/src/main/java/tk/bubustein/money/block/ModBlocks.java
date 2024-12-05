@@ -10,7 +10,7 @@ import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.custom.ATM;
 import tk.bubustein.money.block.custom.BankMachine;
 import java.util.function.Supplier;
-
+@SuppressWarnings("UnstableApiUsage")
 public class ModBlocks {
     public static void init(){};
     public static final Supplier<Block> ATM = registerBlock("atm",
