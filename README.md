@@ -178,6 +178,15 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
 </td>
     <td>x.0.9</td>
 </tr>
+<tr>
+    <td><p>29<sup>th</sup> December 2024</p></td>
+    <td>New ATM Texture and Model. (Without ATM GUI sadly) The Cards are not useless anymore.<br>
+    Created a very complicated mechanism with Commands. Use `/bubustein help` to see all commands <br>
+    Made Mansion less OP. <br>
+    <b>You need to backup your worlds before installing x.0.10!</b>
+</td>
+    <td>x.0.10</td>
+</tr>
 </table>
 
 ### Be our HERO! Apply for Beta-Tester and help us to beat the "dragons".
