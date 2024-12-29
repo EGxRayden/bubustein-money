@@ -30,7 +30,7 @@ public class ModCommands {
                         .then(Commands.argument("currency", StringArgumentType.word())
                                 .executes(context -> setCurrency(context.getSource(), StringArgumentType.getString(context, "currency")))))
                 .then(Commands.literal("setdefaultcurrency")
-                        .requires(source -> source.hasPermission(2)) // Require permission level 2 (default for ops)
+                        .requires(source -> source.hasPermission(2))
                         .then(Commands.argument("currency", StringArgumentType.word())
                                 .executes(context -> setDefaultCurrency(context.getSource(), StringArgumentType.getString(context, "currency")))))
                 .then(Commands.literal("deposit")
@@ -56,9 +56,20 @@ public class ModCommands {
                                 .then(Commands.argument("currency", StringArgumentType.word())
                                         .executes(context -> ecoSetMoney(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), StringArgumentType.getString(context, "currency"))))))
                 .then(Commands.literal("resetMoney")
+                        .requires(source -> source.hasPermission(2))
                         .executes(context -> resetMoney(context.getSource())))
                 .then(Commands.literal("pay")
                         .then(Commands.argument("player", StringArgumentType.word())
+                                .suggests((context, builder) -> {
+                                    List<String> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers().stream().map(player -> player.getGameProfile().getName()).toList();
+                                    String inputLower = builder.getRemaining().toLowerCase();
+                                    for (String playerName : onlinePlayers) {
+                                        if (playerName.toLowerCase().startsWith(inputLower)) {
+                                            builder.suggest(playerName);
+                                        }
+                                    }
+                                    return builder.buildFuture();
+                                })
                                 .then(Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                                         .executes(context -> pay(context.getSource(), StringArgumentType.getString(context, "player"), DoubleArgumentType.getDouble(context, "amount"))))))
         );
@@ -75,7 +86,7 @@ public class ModCommands {
             player.sendSystemMessage(createStyledHelpMessage("/bubustein defaultCurrency", "Display the current default currency."));
             player.sendSystemMessage(createStyledHelpMessage("/bubustein ecoAddMoney <amount> [currency]", "Add money to the card in hand.", true));
             player.sendSystemMessage(createStyledHelpMessage("/bubustein ecoSetMoney <amount> [currency]", "Set the amount of money on the card in hand.", true));
-            player.sendSystemMessage(createStyledHelpMessage("/bubustein resetMoney", "Reset the amount of money on the card in hand to 0."));
+            player.sendSystemMessage(createStyledHelpMessage("/bubustein resetMoney", "Reset the amount of money on the card in hand to 0.", true));
             player.sendSystemMessage(createStyledHelpMessage("/bubustein pay <player> <amount>", "Transfer money to another player."));
             player.sendSystemMessage(Component.literal("=======================================================================").withStyle(ChatFormatting.GOLD));
         }
@@ -172,7 +183,6 @@ public class ModCommands {
             player.sendSystemMessage(Component.literal("You don't have enough money on your card.").withStyle(ChatFormatting.RED));
             return 0;
         }
-        // Convert amount if currencies are different
         double amountInTargetCurrency = amount;
         if (!playerCurrency.equals(targetCurrency)) {
             amountInTargetCurrency = convertCurrency(amount, playerCurrency, targetCurrency);
@@ -306,18 +316,15 @@ public class ModCommands {
         if (stack.getItem() instanceof CardItem cardItem) {
             String cardCurrency = cardItem.getCurrency(stack);
             double currentBalance = cardItem.getMoney(stack);
-            // Calculate the fee in the card's currency
             double feeInCardCurrency = calculateWithdrawFee(stack, amount);
             double totalWithdrawInCardCurrency = amount + feeInCardCurrency;
             if (currentBalance >= totalWithdrawInCardCurrency) {
                 cardItem.setMoney(stack, currentBalance - totalWithdrawInCardCurrency);
                 Map<String, Double> withdrawnAmounts = new HashMap<>();
                 double remainingAmount = amount;
-                // Try to provide banknotes in the card's currency
                 if (ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
                     remainingAmount = withdrawCurrency(player, amount, cardCurrency, withdrawnAmounts);
                 }
-                // If there's still an amount to withdraw, we go through other currencies
                 if (remainingAmount > 0.01) {
                     for (String currency : ModItems.CURRENCY_ITEMS.keySet()) {
                         if (!currency.equals(cardCurrency)) {
@@ -348,18 +355,17 @@ public class ModCommands {
         } else if (stack.getItem() == ModItems.VisaSteel.get()) {
             return amount * 0.005; // 0.5% fee
         }
-        return 0; // Default case, no fee
+        return 0;
     }
     private static double withdrawCurrency(Player player, double amount, String currency, Map<String, Double> withdrawnAmounts) {
         TreeMap<Double, Item> items = ModItems.CURRENCY_ITEMS.get(currency);
         double remainingAmount = amount;
-        for (Map.Entry<Double, Item> entry : items.entrySet()) {
+        for (Map.Entry<Double, Item> entry : items.descendingMap().entrySet()) {
             double denomination = entry.getKey();
             Item currencyItem = entry.getValue();
             while (remainingAmount >= denomination) {
                 ItemStack currencyStack = new ItemStack(currencyItem);
                 if (!player.getInventory().add(currencyStack)) {
-                    // If inventory is full, drop the item near the player
                     dropItemNearPlayer(player, currencyStack);
                 }
                 remainingAmount -= denomination;
