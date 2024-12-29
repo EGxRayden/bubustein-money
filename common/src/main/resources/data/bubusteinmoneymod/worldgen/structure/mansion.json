@@ -29,20 +29,14 @@
         {
           "type": "minecraft:evoker",
           "weight": 10,
-          "minCount": 12,
-          "maxCount": 19
+          "minCount": 3,
+          "maxCount": 7
         },
         {
           "type": "minecraft:vindicator",
           "weight": 13,
           "minCount": 20,
           "maxCount": 50
-        },
-        {
-          "type": "minecraft:illusioner",
-          "weight": 5,
-          "minCount": 1,
-          "maxCount": 5
         }
       ]
     }
