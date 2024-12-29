@@ -102,10 +102,6 @@ unifiedPublishing {
                 modrinth = "jei"
             }
             conflicts {
-                curseforge = "entityculling"
-                modrinth = "entityculling"
-            }
-            conflicts {
                 curseforge = "moreculling"
                 modrinth = "moreculling"
             }

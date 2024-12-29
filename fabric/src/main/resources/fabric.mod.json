@@ -60,7 +60,6 @@
     "jei": "*"
   },
   "breaks": {
-    "entityculling": "*",
     "moreculling": "*"
   }
 }

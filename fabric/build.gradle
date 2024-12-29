@@ -101,7 +101,7 @@ unifiedPublishing {
         releaseType = "$rootProject.artifact_type"
         changelog = releaseChangelog()
         gameVersions = ["1.21", "1.21.1"]
-        gameLoaders = ["fabric", "quilt"]
+        gameLoaders = ["fabric"]
         mainPublication remapJar
         relations {
             depends {
@@ -119,10 +119,6 @@ unifiedPublishing {
             optional {
                 curseforge = "jei"
                 modrinth = "jei"
-            }
-            conflicts {
-                curseforge = "entityculling"
-                modrinth = "entityculling"
             }
             conflicts {
                 curseforge = "moreculling"
