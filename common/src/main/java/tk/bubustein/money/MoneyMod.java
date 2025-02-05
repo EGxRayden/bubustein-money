@@ -44,8 +44,8 @@ public class MoneyMod {
     private static ModConfig config;
     public static void init() {
         LOGGER.info("[" + MOD_ID + "] Printing money. . . ;)");
-        config = ModConfig.getInstance();
         ModItems.init();
+        config = ModConfig.getInstance();
         LOGGER.info("[" + MOD_ID + "] Crafting ATM. . .");
         ModBlocks.init();
         LOGGER.info("[" + MOD_ID + "] Registering Bank Machine GUI. . .");
