@@ -197,12 +197,12 @@ public class ModCommands {
         if (ModItems.EXCHANGE_RATES.containsKey(currency)) {
             Player player = source.getPlayerOrException();
             ItemStack stack = player.getMainHandItem();
-            if (stack.getItem() instanceof CardItem) {
-                String oldCurrency = ((CardItem) stack.getItem()).getCurrency(stack);
-                ((CardItem) stack.getItem()).setCurrency(stack, currency);
-                ((CardItem) stack.getItem()).convertMoney(stack, oldCurrency, currency);
+            if (stack.getItem() instanceof CardItem cardItem) {
+                String oldCurrency = cardItem.getCurrency(stack);
+                cardItem.setCurrency(stack, currency);
+                cardItem.convertMoney(stack, oldCurrency, currency);
                 player.sendSystemMessage(Component.literal("The currency of the card in hand has been changed to " + currency +
-                        ". New balance: " + formatMoney(((CardItem) stack.getItem()).getMoney(stack)) + " " + currency).withStyle(ChatFormatting.GREEN));
+                        ". New balance: " + formatMoney(cardItem.getMoney(stack)) + " " + currency).withStyle(ChatFormatting.GREEN));
             } else {
                 source.sendFailure(Component.literal("You must hold a card in your hand to execute this command.").withStyle(ChatFormatting.RED));
             }
@@ -213,20 +213,22 @@ public class ModCommands {
     }
     private static int setDefaultCurrency(CommandSourceStack source, String currency) {
         if (ModItems.EXCHANGE_RATES.containsKey(currency)) {
-            String oldCurrency = MoneyMod.getDefaultCurrency();
-            MoneyMod.setDefaultCurrency(currency);
-            MoneyMod.saveConfig(source.getServer());
-            source.sendSuccess(() -> Component.literal("The default currency has been set to " + currency).withStyle(ChatFormatting.GREEN), true);
             for (ServerPlayer player : source.getServer().getPlayerList().getPlayers()) {
                 for (ItemStack stack : player.getInventory().items) {
-                    if (stack.getItem() instanceof CardItem) {
-                        ((CardItem) stack.getItem()).convertMoney(stack, oldCurrency, currency);
-                        ((CardItem) stack.getItem()).setCurrency(stack, currency);
-                        player.sendSystemMessage(Component.literal("Your card has been converted to " + currency + ": " +
-                                formatMoney(((CardItem) stack.getItem()).getMoney(stack)) + " " + currency).withStyle(ChatFormatting.GREEN));
+                    if (stack.getItem() instanceof CardItem cardItem) {
+                        String oldCurrency = cardItem.getCurrency(stack);
+                        cardItem.setCurrency(stack, currency);
+                        cardItem.convertMoney(stack, oldCurrency, currency);
+
+                        player.sendSystemMessage(Component.literal("Your card has been converted from " + oldCurrency +
+                                        " to " + currency + ": " + formatMoney(cardItem.getMoney(stack)) + " " + currency)
+                                .withStyle(ChatFormatting.GREEN));
                     }
                 }
             }
+            MoneyMod.setDefaultCurrency(currency);
+            MoneyMod.saveConfig(source.getServer());
+            source.sendSuccess(() -> Component.literal("The default currency has been set to " + currency).withStyle(ChatFormatting.GREEN), true);
         } else {
             source.sendFailure(Component.literal("Invalid currency. Available currencies are: " + String.join(", ", ModItems.EXCHANGE_RATES.keySet())).withStyle(ChatFormatting.RED));
         }
