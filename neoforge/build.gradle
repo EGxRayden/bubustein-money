@@ -19,7 +19,7 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/'
     }
-    maven { url "https://maven.shedaniel.me" }
+    maven { url = "https://maven.shedaniel.me" }
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
@@ -43,8 +43,8 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rootProject.rei_version}"
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-neoforge-api:${rootProject.jei_version}")
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 }
 processResources {
     inputs.property "version", project.version
