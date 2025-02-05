@@ -739,7 +739,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().arch$tab(MoneyMod.SPECIAL)));
 
     public static final Map<String, Double> EXCHANGE_RATES = new HashMap<>();
-    static {
+    public static void registerExchangeRates() {
         // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 26th DECEMBER
         EXCHANGE_RATES.put("EUR", 1.00);
         EXCHANGE_RATES.put("USD", 1.04);
@@ -770,7 +770,7 @@ public class ModItems {
         EXCHANGE_RATES.put("PHP", 60.28);
     }
     public static final Map<String, TreeMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
-    static {
+    public static void registerCurrencyItems(){
         // Euro
         TreeMap<Double, Item> euroItems = new TreeMap<>(Comparator.naturalOrder());
         euroItems.put(500.0, Euro500.get());
