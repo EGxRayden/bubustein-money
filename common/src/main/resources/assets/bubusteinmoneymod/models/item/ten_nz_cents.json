@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "bubusteinmoneymod:item/ten_nz_cents"
-  }
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "bubusteinmoneymod:item/ten_nz_cents"
+    }
 }

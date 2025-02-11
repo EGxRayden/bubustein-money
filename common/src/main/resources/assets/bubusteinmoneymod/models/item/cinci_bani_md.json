@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "bubusteinmoneymod:item/5banimd"
-  }
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "bubusteinmoneymod:item/cinci_bani_md"
+    }
 }

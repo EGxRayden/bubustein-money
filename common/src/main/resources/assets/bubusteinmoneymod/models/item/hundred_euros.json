@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "bubusteinmoneymod:item/hundred_euros"
-  }
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "bubusteinmoneymod:item/hundred_euros"
+    }
 }

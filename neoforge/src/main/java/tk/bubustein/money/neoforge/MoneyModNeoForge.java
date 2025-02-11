@@ -7,6 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -15,6 +16,7 @@ import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import tk.bubustein.money.MoneyMod;
 import net.neoforged.bus.api.IEventBus;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.screen.BankMachineScreen;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.villager.ModVillagers;
@@ -32,6 +34,14 @@ public class MoneyModNeoForge {
         MoneyMod.registerJigsaws(event.getServer());
         ModVillagers.fillTradeData(event.getServer());
         MoneyMod.onServerStarting(event.getServer());
+    }
+    @EventBusSubscriber(modid = MoneyMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    public static class ModEvents {
+        @SubscribeEvent
+        public static void onCommonSetup(FMLCommonSetupEvent event) {
+            ModItems.registerExchangeRates();
+            ModItems.registerCurrencyItems();
+        }
     }
     @SubscribeEvent
     public void ServerStopping(ServerStoppingEvent event){

@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "bubusteinmoneymod:item/five_br_centavos"
-  }
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "bubusteinmoneymod:item/five_br_centavos"
+    }
 }

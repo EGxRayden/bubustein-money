@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MoneyExpectPlatform {

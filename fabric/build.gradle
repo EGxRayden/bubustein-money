@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradleup.shadow' version '8.3.5'
+    id 'com.gradleup.shadow' version '8.3.6'
     id "me.shedaniel.unified-publishing"
 }
 allprojects {
@@ -12,7 +12,7 @@ architectury {
     fabric()
 }
 repositories {
-    maven { url "https://maven.shedaniel.me" }
+    maven { url = "https://maven.shedaniel.me" }
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
@@ -24,14 +24,9 @@ repositories {
 }
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
-    runs {
-        datagen {
-            inherit server
-            name "Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=${mod_id}"
-            runDir "build/datagen"
+    fabricApi {
+        configureDataGeneration() {
+            client = true
         }
     }
 }
@@ -48,10 +43,10 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rootProject.rei_version}"
-    modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-fabric-api:${rootProject.jei_version}")
-    modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    //modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-fabric-api:${rootProject.jei_version}")
+    //modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
 }
 processResources {
     inputs.property "version", project.version
@@ -100,8 +95,8 @@ unifiedPublishing {
         displayName = "[Fabric $rootProject.minecraft_version] v$rootProject.mod_version"
         releaseType = "$rootProject.artifact_type"
         changelog = releaseChangelog()
-        gameVersions = ["1.21", "1.21.1"]
-        gameLoaders = ["fabric", "quilt"]
+        gameVersions = ["1.21.4"]
+        gameLoaders = ["fabric"]
         mainPublication remapJar
         relations {
             depends {
@@ -115,15 +110,11 @@ unifiedPublishing {
             optional {
                 curseforge = "roughly-enough-items"
                 modrinth = "rei"
-            }
+            }/*
             optional {
                 curseforge = "jei"
                 modrinth = "jei"
-            }
-            conflicts {
-                curseforge = "entityculling"
-                modrinth = "entityculling"
-            }
+            }*/
             conflicts {
                 curseforge = "moreculling"
                 modrinth = "moreculling"

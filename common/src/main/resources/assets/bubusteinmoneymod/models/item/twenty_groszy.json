@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "bubusteinmoneymod:item/twenty_groszy"
-  }
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "bubusteinmoneymod:item/twenty_groszy"
+    }
 }

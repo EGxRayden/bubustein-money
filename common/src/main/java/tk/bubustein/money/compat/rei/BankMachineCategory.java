@@ -57,7 +57,7 @@ public class BankMachineCategory implements DisplayCategory<BankMachineDisplay> 
             slots.get(ingredient.getIndex()).entries(ingredient.get());
         }
         widgets.addAll(slots);
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
+        widgets.add(Widgets.createSlot(new Point(startPoint.x + 95, startPoint.y + 19)).entries(display.getOutputEntries().getFirst()).disableBackground().markOutput());
         if (display.isShapeless()) {
             widgets.add(Widgets.createShapelessIcon(bounds));
         }

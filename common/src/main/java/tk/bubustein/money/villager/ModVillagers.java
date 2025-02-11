@@ -37,28 +37,28 @@ public class ModVillagers {
 
     public static void fillTradeData(MinecraftServer server) {
         RegistryAccess registryAccess = server.registryAccess();
-        Registry<Enchantment> enchantmentRegistry = registryAccess.registryOrThrow(Registries.ENCHANTMENT);
-        Holder<Enchantment> PROTECTION = enchantmentRegistry.getHolderOrThrow(Enchantments.PROTECTION);
-        Holder<Enchantment> FEATHER_FALLING = enchantmentRegistry.getHolderOrThrow(Enchantments.FEATHER_FALLING);
-        Holder<Enchantment> RESPIRATION = enchantmentRegistry.getHolderOrThrow(Enchantments.RESPIRATION);
-        Holder<Enchantment> AQUA_AFFINITY = enchantmentRegistry.getHolderOrThrow(Enchantments.AQUA_AFFINITY);
-        Holder<Enchantment> DEPTH_STRIDER = enchantmentRegistry.getHolderOrThrow(Enchantments.DEPTH_STRIDER);
-        Holder<Enchantment> SHARPNESS = enchantmentRegistry.getHolderOrThrow(Enchantments.SHARPNESS);
-        Holder<Enchantment> KNOCKBACK = enchantmentRegistry.getHolderOrThrow(Enchantments.KNOCKBACK);
-        Holder<Enchantment> FIRE_ASPECT = enchantmentRegistry.getHolderOrThrow(Enchantments.FIRE_ASPECT);
-        Holder<Enchantment> LOOTING = enchantmentRegistry.getHolderOrThrow(Enchantments.LOOTING);
-        Holder<Enchantment> SWEEPING_EDGE = enchantmentRegistry.getHolderOrThrow(Enchantments.SWEEPING_EDGE);
-        Holder<Enchantment> EFFICIENCY = enchantmentRegistry.getHolderOrThrow(Enchantments.EFFICIENCY);
-        Holder<Enchantment> UNBREAKING = enchantmentRegistry.getHolderOrThrow(Enchantments.UNBREAKING);
-        Holder<Enchantment> FORTUNE = enchantmentRegistry.getHolderOrThrow(Enchantments.FORTUNE);
-        Holder<Enchantment> LUCK_OF_THE_SEA = enchantmentRegistry.getHolderOrThrow(Enchantments.LUCK_OF_THE_SEA);
-        Holder<Enchantment> LURE = enchantmentRegistry.getHolderOrThrow(Enchantments.LURE);
-        Holder<Enchantment> LOYALTY = enchantmentRegistry.getHolderOrThrow(Enchantments.LOYALTY);
-        Holder<Enchantment> IMPALING = enchantmentRegistry.getHolderOrThrow(Enchantments.IMPALING);
-        Holder<Enchantment> CHANNELING = enchantmentRegistry.getHolderOrThrow(Enchantments.CHANNELING);
-        Holder<Enchantment> QUICK_CHARGE = enchantmentRegistry.getHolderOrThrow(Enchantments.QUICK_CHARGE);
-        Holder<Enchantment> PIERCING = enchantmentRegistry.getHolderOrThrow(Enchantments.PIERCING);
-        Holder<Enchantment> MENDING = enchantmentRegistry.getHolderOrThrow(Enchantments.MENDING);
+        Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+        Holder<Enchantment> PROTECTION = enchantmentRegistry.getOrThrow(Enchantments.PROTECTION);
+        Holder<Enchantment> FEATHER_FALLING = enchantmentRegistry.getOrThrow(Enchantments.FEATHER_FALLING);
+        Holder<Enchantment> RESPIRATION = enchantmentRegistry.getOrThrow(Enchantments.RESPIRATION);
+        Holder<Enchantment> AQUA_AFFINITY = enchantmentRegistry.getOrThrow(Enchantments.AQUA_AFFINITY);
+        Holder<Enchantment> DEPTH_STRIDER = enchantmentRegistry.getOrThrow(Enchantments.DEPTH_STRIDER);
+        Holder<Enchantment> SHARPNESS = enchantmentRegistry.getOrThrow(Enchantments.SHARPNESS);
+        Holder<Enchantment> KNOCKBACK = enchantmentRegistry.getOrThrow(Enchantments.KNOCKBACK);
+        Holder<Enchantment> FIRE_ASPECT = enchantmentRegistry.getOrThrow(Enchantments.FIRE_ASPECT);
+        Holder<Enchantment> LOOTING = enchantmentRegistry.getOrThrow(Enchantments.LOOTING);
+        Holder<Enchantment> SWEEPING_EDGE = enchantmentRegistry.getOrThrow(Enchantments.SWEEPING_EDGE);
+        Holder<Enchantment> EFFICIENCY = enchantmentRegistry.getOrThrow(Enchantments.EFFICIENCY);
+        Holder<Enchantment> UNBREAKING = enchantmentRegistry.getOrThrow(Enchantments.UNBREAKING);
+        Holder<Enchantment> FORTUNE = enchantmentRegistry.getOrThrow(Enchantments.FORTUNE);
+        Holder<Enchantment> LUCK_OF_THE_SEA = enchantmentRegistry.getOrThrow(Enchantments.LUCK_OF_THE_SEA);
+        Holder<Enchantment> LURE = enchantmentRegistry.getOrThrow(Enchantments.LURE);
+        Holder<Enchantment> LOYALTY = enchantmentRegistry.getOrThrow(Enchantments.LOYALTY);
+        Holder<Enchantment> IMPALING = enchantmentRegistry.getOrThrow(Enchantments.IMPALING);
+        Holder<Enchantment> CHANNELING = enchantmentRegistry.getOrThrow(Enchantments.CHANNELING);
+        Holder<Enchantment> QUICK_CHARGE = enchantmentRegistry.getOrThrow(Enchantments.QUICK_CHARGE);
+        Holder<Enchantment> PIERCING = enchantmentRegistry.getOrThrow(Enchantments.PIERCING);
+        Holder<Enchantment> MENDING = enchantmentRegistry.getOrThrow(Enchantments.MENDING);
 
         ItemStack BOOTS = new ItemStack(Items.DIAMOND_BOOTS);
         BOOTS.enchant(PROTECTION,4);
@@ -120,8 +120,8 @@ public class ModVillagers {
                 },
                 // Level 3
                 {
-                    new SimpleTrade(new ItemCost(ModItems.Dollar50.get(),1), Optional.of(new ItemCost(ModItems.Dollar100.get(),3)), new ItemStack(Items.NETHERITE_INGOT,1),6,8,0.2f),
-                    new SimpleTrade(new ItemCost(ModItems.Dollar50.get(), 1), Optional.of(new ItemCost(ModItems.Dollar100.get(),2)), new ItemStack(Items.DIAMOND,1),6,8,0.2f),
+                    new SimpleTrade(new ItemCost(ModItems.Dollar50.get(),8), Optional.of(new ItemCost(ModItems.Dollar100.get(),21)), new ItemStack(Items.NETHERITE_INGOT,1),6,8,0.2f),
+                    new SimpleTrade(new ItemCost(ModItems.Dollar50.get(), 4), Optional.of(new ItemCost(ModItems.Dollar100.get(),3)), new ItemStack(Items.DIAMOND,1),6,8,0.2f),
                 },
                 // Level 4
                 {

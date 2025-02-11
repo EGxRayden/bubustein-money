@@ -44,8 +44,8 @@ public class MoneyMod {
     private static ModConfig config;
     public static void init() {
         LOGGER.info("[" + MOD_ID + "] Printing money. . . ;)");
-        config = ModConfig.getInstance();
         ModItems.init();
+        config = ModConfig.getInstance();
         LOGGER.info("[" + MOD_ID + "] Crafting ATM. . .");
         ModBlocks.init();
         LOGGER.info("[" + MOD_ID + "] Registering Bank Machine GUI. . .");
@@ -61,8 +61,8 @@ public class MoneyMod {
         LOGGER.info("[" + MOD_ID + "] The Mod has been loaded successfully");
     }
     public static void registerJigsaws(MinecraftServer server){
-        Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().registry(Registries.TEMPLATE_POOL).orElseThrow();
-        Registry<StructureProcessorList> processorListRegistry = server.registryAccess().registry(Registries.PROCESSOR_LIST).orElseThrow();
+        Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureProcessorList> processorListRegistry = server.registryAccess().lookupOrThrow(Registries.PROCESSOR_LIST);
 
         ResourceLocation plainsPoolLocation = ResourceLocation.parse("minecraft:village/plains/houses");
         ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");

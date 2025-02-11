@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,7 +26,6 @@ public class BankMachineScreen extends AbstractContainerScreen<BankMachineMenu> 
         this.widthTooNarrow = this.width < 379;
         this.titleLabelX = 29;
     }
-
     public void containerTick() {
         super.containerTick();
     }
@@ -36,12 +35,11 @@ public class BankMachineScreen extends AbstractContainerScreen<BankMachineMenu> 
         this.renderTooltip(guiGraphics, i, j);
     }
     protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BANK_MACHINE_LOCATION);
         int k = this.leftPos;
         int l = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(BANK_MACHINE_LOCATION, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderType::guiTextured, BANK_MACHINE_LOCATION, k, l, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
     }
     protected boolean isHovering(int i, int j, int k, int l, double d, double e) {
         return (!this.widthTooNarrow) && super.isHovering(i, j, k, l, d, e);

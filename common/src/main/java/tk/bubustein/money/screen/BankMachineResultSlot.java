@@ -1,6 +1,7 @@
 package tk.bubustein.money.screen;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -8,6 +9,8 @@ import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.recipe.ModRecipes;
 
@@ -15,6 +18,7 @@ public class BankMachineResultSlot extends Slot {
     private final CraftingContainer craftSlots;
     private final Player player;
     private int removeCount;
+
     public BankMachineResultSlot(Player player, CraftingContainer craftingContainer, Container container, int i, int j, int k) {
         super(container, i, j, k);
         this.player = player;
@@ -45,13 +49,28 @@ public class BankMachineResultSlot extends Slot {
         }
         this.removeCount = 0;
     }
+    private static NonNullList<ItemStack> copyAllInputItems(CraftingInput craftingInput) {
+        NonNullList<ItemStack> nonNullList = NonNullList.withSize(craftingInput.size(), ItemStack.EMPTY);
+
+        for(int i = 0; i < nonNullList.size(); ++i) {
+            nonNullList.set(i, craftingInput.getItem(i));
+        }
+        return nonNullList;
+    }
+    private NonNullList<ItemStack> getRemainingItems(CraftingInput craftingInput, Level level) {
+        if (level instanceof ServerLevel serverLevel) {
+            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.BANK_MACHINE_RECIPE.get(), craftingInput, serverLevel).map((recipeHolder) -> ((CraftingRecipe)recipeHolder.value()).getRemainingItems(craftingInput)).orElseGet(() -> copyAllInputItems(craftingInput));
+        } else {
+            return CraftingRecipe.defaultCraftingReminder(craftingInput);
+        }
+    }
     public void onTake(Player player, ItemStack itemStack) {
         this.checkTakeAchievements(itemStack);
         CraftingInput.Positioned positioned = this.craftSlots.asPositionedCraftInput();
         CraftingInput craftingInput = positioned.input();
         int i = positioned.left();
         int j = positioned.top();
-        NonNullList<ItemStack> nonNullList = player.level().getRecipeManager().getRemainingItemsFor(ModRecipes.BANK_MACHINE_RECIPE.get(), craftingInput, player.level());
+        NonNullList<ItemStack> nonNullList = this.getRemainingItems(craftingInput, player.level());
         for(int k = 0; k < craftingInput.height(); ++k) {
             for(int l = 0; l < craftingInput.width(); ++l) {
                 int m = l + i + (k + j) * this.craftSlots.getWidth();
@@ -73,6 +92,7 @@ public class BankMachineResultSlot extends Slot {
                 }
             }
         }
+
     }
     public boolean isFake() {
         return true;

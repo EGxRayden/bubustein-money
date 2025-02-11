@@ -1,5 +1,5 @@
 package tk.bubustein.money.compat.jei;
-
+/*
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -77,4 +77,4 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
         builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 18)
                 .addItemStack(recipe.getResultItem(null));
     }
-}
+}*/

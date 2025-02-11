@@ -12,6 +12,7 @@ libs/
 .project
 .idea/
 classes/
+BUILD_ZIP/
 .metadata
 .vscode
 .settings

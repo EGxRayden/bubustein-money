@@ -1,4 +1,4 @@
-name: Build and Release (21.x)
+name: Build and Release (21.4)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - '**/src/**'
       - '.github/**'
     branches:
-      - "21.x"
+      - "21.4"
   workflow_dispatch:
     inputs:
       norelease:

@@ -41,7 +41,6 @@ public class ModConfig {
         Path configPath = getConfigPath(server);
         File configFile = configPath.toFile();
         try {
-            // Ensure the parent directory exists
             File parentDir = configFile.getParentFile();
             if (!parentDir.exists()) {
                 if (!parentDir.mkdirs()) {

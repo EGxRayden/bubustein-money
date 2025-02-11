@@ -65,14 +65,13 @@ public class BankMachineMenu extends AbstractContainerMenu {
             if (optional.isPresent()) {
                 RecipeHolder<BankMachineRecipe> recipeHolder2 = optional.get();
                 BankMachineRecipe craftingRecipe = recipeHolder2.value();
-                if (resultContainer.setRecipeUsed(level, serverPlayer, recipeHolder2)) {
+                if (resultContainer.setRecipeUsed(serverPlayer, recipeHolder2)) {
                     ItemStack itemStack2 = craftingRecipe.assemble(craftingInput, level.registryAccess());
                     if (itemStack2.isItemEnabled(level.enabledFeatures())) {
                         itemStack = itemStack2;
                     }
                 }
             }
-
             resultContainer.setItem(0, itemStack);
             abstractContainerMenu.setRemoteSlot(0, itemStack);
             serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(abstractContainerMenu.containerId, abstractContainerMenu.incrementStateId(), 0, itemStack));

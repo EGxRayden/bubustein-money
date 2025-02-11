@@ -1,5 +1,5 @@
 package tk.bubustein.money.compat.jei;
-
+/*
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -41,4 +41,4 @@ public class MoneyModJEIPlugin implements IModPlugin {
         LOGGER.info( "[" + MoneyMod.MOD_ID +"] Loaded {} Bank Machine recipes", recipes.size());
         registration.addRecipes(BankMachineCategory.RECIPE_TYPE, recipes);
     }
-}
+}*/

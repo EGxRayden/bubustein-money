@@ -1,5 +1,6 @@
 package tk.bubustein.money.fabric;
 
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MoneyExpectPlatformImpl {
@@ -40,7 +42,7 @@ public class MoneyExpectPlatformImpl {
     public static Supplier<PoiType> registerPoiType(String name, Supplier<Set<BlockState>> matchingStates) {
         ResourceKey<PoiType> resourceKey = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, name));
         var registry = Registry.register(BuiltInRegistries.POINT_OF_INTEREST_TYPE, resourceKey, new PoiType(matchingStates.get(), 1, 1));
-        PoiTypesInvoker.invokeRegisterBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolderOrThrow(resourceKey), matchingStates.get());
+        PoiTypesInvoker.invokeRegisterBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.getOrThrow(resourceKey), matchingStates.get());
         return () -> registry;
     }
     public static Supplier<VillagerProfession> registerProfession(String name, Supplier<VillagerProfession> profession) {

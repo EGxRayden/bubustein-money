@@ -369,5 +369,7 @@
 
   "itemGroup.bubusteinmoneymod.special": "Bubustein's Special",
   "itemGroup.bubusteinmoneymod.banknotes": "Bubustein's Banknotes",
-  "itemGroup.bubusteinmoneymod.coins": "Bubustein's Coins"
+  "itemGroup.bubusteinmoneymod.coins": "Bubustein's Coins",
+  "item.bubusteinmoneymod.bank_machine": "Bank Machine",
+  "item.bubusteinmoneymod.atm": "ATM (Bancomat)"
 }

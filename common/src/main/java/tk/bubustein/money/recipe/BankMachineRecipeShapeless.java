@@ -1,109 +1,82 @@
 package tk.bubustein.money.recipe;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.entity.player.StackedContents;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tk.bubustein.money.block.ModBlocks;
+
+import java.util.List;
 
 public class BankMachineRecipeShapeless implements BankMachineRecipe {
     final String group;
     final ItemStack result;
-    final NonNullList<Ingredient> ingredients;
-    public BankMachineRecipeShapeless(String string, ItemStack itemStack, NonNullList<Ingredient> nonNullList) {
+    final List<Ingredient> ingredients;
+    @Nullable
+    private PlacementInfo placementInfo;
+    public BankMachineRecipeShapeless(String string, ItemStack itemStack, List<Ingredient> list) {
         this.group = string;
         this.result = itemStack;
-        this.ingredients = nonNullList;
-    }
-    public @NotNull RecipeSerializer<?> getSerializer() {
-        return ModRecipes.BANK_MACHINE_SHAPELESS.get();
-    }
-    public @NotNull String getGroup() {
-        return this.group;
+        this.ingredients = list;
     }
     @Override
     public boolean isShapeless() {
         return true;
-}
-    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
-        return this.result;
     }
-    public @NotNull NonNullList<Ingredient> getIngredients() {
-        return this.ingredients;
+    public RecipeSerializer<BankMachineRecipeShapeless> getSerializer() {
+        return ModRecipes.BANK_MACHINE_SHAPELESS.get();
     }
-    public boolean matches(CraftingContainer craftingContainer, Level level) {
-        StackedContents stackedContents = new StackedContents();
-        int i = 0;
-        for(int j = 0; j < craftingContainer.getContainerSize(); ++j) {
-            ItemStack itemStack = craftingContainer.getItem(j);
-            if (!itemStack.isEmpty()) {
-                ++i;
-                stackedContents.accountStack(itemStack, 1);
-            }
+    public String group() {
+        return this.group;
+    }
+    public @NotNull PlacementInfo placementInfo() {
+        if (this.placementInfo == null) {
+            this.placementInfo = PlacementInfo.create(this.ingredients);
         }
-        return i == this.ingredients.size() && stackedContents.canCraft(this, null);
+        return this.placementInfo;
     }
     public boolean matches(CraftingInput craftingInput, Level level) {
         if (craftingInput.ingredientCount() != this.ingredients.size()) {
             return false;
         } else {
-            return craftingInput.size() == 1 && this.ingredients.size() == 1 ? ((Ingredient)this.ingredients.getFirst()).test(craftingInput.getItem(0)) : craftingInput.stackedContents().canCraft(this, (IntList)null);
+            return craftingInput.size() == 1 && this.ingredients.size() == 1 ? this.ingredients.getFirst().test(craftingInput.getItem(0)) : craftingInput.stackedContents().canCraft(this, null);
         }
     }
     public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider) {
         return this.result.copy();
     }
-    public boolean canCraftInDimensions(int i, int j) {
-        return i * j >= this.ingredients.size();
+    public List<RecipeDisplay> display() {
+        return List.of(new BankMachineRecipeShapelessDisplay(this.ingredients.stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
+    }
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
     }
     public static class Serializer implements RecipeSerializer<BankMachineRecipeShapeless> {
         public static final Serializer INSTANCE = new Serializer();
-        private static final MapCodec<BankMachineRecipeShapeless> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter((shapelessRecipe) -> shapelessRecipe.group),
-            ItemStack.STRICT_CODEC.fieldOf("result").forGetter((shapelessRecipe) -> shapelessRecipe.result), Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").flatXmap((list) -> {
-            Ingredient[] ingredients = list.stream().filter((ingredient) -> !ingredient.isEmpty()).toArray(Ingredient[]::new);
-            if (ingredients.length == 0) {
-                return DataResult.error(() -> "No ingredients for shapeless recipe");
-            } else {
-                return ingredients.length > 9 ? DataResult.error(() -> "Too many ingredients for shapeless recipe") : DataResult.success(NonNullList.of(Ingredient.EMPTY, ingredients));
-            }
-        }, DataResult::success).forGetter((shapelessRecipe) -> shapelessRecipe.ingredients)).apply(instance, BankMachineRecipeShapeless::new));
-        public static final StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> STREAM_CODEC = StreamCodec.of(BankMachineRecipeShapeless.Serializer::toNetwork, BankMachineRecipeShapeless.Serializer::fromNetwork);
-
+        private static final MapCodec<BankMachineRecipeShapeless> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter((shapelessRecipe) -> shapelessRecipe.group), ItemStack.STRICT_CODEC.fieldOf("result").forGetter((shapelessRecipe) -> shapelessRecipe.result), Ingredient.CODEC.listOf(1, 9).fieldOf("ingredients").forGetter((shapelessRecipe) -> shapelessRecipe.ingredients)).apply(instance, BankMachineRecipeShapeless::new));
+        public static final StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> STREAM_CODEC;
         public Serializer() {
         }
-        public @NotNull MapCodec<BankMachineRecipeShapeless> codec() {
+        public MapCodec<BankMachineRecipeShapeless> codec() {
             return CODEC;
         }
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> streamCodec() {
+        public StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> streamCodec() {
             return STREAM_CODEC;
         }
-        private static BankMachineRecipeShapeless fromNetwork(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
-            String string = registryFriendlyByteBuf.readUtf();
-            int i = registryFriendlyByteBuf.readVarInt();
-            NonNullList<Ingredient> nonNullList = NonNullList.withSize(i, Ingredient.EMPTY);
-            nonNullList.replaceAll((ingredient) -> Ingredient.CONTENTS_STREAM_CODEC.decode(registryFriendlyByteBuf));
-            ItemStack itemStack = ItemStack.STREAM_CODEC.decode(registryFriendlyByteBuf);
-            return new BankMachineRecipeShapeless(string, itemStack, nonNullList);
-        }
-        private static void toNetwork(RegistryFriendlyByteBuf registryFriendlyByteBuf, BankMachineRecipeShapeless shapelessRecipe) {
-            registryFriendlyByteBuf.writeUtf(shapelessRecipe.group);
-            registryFriendlyByteBuf.writeVarInt(shapelessRecipe.ingredients.size());
-            for (Ingredient ingredient : shapelessRecipe.ingredients) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(registryFriendlyByteBuf, ingredient);
-            }
-            ItemStack.STREAM_CODEC.encode(registryFriendlyByteBuf, shapelessRecipe.result);
+        static {
+            STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, (shapelessRecipe) -> shapelessRecipe.group, ItemStack.STREAM_CODEC, (shapelessRecipe) -> shapelessRecipe.result, Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), (shapelessRecipe) -> shapelessRecipe.ingredients, BankMachineRecipeShapeless::new);
         }
     }
 }
