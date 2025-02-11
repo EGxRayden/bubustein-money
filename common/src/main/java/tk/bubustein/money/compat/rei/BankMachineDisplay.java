@@ -1,7 +1,6 @@
 package tk.bubustein.money.compat.rei;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.SimpleGridMenuDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.plugin.common.displays.crafting.*;
 import net.minecraft.resources.ResourceLocation;

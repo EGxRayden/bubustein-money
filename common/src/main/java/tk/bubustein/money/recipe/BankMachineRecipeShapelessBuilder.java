@@ -27,14 +27,14 @@ public class BankMachineRecipeShapelessBuilder implements RecipeBuilder {
     private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
-    public BankMachineRecipeShapelessBuilder( ItemLike itemLike, int i) {
+    public BankMachineRecipeShapelessBuilder(ItemLike itemLike, int i) {
         this.result = itemLike.asItem();
         this.count = i;
     }
-    public static BankMachineRecipeShapelessBuilder shapeless( ItemLike itemLike) {
+    public static BankMachineRecipeShapelessBuilder shapeless(ItemLike itemLike) {
         return new BankMachineRecipeShapelessBuilder( itemLike, 1);
     }
-    public static BankMachineRecipeShapelessBuilder shapeless( ItemLike itemLike, int i) {
+    public static BankMachineRecipeShapelessBuilder shapeless(ItemLike itemLike, int i) {
         return new BankMachineRecipeShapelessBuilder( itemLike, i);
     }
     public BankMachineRecipeShapelessBuilder requires(TagKey<Item> tagKey) {
