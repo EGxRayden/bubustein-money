@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:zece_bani_1900"
-        }
+        "bubusteinmoneymod:zece_bani_1900"
     ],
     "result": {
         "count": 2,

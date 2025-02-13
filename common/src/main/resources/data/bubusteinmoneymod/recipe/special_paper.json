@@ -1,24 +1,12 @@
 {
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
-    "A": {
-      "item": "minecraft:light_gray_dye"
-    },
-    "G": {
-      "item": "minecraft:gold_nugget"
-    },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    },
-    "W": {
-      "item": "minecraft:white_dye"
-    }
+    "A": "minecraft:light_gray_dye",
+    "G": "minecraft:gold_nugget",
+    "L": "minecraft:lapis_lazuli",
+    "P": "minecraft:paper",
+    "R": "minecraft:redstone",
+    "W": "minecraft:white_dye"
   },
   "pattern": [
     "RLG",

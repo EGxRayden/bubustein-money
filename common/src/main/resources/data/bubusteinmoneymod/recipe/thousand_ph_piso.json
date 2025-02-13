@@ -1,9 +1,7 @@
 {
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
-    "#": {
-      "item": "bubusteinmoneymod:five_hundred_ph_piso"
-    }
+    "#": "bubusteinmoneymod:five_hundred_ph_piso"
   },
   "pattern": [
     "##"

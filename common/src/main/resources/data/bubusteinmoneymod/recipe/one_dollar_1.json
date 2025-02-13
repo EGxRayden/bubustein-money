@@ -1,25 +1,17 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "RPG",
-        "GEG",
-        "GPG"
-    ],
-    "key": {
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "P": {
-            "item": "minecraft:gold_nugget"
-        },
-        "G": {
-            "item": "minecraft:green_dye"
-        },
-        "E": {
-            "item": "bubusteinmoneymod:special_paper"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:one_dollar"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "RPG",
+    "GEG",
+    "GPG"
+  ],
+  "key": {
+    "R": "minecraft:redstone",
+    "P": "minecraft:gold_nugget",
+    "G": "minecraft:green_dye",
+    "E": "bubusteinmoneymod:special_paper"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:one_dollar"
+  }
 }

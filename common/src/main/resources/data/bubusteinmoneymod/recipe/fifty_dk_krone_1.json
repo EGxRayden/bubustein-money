@@ -1,34 +1,20 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "ABC",
-        "DPE",
-        "FCC"
-    ],
-    "key": {
-        "A": {
-            "item": "minecraft:redstone"
-        },
-        "B": {
-            "item": "minecraft:black_dye"
-        },
-        "C": {
-            "item": "minecraft:gray_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "D": {
-            "item": "minecraft:gold_ingot"
-        },
-        "E": {
-            "item": "minecraft:purple_dye"
-        },
-        "F": {
-            "item": "minecraft:lapis_lazuli"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:fifty_dk_krone"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "ABC",
+    "DPE",
+    "FCC"
+  ],
+  "key": {
+    "A": "minecraft:redstone",
+    "B": "minecraft:black_dye",
+    "C": "minecraft:gray_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "D": "minecraft:gold_ingot",
+    "E": "minecraft:purple_dye",
+    "F": "minecraft:lapis_lazuli"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:fifty_dk_krone"
+  }
 }

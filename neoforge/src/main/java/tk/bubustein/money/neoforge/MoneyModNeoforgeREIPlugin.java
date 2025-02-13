@@ -1,8 +1,8 @@
 package tk.bubustein.money.neoforge;
 
-import me.shedaniel.rei.forge.REIPluginClient;
-import tk.bubustein.money.compat.rei.MoneyModREIPlugin;
+import me.shedaniel.rei.forge.REIPluginCommon;
+import tk.bubustein.money.compat.rei.MoneyModREIClientPlugin;
 
-@REIPluginClient
-public class MoneyModNeoforgeREIPlugin extends MoneyModREIPlugin {
+@REIPluginCommon
+public class MoneyModNeoforgeREIPlugin extends MoneyModREIClientPlugin {
 }

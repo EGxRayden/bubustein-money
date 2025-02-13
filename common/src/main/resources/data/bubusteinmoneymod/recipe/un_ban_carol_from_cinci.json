@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:cinci_bani_1900"
-        }
+        "bubusteinmoneymod:cinci_bani_1900"
     ],
     "result": {
         "count": 5,

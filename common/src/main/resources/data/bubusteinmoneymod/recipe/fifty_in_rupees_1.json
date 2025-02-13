@@ -1,28 +1,18 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "L##",
-        "RP#",
-        "I##"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:cyan_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:fifty_in_rupees"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "L##",
+    "RP#",
+    "I##"
+  ],
+  "key": {
+    "#": "minecraft:cyan_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "I": "minecraft:iron_nugget",
+    "R": "minecraft:redstone",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:fifty_in_rupees"
+  }
 }

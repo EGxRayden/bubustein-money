@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:douazeci_lei_1900"
-        }
+        "bubusteinmoneymod:douazeci_lei_1900"
     ],
     "result": {
         "count": 4,

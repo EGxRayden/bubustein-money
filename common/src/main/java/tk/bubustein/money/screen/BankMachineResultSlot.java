@@ -9,9 +9,9 @@ import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import tk.bubustein.money.recipe.BankMachineRecipe;
 import tk.bubustein.money.recipe.ModRecipes;
 
 public class BankMachineResultSlot extends Slot {
@@ -59,9 +59,9 @@ public class BankMachineResultSlot extends Slot {
     }
     private NonNullList<ItemStack> getRemainingItems(CraftingInput craftingInput, Level level) {
         if (level instanceof ServerLevel serverLevel) {
-            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.BANK_MACHINE_RECIPE.get(), craftingInput, serverLevel).map((recipeHolder) -> ((CraftingRecipe)recipeHolder.value()).getRemainingItems(craftingInput)).orElseGet(() -> copyAllInputItems(craftingInput));
+            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.BANK_MACHINE_RECIPE.get(), craftingInput, serverLevel).map((recipeHolder) -> (recipeHolder.value()).getRemainingItems(craftingInput)).orElseGet(() -> copyAllInputItems(craftingInput));
         } else {
-            return CraftingRecipe.defaultCraftingReminder(craftingInput);
+            return BankMachineRecipe.defaultCraftingReminder(craftingInput);
         }
     }
     public void onTake(Player player, ItemStack itemStack) {

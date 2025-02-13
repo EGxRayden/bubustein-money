@@ -1,28 +1,18 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "RGG",
-        "RP#",
-        "RDD"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:gold_ingot"
-        },
-        "D": {
-            "item": "minecraft:lime_dye"
-        },
-        "G": {
-            "item": "minecraft:cyan_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:hundred_cz_krone"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "RGG",
+    "RP#",
+    "RDD"
+  ],
+  "key": {
+    "#": "minecraft:gold_ingot",
+    "D": "minecraft:lime_dye",
+    "G": "minecraft:cyan_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:hundred_cz_krone"
+  }
 }

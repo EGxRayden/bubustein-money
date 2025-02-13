@@ -1,28 +1,18 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "#O#",
-        "RPI",
-        "O#O"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:green_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "O": {
-            "item": "minecraft:yellow_dye"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:one_cn_yuan"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "#O#",
+    "RPI",
+    "O#O"
+  ],
+  "key": {
+    "#": "minecraft:green_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "I": "minecraft:iron_nugget",
+    "R": "minecraft:redstone",
+    "O": "minecraft:yellow_dye"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:one_cn_yuan"
+  }
 }

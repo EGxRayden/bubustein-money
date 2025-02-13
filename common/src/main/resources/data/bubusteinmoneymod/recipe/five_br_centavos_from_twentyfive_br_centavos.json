@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:twentyfive_br_centavos"
-        }
+        "bubusteinmoneymod:twentyfive_br_centavos"
     ],
     "result": {
         "count": 5,

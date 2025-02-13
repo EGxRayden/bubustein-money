@@ -1,15 +1,13 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:fifty_br_centavos"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:one_br_real"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "bubusteinmoneymod:fifty_br_centavos"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:one_br_real"
+  }
 }

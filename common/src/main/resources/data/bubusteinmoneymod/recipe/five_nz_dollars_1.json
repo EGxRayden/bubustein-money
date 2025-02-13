@@ -1,24 +1,12 @@
 {
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
-    "C": {
-      "item": "minecraft:cyan_dye"
-    },
-    "G": {
-      "item": "minecraft:gold_nugget"
-    },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "O": {
-      "item": "minecraft:orange_dye"
-    },
-    "P": {
-      "item": "bubusteinmoneymod:special_paper"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    }
+    "C": "minecraft:cyan_dye",
+    "G": "minecraft:gold_nugget",
+    "L": "minecraft:lapis_lazuli",
+    "O": "minecraft:orange_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "R": "minecraft:redstone"
   },
   "pattern": [
     "OCO",

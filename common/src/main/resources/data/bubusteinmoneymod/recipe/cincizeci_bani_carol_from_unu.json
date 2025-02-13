@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:un_leu_1900"
-        }
+        "bubusteinmoneymod:un_leu_1900"
     ],
     "result": {
         "count": 2,

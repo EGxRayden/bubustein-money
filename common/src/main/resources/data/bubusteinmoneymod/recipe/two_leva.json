@@ -1,14 +1,12 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_lev"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:two_leva"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": "bubusteinmoneymod:one_lev"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:two_leva"
+  }
 }

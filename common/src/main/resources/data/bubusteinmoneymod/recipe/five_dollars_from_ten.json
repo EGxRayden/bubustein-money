@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:ten_dollars"
-        }
+        "bubusteinmoneymod:ten_dollars"
     ],
     "result": {
         "count": 2,

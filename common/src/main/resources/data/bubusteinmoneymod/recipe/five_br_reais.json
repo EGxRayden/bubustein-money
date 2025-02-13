@@ -1,16 +1,14 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_br_real"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_br_reais"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "category": "misc",
+  "key": {
+    "#": "bubusteinmoneymod:one_br_real"
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:five_br_reais"
+  }
 }

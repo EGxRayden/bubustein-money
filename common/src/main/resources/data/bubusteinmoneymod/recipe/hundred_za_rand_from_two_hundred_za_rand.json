@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:two_hundred_za_rand"
-        }
+        "bubusteinmoneymod:two_hundred_za_rand"
     ],
     "result": {
         "count": 2,

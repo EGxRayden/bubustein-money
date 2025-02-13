@@ -2,9 +2,7 @@
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "category": "misc",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:fifty_mx_pesos"
-        }
+        "bubusteinmoneymod:fifty_mx_pesos"
     ],
     "result": {
         "count": 5,

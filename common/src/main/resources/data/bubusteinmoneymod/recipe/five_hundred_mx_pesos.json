@@ -1,16 +1,14 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:hundred_mx_pesos"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_hundred_mx_pesos"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "category": "misc",
+  "key": {
+    "#": "bubusteinmoneymod:hundred_mx_pesos"
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:five_hundred_mx_pesos"
+  }
 }

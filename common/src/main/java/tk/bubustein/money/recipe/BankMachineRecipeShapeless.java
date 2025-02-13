@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -57,11 +58,7 @@ public class BankMachineRecipeShapeless implements BankMachineRecipe {
         return this.result.copy();
     }
     public List<RecipeDisplay> display() {
-        return List.of(new BankMachineRecipeShapelessDisplay(this.ingredients.stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
-    }
-    @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return null;
+        return List.of(new ShapelessCraftingRecipeDisplay(this.ingredients.stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
     }
     public static class Serializer implements RecipeSerializer<BankMachineRecipeShapeless> {
         public static final Serializer INSTANCE = new Serializer();

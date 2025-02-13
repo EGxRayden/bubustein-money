@@ -1,34 +1,20 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "NOB",
-        "RDG",
-        "NCC"
-    ],
-    "key": {
-        "N": {
-            "item": "minecraft:iron_nugget"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "D": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "O": {
-            "item": "minecraft:gold_nugget"
-        },
-        "C": {
-            "item": "minecraft:cyan_dye"
-        },
-        "G": {
-            "item": "minecraft:red_stained_glass_pane"
-        },
-        "B": {
-            "item": "minecraft:blue_dye"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:five_cdollars"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "NOB",
+    "RDG",
+    "NCC"
+  ],
+  "key": {
+    "N": "minecraft:iron_nugget",
+    "R": "minecraft:redstone",
+    "D": "bubusteinmoneymod:special_paper",
+    "O": "minecraft:gold_nugget",
+    "C": "minecraft:cyan_dye",
+    "G": "minecraft:red_stained_glass_pane",
+    "B": "minecraft:blue_dye"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:five_cdollars"
+  }
 }

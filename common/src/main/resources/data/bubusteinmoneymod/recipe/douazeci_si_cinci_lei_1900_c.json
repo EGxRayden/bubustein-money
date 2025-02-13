@@ -1,14 +1,12 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "##"
-    ],
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:douasprezece_lei_1900"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:douazeci_cinci_lei_1900"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": "bubusteinmoneymod:douasprezece_lei_1900"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:douazeci_cinci_lei_1900"
+  }
 }

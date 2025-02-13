@@ -1,9 +1,7 @@
 {
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
-    "#": {
-      "item": "bubusteinmoneymod:one_ph_sentimo"
-    }
+    "#": "bubusteinmoneymod:one_ph_sentimo"
   },
   "pattern": [
     "# #",

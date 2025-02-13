@@ -23,6 +23,9 @@
     ],
     "client":["tk.bubustein.money.fabric.MoneyModClientFabric"],
     "rei_client": [
+      "tk.bubustein.money.compat.rei.MoneyModREIClientPlugin"
+    ],
+    "rei_common": [
       "tk.bubustein.money.compat.rei.MoneyModREIPlugin"
     ],
     "fabric-datagen": [

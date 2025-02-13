@@ -1,31 +1,19 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "DDN",
-        "DPG",
-        "LRN"
-    ],
-    "key": {
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "G": {
-            "item": "minecraft:gold_ingot"
-        },
-        "N": {
-            "item": "minecraft:iron_nugget"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        },
-        "D": {
-            "item": "minecraft:light_blue_dye"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:two_br_reais"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "DDN",
+    "DPG",
+    "LRN"
+  ],
+  "key": {
+    "P": "bubusteinmoneymod:special_paper",
+    "G": "minecraft:gold_ingot",
+    "N": "minecraft:iron_nugget",
+    "L": "minecraft:lapis_lazuli",
+    "D": "minecraft:light_blue_dye",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:two_br_reais"
+  }
 }

@@ -1,37 +1,21 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "L##",
-        "RPA",
-        "IGD"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:gold_nugget"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "D": {
-            "item": "minecraft:light_gray_dye"
-        },
-        "G": {
-            "item": "minecraft:gray_dye"
-        },
-        "A": {
-            "item": "minecraft:glass_pane"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:five_euros"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "L##",
+    "RPA",
+    "IGD"
+  ],
+  "key": {
+    "#": "minecraft:gold_nugget",
+    "L": "minecraft:lapis_lazuli",
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_nugget",
+    "P": "bubusteinmoneymod:special_paper",
+    "D": "minecraft:light_gray_dye",
+    "G": "minecraft:gray_dye",
+    "A": "minecraft:glass_pane"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:five_euros"
+  }
 }

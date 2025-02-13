@@ -1,14 +1,12 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:fifty_adollars"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:hundred_adollars"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": "bubusteinmoneymod:fifty_adollars"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:hundred_adollars"
+  }
 }

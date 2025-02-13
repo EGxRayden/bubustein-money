@@ -1,9 +1,7 @@
 {
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:five_cz_krone"
-        }
+        "bubusteinmoneymod:five_cz_krone"
     ],
     "result": {
         "count": 5,

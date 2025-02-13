@@ -1,15 +1,13 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:fifty_mx_centavos"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:one_mx_peso"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "bubusteinmoneymod:fifty_mx_centavos"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:one_mx_peso"
+  }
 }

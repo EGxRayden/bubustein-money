@@ -1,9 +1,7 @@
 {
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:one_cn_yuan"
-        }
+        "bubusteinmoneymod:one_cn_yuan"
     ],
     "result": {
         "count": 2,

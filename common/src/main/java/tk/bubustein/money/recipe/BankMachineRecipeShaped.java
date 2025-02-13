@@ -6,6 +6,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -71,11 +74,7 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
         return this.pattern.height();
     }
     public @NotNull List<RecipeDisplay> display() {
-        return List.of(new BankMachineRecipeShapedDisplay(this.pattern.width(), this.pattern.height(), this.pattern.ingredients().stream().map((optional) -> optional.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
-    }
-    @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return null;
+        return List.of(new ShapedCraftingRecipeDisplay(this.pattern.width(), this.pattern.height(), this.pattern.ingredients().stream().map((optional) -> optional.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
     }
     public static class Serializer implements RecipeSerializer<BankMachineRecipeShaped> {
         public static final Serializer INSTANCE = new Serializer();

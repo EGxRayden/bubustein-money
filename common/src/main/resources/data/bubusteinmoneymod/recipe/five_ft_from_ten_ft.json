@@ -1,9 +1,7 @@
 {
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:ten_ft"
-        }
+        "bubusteinmoneymod:ten_ft"
     ],
     "result": {
         "count": 2,

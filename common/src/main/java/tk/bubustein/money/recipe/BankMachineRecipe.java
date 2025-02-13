@@ -12,15 +12,21 @@ public interface BankMachineRecipe extends Recipe<CraftingInput> {
     }
     boolean isShapeless();
     RecipeSerializer<? extends BankMachineRecipe> getSerializer();
+
+    default RecipeBookCategory recipeBookCategory() {
+        return ModRecipes.BANK_MACHINE_CATEGORY.get();
+    }
     default NonNullList<ItemStack> getRemainingItems(CraftingInput craftingInput) {
         return defaultCraftingReminder(craftingInput);
     }
     static NonNullList<ItemStack> defaultCraftingReminder(CraftingInput craftingInput) {
         NonNullList<ItemStack> nonNullList = NonNullList.withSize(craftingInput.size(), ItemStack.EMPTY);
+
         for(int i = 0; i < nonNullList.size(); ++i) {
             Item item = craftingInput.getItem(i).getItem();
             nonNullList.set(i, item.getCraftingRemainder());
         }
+
         return nonNullList;
     }
 }

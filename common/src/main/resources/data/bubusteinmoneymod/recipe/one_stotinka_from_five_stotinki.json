@@ -1,9 +1,7 @@
 {
     "type": "bubusteinmoneymod:bank_machine_shapeless",
     "ingredients": [
-        {
-            "item": "bubusteinmoneymod:five_stotinki"
-        }
+        "bubusteinmoneymod:five_stotinki"
     ],
     "result": {
         "count": 5,

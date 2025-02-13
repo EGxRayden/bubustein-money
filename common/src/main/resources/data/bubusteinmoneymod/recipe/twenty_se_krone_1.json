@@ -1,34 +1,20 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "key": {
-        "#": {
-            "item": "minecraft:purple_dye"
-        },
-        "E": {
-            "item": "minecraft:gray_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "G": {
-            "item": "minecraft:white_dye"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        }
-    },
-    "pattern": [
-        "R##",
-        "IP#",
-        "LEG"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:twenty_se_krone"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": "minecraft:purple_dye",
+    "E": "minecraft:gray_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_nugget",
+    "G": "minecraft:white_dye",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "pattern": [
+    "R##",
+    "IP#",
+    "LEG"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:twenty_se_krone"
+  }
 }

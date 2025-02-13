@@ -31,7 +31,7 @@ public class BankMachineRecipeShapedBuilder implements RecipeBuilder {
     private final int count;
     private final List<String> rows = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-    private final Map<String, Criterion<?>> criteria = new LinkedHashMap();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
     private boolean showNotification = true;

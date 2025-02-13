@@ -1,16 +1,14 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_mx_peso"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_mx_pesos"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "category": "misc",
+  "key": {
+    "#": "bubusteinmoneymod:one_mx_peso"
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:five_mx_pesos"
+  }
 }

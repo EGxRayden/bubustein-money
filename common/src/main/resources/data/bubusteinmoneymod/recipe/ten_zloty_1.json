@@ -1,34 +1,20 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "key": {
-        "#": {
-            "item": "minecraft:gray_dye"
-        },
-        "E": {
-            "item": "minecraft:brown_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "G": {
-            "item": "minecraft:white_dye"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        }
-    },
-    "pattern": [
-        "R#E",
-        "IPG",
-        "LE#"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:ten_zloty"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": "minecraft:gray_dye",
+    "E": "minecraft:brown_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_nugget",
+    "G": "minecraft:white_dye",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "pattern": [
+    "R#E",
+    "IPG",
+    "LE#"
+  ],
+  "result": {
+    "id": "bubusteinmoneymod:ten_zloty"
+  }
 }

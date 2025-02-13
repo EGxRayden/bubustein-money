@@ -1,12 +1,10 @@
 {
-  "type": "bubusteinmoneymod:bank_machine_shapeless",
-  "ingredients": [
-    {
-      "item": "bubusteinmoneymod:fifty_nz_dollars"
+    "type": "bubusteinmoneymod:bank_machine_shapeless",
+    "ingredients": [
+        "bubusteinmoneymod:fifty_nz_dollars"
+    ],
+    "result": {
+        "count": 5,
+        "id": "bubusteinmoneymod:ten_nz_dollars"
     }
-  ],
-  "result": {
-    "count": 5,
-    "id": "bubusteinmoneymod:ten_nz_dollars"
-  }
 }

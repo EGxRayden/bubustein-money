@@ -1,31 +1,19 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "#GG",
-        "SPR",
-        "*GG"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:gold_nugget"
-        },
-        "*": {
-            "item": "minecraft:iron_nugget"
-        },
-        "S": {
-            "item": "minecraft:white_stained_glass_pane"
-        },
-        "G": {
-            "item": "minecraft:lime_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        }
-    },
-    "result": {
-        "id": "bubusteinmoneymod:un_leu"
-    }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "pattern": [
+    "#GG",
+    "SPR",
+    "*GG"
+  ],
+  "key": {
+    "#": "minecraft:gold_nugget",
+    "*": "minecraft:iron_nugget",
+    "S": "minecraft:white_stained_glass_pane",
+    "G": "minecraft:lime_dye",
+    "P": "bubusteinmoneymod:special_paper",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "bubusteinmoneymod:un_leu"
+  }
 }
