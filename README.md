@@ -35,73 +35,133 @@
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/14433fa779767c43b99a1937a75664a069ebb526.png)
 
+![](https://cdn.modrinth.com/data/QzlWq3M9/images/a4e61b1f162a5d58fce544bdf3656137818d4b4b.jpeg)
+
+![](https://cdn.modrinth.com/data/QzlWq3M9/images/0206e8e9a59d2464251f38b3c4b74454c412ae01.jpeg)
+
+![](https://cdn.modrinth.com/data/QzlWq3M9/images/b5bbabb53174d5b18ee2731fcb66aeacae537739.png)
+
 **P.S. The Dark GUI isn't included in this mod, you have to download the resource pack
 -> [Bubustein's Dark Textures](https://modrinth.com/resourcepack/bubustein-dark-textures)**
 
 ### 💶 All Currencies: EUR, USD, GBP, CAD, RON, ROL(1900-1906), MDL, CHF, AUD, JPY, BGN, CZK, NOK, DKK, SEK, HUF, PLN, RSD, ISK, CNY, INR, KRW, BRL, MXN, ZAR, TRY, NZD, PHP.
 
 ## Compatible Versions
-### ✅-> is available <br>
-### ❌ -> not available yet<br>
-### 🙅🏻 -> There are <u>NO</u> plans for this version<br>/ Retired versions.
+### ✅-> is available (Active Development with regular updates) <br>
+### 🍂 -> is available (Versions that may receive occasional updates) <br>
+### 🪦 -> Dead Versions (No More Updates) <br>
+### 📅 -> Scheduled for Future Release (Maybe in Active Development) <br>
 ### ⛔ -> These versions don't exist for this loader.<br>
 ### ⭕ -> These versions will be retired soon.
 
-### Note that from 1.20.6 onwards I will only update the mod for Forge if there will be a version for the Architectury API, and/or it will have more downloads than Neoforge.
+### No more updates for Forge 1.20.5+.
 
 <table>
-  <tr>
-    <th><b>Minecraft Version</b></th>
-    <th><b>Forge</b></th>
-    <th><b>Fabric/Quilt</b></th>
-    <th><b>Neoforge</b></th>
-  </tr>
-<tr>
-    <td><b> 1.16.4 or older</b></td>
-    <td>🙅🏻</td>
-    <td>🙅🏻</td>
-    <td>⛔</td></tr><tr>
-  <tr>
-    <td><b> 1.16.5</b></td>
-    <td>✅</td>
-    <td>✅</td>
-    <td>⛔</td></tr><tr>
-<td><b> 1.17.1</b></td>
-    <td>🙅🏻</td>
-    <td>🙅🏻</td>
-    <td>⛔</td></tr>
-  <tr>
-<td><b>1.18.2</b></td>
-    <td>✅</td>
-    <td>✅</td>
-    <td>⛔</td></tr>
-<tr><td><b>1.19.2</b></td>
-    <td>✅</td>
-    <td>✅</td>
-    <td>⛔</td></tr>
-<tr><td><b>1.19.4</b></td>
-    <td>🙅🏻</td>
-    <td>🙅🏻</td>
-    <td>⛔</td></tr>
-<tr><td><b>1.20.1/2</b></td>
-    <td>✅</td>
-    <td>✅</td>
-    <td>🙅🏻</td></tr>
-<tr><td><b>1.20.4</b></td>
-    <td>✅</td>
-    <td>✅</td>
-    <td>✅</td>
-  </tr>
-<tr><td><b>1.20.6</b></td>
-    <td>🙅🏻</td>
-    <td>✅</td>
-    <td>✅</td>
-</tr>
-<tr><td><b>1.21</b></td>
-  <td>🙅🏻</td>
-  <td>✅</td>
-  <td>✅</td>
-</tr>
+    <tr>
+        <td>Minecraft Version</td>
+        <td>Version Number</td>
+        <td>Forge</td>
+        <td>Fabric/Quilt</td>
+        <td>Neoforge</td>
+    </tr>
+    <tr>
+        <td>1.16.4 or older</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.16.5</td>
+        <td>1.x.y</td>
+        <td>🍂</td>
+        <td>🍂</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.17.1</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.18.2</td>
+        <td>2.x.y</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.19.2</td>
+        <td>3.x.y</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.19.3-1.19.4</td>
+        <td>4.x.y</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>⛔</td>
+    </tr>
+    <tr>
+        <td>1.20.1</td>
+        <td>5.x.y</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+    </tr>
+    <tr>
+        <td>1.20.2</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+    </tr>
+    <tr>
+        <td>1.20.4</td>
+        <td>6.x.y</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+    </tr>
+    <tr>
+        <td>1.20.5-1.20.6</td>
+        <td>6.0.7d, 7.x.y</td>
+        <td>⛔</td>
+        <td>🪦</td>
+        <td>🪦</td>
+    </tr>
+    <tr>
+        <td>1.21-1.21.1</td>
+        <td>8.x.y</td>
+        <td>⛔</td>
+        <td>✅</td>
+        <td>✅</td>
+    </tr>
+    <tr>
+        <td>1.21.2-1.21.3</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+        <td>🪦</td>
+    </tr>
+    <tr>
+        <td>1.21.4</td>
+        <td>9.x.y</td>
+        <td>⛔</td>
+        <td>📅</td>
+        <td>📅</td>
+    </tr>
+    <tr>
+        <td>1.21.5</td>
+        <td>10.x.y</td>
+        <td>⛔</td>
+        <td>📅</td>
+        <td>📅</td>
+    </tr>
 </table>
 
 ## <b>Requirements</b>
@@ -179,8 +239,8 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
     <td>x.0.9</td>
 </tr>
 <tr>
-    <td><p>29<sup>th</sup> December 2024</p></td>
-    <td>New ATM Texture and Model. (Without ATM GUI sadly) The Cards are not useless anymore.<br>
+    <td><p>???<sup>th</sup> February 2025</p></td>
+    <td>New ATM Texture (128x128px). (Without ATM GUI sadly) The Cards are not useless anymore.<br>
     Created a very complicated mechanism with Commands. Use `/bubustein help` to see all commands <br>
     Made Mansion less OP. <br>
     <b>You need to backup your worlds before installing x.0.10!</b>
