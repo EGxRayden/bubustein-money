@@ -29,7 +29,7 @@ jobs:
         id: get-branches
         run: |
           git fetch --all
-          branches=$(git branch -r | grep -v 'origin/21.x' | sed 's/origin\///' | grep -v 'HEAD' | awk '{print $1}')
+          branches=$(git branch -r | grep -v 'origin/21.4' | sed 's/origin\///' | grep -v 'HEAD' | awk '{print $1}')
           if [ -z "$branches" ]; then
             echo "No branches to sync"
             exit 0
