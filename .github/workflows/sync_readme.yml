@@ -3,7 +3,7 @@ name: Sync Readme Files
 on:
   push:
     branches:
-      - 21.x
+      - 21.1
     paths:
       - 'README.md'
       - 'README_CURSEFORGE.md'
