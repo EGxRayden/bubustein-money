@@ -64,12 +64,10 @@ public class BankMachineRecipeShapelessBuilder implements RecipeBuilder {
         this.advancement.addCriterion(string, criterionTriggerInstance);
         return this;
     }
-
     public BankMachineRecipeShapelessBuilder group(@Nullable String string) {
         this.group = string;
         return this;
     }
-
     public @NotNull Item getResult() {
         return this.result;
     }

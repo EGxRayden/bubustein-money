@@ -2,7 +2,7 @@ architectury {
     common(rootProject.enabled_platforms.split(","))
 }
 repositories {
-    maven { url "https://maven.shedaniel.me" }
+    maven { url = "https://maven.shedaniel.me" }
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"

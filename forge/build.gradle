@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradleup.shadow' version '8.3.0'
+    id 'com.gradleup.shadow' version '8.3.6'
     id "me.shedaniel.unified-publishing"
 }
 allprojects {
@@ -46,7 +46,7 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rootProject.rei_version}"
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}")
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 processResources {
@@ -89,7 +89,7 @@ unifiedPublishing {
         displayName = "[Forge $rootProject.minecraft_version] v$rootProject.mod_version"
         releaseType = "$rootProject.artifact_type"
         changelog = releaseChangelog()
-        gameVersions = ["1.20.1"]
+        gameVersions = []
         gameLoaders = ["forge", "neoforge"]
         mainPublication remapJar
         relations {
@@ -104,10 +104,6 @@ unifiedPublishing {
             optional {
                 curseforge = "jei"
                 modrinth = "jei"
-            }
-            conflicts {
-                curseforge = "entityculling"
-                modrinth = "entityculling"
             }
             conflicts {
                 curseforge = "moreculling"

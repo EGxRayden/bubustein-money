@@ -11,29 +11,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 6.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:golden_carrot",
-          "weight": 50
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 5.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "minecraft:golden_apple",
           "weight": 30
         },
         {
@@ -44,58 +28,12 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 3.0,
-                "min": 1.0
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:enchanted_golden_apple",
-          "weight": 10
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:special_paper",
-          "weight": 60
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": 1.0,
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:card_classic",
-          "weight": 30
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": 1.0,
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:card_gold",
+          "name": "minecraft:golden_apple",
           "weight": 15
         },
         {
@@ -103,11 +41,15 @@
           "functions": [
             {
               "add": false,
-              "count": 1.0,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 0.0
+              },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bubusteinmoneymod:card_steel",
+          "name": "minecraft:enchanted_golden_apple",
           "weight": 5
         }
       ],
@@ -123,110 +65,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 4.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:un_leu_1900",
-          "weight": 33
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:doi_lei_1900",
-          "weight": 30
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:cinci_lei_1900",
-          "weight": 25
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 4.0,
+                "max": 7.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bubusteinmoneymod:douasprezece_lei_1900",
-          "weight": 20
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:douazeci_lei_1900",
-          "weight": 19
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:douazeci_cinci_lei_1900",
-          "weight": 15
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:cincizeci_lei_1900",
-          "weight": 13
+          "name": "bubusteinmoneymod:special_paper",
+          "weight": 40
         },
         {
           "type": "minecraft:item",
@@ -237,8 +83,40 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bubusteinmoneymod:suta_lei_1900",
-          "weight": 7
+          "name": "bubusteinmoneymod:card_classic",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:card_gold",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:card_steel",
+          "weight": 3
         }
       ],
       "rolls": 1.0
@@ -254,13 +132,13 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 3.0,
-                "min": 2.0
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bubusteinmoneymod:ten_in_rupees",
-          "weight": 79
+          "name": "bubusteinmoneymod:un_leu_1900",
+          "weight": 25
         },
         {
           "type": "minecraft:item",
@@ -269,14 +147,148 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 5.0,
+                "max": 2.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:doi_lei_1900",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:cinci_lei_1900",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:douasprezece_lei_1900",
+          "weight": 11
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:douazeci_lei_1900",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:douazeci_cinci_lei_1900",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:cincizeci_lei_1900",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:suta_lei_1900",
+          "weight": 3
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:ten_in_rupees",
+          "weight": 30
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 7.0,
                 "min": 2.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "bubusteinmoneymod:one_cn_yuan",
-          "weight": 90
+          "weight": 50
         },
         {
           "type": "minecraft:item",
@@ -292,7 +304,7 @@
             }
           ],
           "name": "bubusteinmoneymod:ten_cdollars",
-          "weight": 80
+          "weight": 15
         },
         {
           "type": "minecraft:item",
@@ -308,7 +320,7 @@
             }
           ],
           "name": "bubusteinmoneymod:fifty_se_krone",
-          "weight": 40
+          "weight": 25
         },
         {
           "type": "minecraft:item",
@@ -324,7 +336,7 @@
             }
           ],
           "name": "bubusteinmoneymod:fifty_dollars",
-          "weight": 39
+          "weight": 7
         },
         {
           "type": "minecraft:item",
@@ -340,7 +352,7 @@
             }
           ],
           "name": "bubusteinmoneymod:fifty_tr_lira",
-          "weight": 60
+          "weight": 27
         }
       ],
       "rolls": 1.0
@@ -355,14 +367,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 15.0,
-                "min": 2.0
+                "max": 8.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "bubusteinmoneymod:suta_lei",
-          "weight": 70
+          "weight": 40
         },
         {
           "type": "minecraft:item",
@@ -371,174 +383,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 14.0,
-                "min": 2.0
+                "max": 4.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "bubusteinmoneymod:doua_sute_lei",
-          "weight": 50
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:cinci_sute_lei",
           "weight": 30
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 15.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:cinci_sute_lei_md",
-          "weight": 70
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 14.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:mie_lei_md",
-          "weight": 50
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:hundred_euros",
-          "weight": 32
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 6.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:two_hundred_euros",
-          "weight": 25
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:five_hundred_euros",
-          "weight": 17
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:hundred_dollars",
-          "weight": 33
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:thousand_francs",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 6.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:fifty_pounds",
-          "weight": 45
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "bubusteinmoneymod:thousand_dk_krone",
-          "weight": 43
         },
         {
           "type": "minecraft:item",
@@ -548,13 +400,173 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 3.0,
-                "min": 2.0
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:cinci_sute_lei",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 10.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:cinci_sute_lei_md",
+          "weight": 41
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:mie_lei_md",
+          "weight": 30
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:hundred_euros",
+          "weight": 14
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:two_hundred_euros",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:five_hundred_euros",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:hundred_dollars",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:thousand_francs",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 0.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:fifty_pounds",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "bubusteinmoneymod:thousand_dk_krone",
+          "weight": 17
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "bubusteinmoneymod:thousand_no_krone",
-          "weight": 30
+          "weight": 18
         },
         {
           "type": "minecraft:item",
@@ -570,7 +582,7 @@
             }
           ],
           "name": "bubusteinmoneymod:five_hundred_zloty",
-          "weight": 40
+          "weight": 15
         }
       ],
       "rolls": 1.0
@@ -585,7 +597,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -601,7 +613,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -617,7 +629,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -633,7 +645,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -649,7 +661,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -665,7 +677,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -681,7 +693,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -697,7 +709,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -713,7 +725,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -729,7 +741,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -751,7 +763,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 6.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -767,7 +779,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 4.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -783,7 +795,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 8.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -799,14 +811,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 8.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "bubusteinmoneymod:fifty_pence",
-          "weight": 55
+          "weight": 35
         },
         {
           "type": "minecraft:item",
@@ -815,7 +827,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 9.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -831,7 +843,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 8.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -847,7 +859,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 8.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -869,7 +881,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -885,7 +897,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 8.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -901,7 +913,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 9.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -917,7 +929,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 7.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -933,7 +945,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 8.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -949,7 +961,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 7.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -965,7 +977,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
+                "max": 7.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -981,7 +993,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 9.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -997,7 +1009,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -1013,7 +1025,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
+                "max": 7.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -1029,7 +1041,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 20.0,
+                "max": 10.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -1045,7 +1057,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 20.0,
+                "max": 12.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -1067,30 +1079,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 8.0,
+                "max": 10.0,
                 "min": 4.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:paper",
-          "weight": 70
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 3.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "minecraft:book",
-          "weight": 69
+          "weight": 60
         },
         {
           "type": "minecraft:item",
@@ -1100,12 +1096,12 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 5.0,
-                "min": 1.0
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:writable_book",
+          "name": "minecraft:book",
           "weight": 40
         },
         {
@@ -1115,8 +1111,24 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
+                "max": 4.0,
                 "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:writable_book",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             },
@@ -1131,7 +1143,7 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 10
+          "weight": 5
         }
       ],
       "rolls": 1.0
@@ -1146,8 +1158,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 6.0,
-                "min": 2.0
+                "max": 2.0,
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             }
@@ -1162,8 +1174,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 2.0
+                "max": 2.0,
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             }
@@ -1178,8 +1190,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
+                "max": 2.0,
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             }
@@ -1200,7 +1212,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 7.0,
+                "max": 5.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
@@ -1216,8 +1228,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 1.0
+                "max": 2.0,
+                "min": 0.0
               },
               "function": "minecraft:set_count"
             }

@@ -33,7 +33,6 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
     private final ResourceLocation id;
     final String group;
     final boolean showNotification;
-
     public BankMachineRecipeShaped(ResourceLocation resourceLocation, String string, int i, int j, NonNullList<Ingredient> nonNullList, ItemStack itemStack, boolean bl) {
         this.id = resourceLocation;
         this.group = string;
@@ -43,7 +42,6 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
         this.result = itemStack;
         this.showNotification = bl;
     }
-
     public BankMachineRecipeShaped(ResourceLocation resourceLocation, String string, int i, int j, NonNullList<Ingredient> nonNullList, ItemStack itemStack) {
         this(resourceLocation, string, i, j, nonNullList, itemStack, true);
     }
@@ -239,7 +237,6 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
             return item;
         }
     }
-
     @Override
     public boolean isShapeless() {
         return false;

@@ -35,6 +35,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
     }
     @Override
     public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+        /*
         BankMachineRecipeShapedBuilder.shaped(ModItems.TRl5.get(), 1)
                 .pattern("LGG")
                 .pattern("OPR")
@@ -60,7 +61,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('G', Items.GOLD_NUGGET)
                 .save(exporter);
-/*
+
         conversionRecipe(exporter, ModItems.TRl100.get(), ModItems.TRl200.get(), "",2);
         conversionRecipe(exporter, ModItems.TRl50.get(), ModItems.TRl100.get(), "",2);
         conversionRecipe(exporter, ModItems.TRl10.get(), ModItems.TRl50.get(), "", 5);

@@ -30,7 +30,7 @@ public class BankMachineRecipeShapeless implements BankMachineRecipe {
     public @NotNull ResourceLocation getId() {
         return this.id;
     }
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ModRecipes.BANK_MACHINE_SHAPELESS.get();
     }
     public String getGroup() {

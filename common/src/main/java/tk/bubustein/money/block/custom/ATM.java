@@ -14,9 +14,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
-public class ATM extends HorizontalDirectionalBlock  {
+public class ATM extends HorizontalDirectionalBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
     public ATM() {
@@ -30,6 +31,10 @@ public class ATM extends HorizontalDirectionalBlock  {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
+    }
+    @Override
+    public @NotNull RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity entity, ItemStack stack) {
