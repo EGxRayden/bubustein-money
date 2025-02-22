@@ -14,6 +14,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.TooltipFlag;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.command.ModCommands;
+
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
@@ -52,7 +53,7 @@ public class CardItem extends Item {
         stack.update(MONEY_COMPONENT.get(), 0.0, addMoney);
     }
     public double getMoney(ItemStack stack) {
-        return Math.round(stack.getOrDefault(MONEY_COMPONENT.get(), 0.0) * 100.0) / 100.0;
+        return stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
     }
     public void setMoney(ItemStack stack, double amount) {
         if (amount < 0) amount = 0;
@@ -75,8 +76,9 @@ public class CardItem extends Item {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
         DecimalFormat df = new DecimalFormat("#.##");
-        String formattedMoney = df.format(money);
-        tooltip.add(Component.literal("Balance: " + formattedMoney + " " + currency).withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
+        String formattedMoney = df.format(((int)(money * 100)) / 100.0);
+        tooltip.add(Component.literal("Balance: " + formattedMoney + " " + currency)
+                .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
         if (stack.getItem() == ModItems.VisaClassic.get())
             tooltip.add(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         else if (stack.getItem() == ModItems.VisaGold.get())

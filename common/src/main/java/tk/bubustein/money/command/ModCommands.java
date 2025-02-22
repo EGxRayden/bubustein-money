@@ -19,6 +19,8 @@ import net.minecraft.world.phys.Vec3;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.item.CardItem;
 import tk.bubustein.money.item.ModItems;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class ModCommands {
@@ -112,6 +114,10 @@ public class ModCommands {
             player.sendSystemMessage(Component.literal("You must hold a card in your hand.").withStyle(ChatFormatting.RED));
             return 0;
         }
+        if(amount != ((int)(amount*100))/100.0){
+            player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
         String cardCurrency = cardItem.getCurrency(stack);
         String addCurrency = (specifiedCurrency != null) ? specifiedCurrency : cardCurrency;
         if (!ModItems.EXCHANGE_RATES.containsKey(addCurrency)) {
@@ -129,6 +135,10 @@ public class ModCommands {
         ItemStack stack = player.getMainHandItem();
         if (!(stack.getItem() instanceof CardItem cardItem)) {
             player.sendSystemMessage(Component.literal("You must hold a card in your hand.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if(amount != ((int)(amount*100))/100.0){
+            player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -176,6 +186,10 @@ public class ModCommands {
         String targetCurrency = targetCard.getCurrency(targetStack);
         if (amount <= 0) {
             player.sendSystemMessage(Component.literal("The amount must be greater than 0.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if(amount != ((int)(amount*100))/100.0){
+            player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
             return 0;
         }
         double playerBalance = playerCard.getMoney(playerStack);
@@ -248,6 +262,10 @@ public class ModCommands {
                 player.sendSystemMessage(Component.literal("Invalid currency. Available currencies are: " + String.join(", ", ModItems.EXCHANGE_RATES.keySet())).withStyle(ChatFormatting.RED));
                 return 0;
             }
+            if(amount != ((int)(amount*100))/100.0){
+                player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
+                return 0;
+            }
             double totalDeposited = 0;
             TreeMap<Double, Item> items = ModItems.CURRENCY_ITEMS.get(depositCurrency);
             if (items == null) {
@@ -316,31 +334,31 @@ public class ModCommands {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
         if (stack.getItem() instanceof CardItem cardItem) {
+            if(amount != ((int)(amount*100))/100.0){
+                player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
+                return 0;
+            }
             String cardCurrency = cardItem.getCurrency(stack);
             double currentBalance = cardItem.getMoney(stack);
             double feeInCardCurrency = calculateWithdrawFee(stack, amount);
             double totalWithdrawInCardCurrency = amount + feeInCardCurrency;
             if (currentBalance >= totalWithdrawInCardCurrency) {
                 cardItem.setMoney(stack, currentBalance - totalWithdrawInCardCurrency);
-                Map<String, Double> withdrawnAmounts = new HashMap<>();
-                double remainingAmount = amount;
+                double remainingAmount = 0;
                 if (ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
-                    remainingAmount = withdrawCurrency(player, amount, cardCurrency, withdrawnAmounts);
-                }
-                if (remainingAmount > 0.01) {
-                    for (String currency : ModItems.CURRENCY_ITEMS.keySet()) {
-                        if (!currency.equals(cardCurrency)) {
-                            double amountInOtherCurrency = convertCurrency(remainingAmount, cardCurrency, currency);
-                            double withdrawnInOtherCurrency = withdrawCurrency(player, amountInOtherCurrency, currency, withdrawnAmounts);
-                            remainingAmount = convertCurrency(withdrawnInOtherCurrency, currency, cardCurrency);
-                            if (remainingAmount < 0.01) break;
-                        }
+                    remainingAmount = withdrawCurrency(player, amount, cardCurrency);
+                    if (remainingAmount > 0) {
+                        cardItem.addMoney(stack, remainingAmount);
+                        player.sendSystemMessage(Component.literal(
+                                String.format("The exact amount couldn't be withdrawn. " + formatMoney(remainingAmount) + " " + cardCurrency + " has been returned to your card due to missing denominations.")).withStyle(ChatFormatting.YELLOW));
                     }
+                } else {
+                    player.sendSystemMessage(Component.literal(
+                                    "No physical currency is available for " + cardCurrency + ". The amount was still deducted from your card.")
+                            .withStyle(ChatFormatting.YELLOW));
                 }
-                player.sendSystemMessage(Component.literal(String.format("You withdrew %.2f %s. Withdrawal fee: %.2f %s. New balance: " + formatMoney(cardItem.getMoney(stack)) + " " + cardCurrency, amount, cardCurrency, feeInCardCurrency, cardCurrency)).withStyle(ChatFormatting.GREEN));
-                if (remainingAmount >= 0.01) {
-                    player.sendSystemMessage(Component.literal(String.format("The exact amount couldn't be returned. Difference left on the card: %.2f %s", remainingAmount, cardCurrency)).withStyle(ChatFormatting.YELLOW));
-                }
+                player.sendSystemMessage(Component.literal(
+                        String.format("You withdrew " + formatMoney(amount-remainingAmount) + " " + cardCurrency + ". Withdrawal fee: " + formatMoney(feeInCardCurrency) + " " + cardCurrency + ". New balance: " + formatMoney(cardItem.getMoney(stack)) + " " + cardCurrency)).withStyle(ChatFormatting.GREEN));
             } else {
                 player.sendSystemMessage(Component.literal("You don't have enough funds for this withdrawal.").withStyle(ChatFormatting.RED));
             }
@@ -359,22 +377,27 @@ public class ModCommands {
         }
         return 0;
     }
-    private static double withdrawCurrency(Player player, double amount, String currency, Map<String, Double> withdrawnAmounts) {
+    private static double withdrawCurrency(Player player, double amount, String currency) {
         TreeMap<Double, Item> items = ModItems.CURRENCY_ITEMS.get(currency);
-        double remainingAmount = amount;
+        BigDecimal remainingAmount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_EVEN);
         for (Map.Entry<Double, Item> entry : items.descendingMap().entrySet()) {
-            double denomination = entry.getKey();
+            BigDecimal denomination = BigDecimal.valueOf(entry.getKey()).setScale(2, RoundingMode.HALF_EVEN);
             Item currencyItem = entry.getValue();
-            while (remainingAmount >= denomination) {
-                ItemStack currencyStack = new ItemStack(currencyItem);
-                if (!player.getInventory().add(currencyStack)) {
-                    dropItemNearPlayer(player, currencyStack);
+            if (denomination.compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal[] divideAndRemainder = remainingAmount.divideAndRemainder(denomination);
+                int count = divideAndRemainder[0].intValue();
+                if (count > 0) {
+                    for (int i = 0; i < count; i++) {
+                        ItemStack currencyStack = new ItemStack(currencyItem);
+                        if (!player.getInventory().add(currencyStack)) {
+                            dropItemNearPlayer(player, currencyStack);
+                        }
+                    }
+                    remainingAmount = divideAndRemainder[1].setScale(2, RoundingMode.HALF_EVEN);
                 }
-                remainingAmount -= denomination;
-                withdrawnAmounts.merge(currency, denomination, Double::sum);
             }
         }
-        return remainingAmount;
+        return remainingAmount.doubleValue();
     }
     private static void dropItemNearPlayer(Player player, ItemStack stack) {
         Vec3 playerPos = player.position();
@@ -397,6 +420,6 @@ public class ModCommands {
         return amountInEUR * toRate;
     }
     private static String formatMoney(double amount) {
-        return String.format("%.2f", amount);
+        return String.format("%.2f", ((int)(amount*100))/100.0);
     }
 }
