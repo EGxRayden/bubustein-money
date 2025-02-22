@@ -14,7 +14,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.TooltipFlag;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.command.ModCommands;
-
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;

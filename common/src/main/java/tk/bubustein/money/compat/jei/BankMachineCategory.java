@@ -61,15 +61,30 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
                         .addIngredients(ingredients.getFirst());
             }
         } else {
-            for (int row = 0; row < 3; row++) {
-                for (int col = 0; col < 3; col++) {
-                    int index = row * 3 + col;
-                    if (index < ingredients.size() && !ingredients.get(index).isEmpty()) {
-                        builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
-                                .addIngredients(ingredients.get(index));
-                    } else {
-                        builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
-                                .addItemStack(ItemStack.EMPTY);
+            if (ingredients.size() == 4) {
+                for (int row = 0; row < 2; row++) {
+                    for (int col = 0; col < 2; col++) {
+                        int index = row * 2 + col;
+                        if (index < ingredients.size() && !ingredients.get(index).isEmpty()) {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addIngredients(ingredients.get(index));
+                        } else {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addItemStack(ItemStack.EMPTY);
+                        }
+                    }
+                }
+            } else {
+                for (int row = 0; row < 3; row++) {
+                    for (int col = 0; col < 3; col++) {
+                        int index = row * 3 + col;
+                        if (index < ingredients.size() && !ingredients.get(index).isEmpty()) {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addIngredients(ingredients.get(index));
+                        } else {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addItemStack(ItemStack.EMPTY);
+                        }
                     }
                 }
             }
