@@ -114,7 +114,7 @@ public class ModCommands {
             player.sendSystemMessage(Component.literal("You must hold a card in your hand.").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if(amount != ((int)(amount*100))/100.0){
+        if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
             return 0;
         }
@@ -137,7 +137,7 @@ public class ModCommands {
             player.sendSystemMessage(Component.literal("You must hold a card in your hand.").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if(amount != ((int)(amount*100))/100.0){
+        if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
             return 0;
         }
@@ -188,7 +188,7 @@ public class ModCommands {
             player.sendSystemMessage(Component.literal("The amount must be greater than 0.").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if(amount != ((int)(amount*100))/100.0){
+        if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
             return 0;
         }
@@ -262,7 +262,7 @@ public class ModCommands {
                 player.sendSystemMessage(Component.literal("Invalid currency. Available currencies are: " + String.join(", ", ModItems.EXCHANGE_RATES.keySet())).withStyle(ChatFormatting.RED));
                 return 0;
             }
-            if(amount != ((int)(amount*100))/100.0){
+            if(amount != Math.round(amount * 100) / 100.0){
                 player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
                 return 0;
             }
@@ -334,7 +334,7 @@ public class ModCommands {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
         if (stack.getItem() instanceof CardItem cardItem) {
-            if(amount != ((int)(amount*100))/100.0){
+            if(amount != Math.round(amount * 100) / 100.0){
                 player.sendSystemMessage(Component.literal("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED));
                 return 0;
             }
@@ -420,6 +420,6 @@ public class ModCommands {
         return amountInEUR * toRate;
     }
     private static String formatMoney(double amount) {
-        return String.format("%.2f", ((int)(amount*100))/100.0);
+        return String.format("%.2f", Math.round(amount * 100) / 100.0);
     }
 }
