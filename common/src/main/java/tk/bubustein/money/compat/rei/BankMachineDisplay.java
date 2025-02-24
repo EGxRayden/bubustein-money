@@ -32,7 +32,8 @@ public class BankMachineDisplay extends DefaultCraftingDisplay<BankMachineRecipe
     @Override
     public int getWidth() {
         if (recipe.isPresent() && recipe.get().value() instanceof BankMachineRecipeShaped shapedRecipe) {
-            return shapedRecipe.getIngredients().size() == 4 ? 2 : 3;
+            if(shapedRecipe.getIngredients().size() == 4 || shapedRecipe.getIngredients().size() == 6)
+                return 2;
         }
         return 3;
     }

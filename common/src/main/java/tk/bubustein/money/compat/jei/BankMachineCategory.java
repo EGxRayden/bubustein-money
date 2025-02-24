@@ -74,6 +74,19 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
                         }
                     }
                 }
+            } else if (ingredients.size() == 6) {
+                for (int row = 0; row < 3; row++) {
+                    for (int col = 0; col < 2; col++) {
+                        int index = row * 2 + col;
+                        if (index < ingredients.size() && !ingredients.get(index).isEmpty()) {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addIngredients(ingredients.get(index));
+                        } else {
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
+                                    .addItemStack(ItemStack.EMPTY);
+                        }
+                    }
+                }
             } else {
                 for (int row = 0; row < 3; row++) {
                     for (int col = 0; col < 3; col++) {
