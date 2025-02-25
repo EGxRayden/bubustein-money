@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import tk.bubustein.money.recipe.BankMachineRecipe;
 import tk.bubustein.money.recipe.BankMachineRecipeShaped;
-
 import java.util.*;
 
 public class BankMachineDisplay extends DefaultCraftingDisplay<BankMachineRecipe> {
@@ -33,14 +32,14 @@ public class BankMachineDisplay extends DefaultCraftingDisplay<BankMachineRecipe
     @Override
     public int getWidth() {
         if (recipe.isPresent() && recipe.get() instanceof BankMachineRecipeShaped shapedRecipe) {
-            return shapedRecipe.getIngredients().size() == 4 ? 2 : 3;
+            return shapedRecipe.getWidth();
         }
         return 3;
     }
     @Override
     public int getHeight() {
         if (recipe.isPresent() && recipe.get() instanceof BankMachineRecipeShaped shapedRecipe) {
-            return shapedRecipe.getIngredients().size() == 4 ? 2 : 3;
+            return shapedRecipe.getHeight();
         }
         return 3;
     }
