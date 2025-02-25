@@ -89,7 +89,7 @@ public class CardItem extends Item {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
         DecimalFormat df = new DecimalFormat("#.##");
-        String formattedMoney = df.format(((int)(money * 100)) / 100.0);
+        String formattedMoney = df.format(Math.round(money * 100) / 100.0);
         tooltip.add(Component.literal("Balance: " + formattedMoney + " " + currency).withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
         if (stack.getItem() == ModItems.VisaClassic.get()) {
             tooltip.add(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
