@@ -109,11 +109,11 @@ public class ModCommands {
     private static int ecoAddMoney(CommandSourceStack source, double amount, String specifiedCurrency) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        CardItem cardItem = (CardItem) stack.getItem();
         if (!(stack.getItem() instanceof CardItem)) {
             player.sendMessage(new TextComponent("You must hold a card in your hand.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
         }
+        CardItem cardItem = (CardItem) stack.getItem();
         if(amount != Math.round(amount*100)/100.0){
             player.sendMessage(new TextComponent("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
@@ -133,11 +133,11 @@ public class ModCommands {
     private static int ecoSetMoney(CommandSourceStack source, double amount, String specifiedCurrency) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        CardItem cardItem = (CardItem) stack.getItem();
         if (!(stack.getItem() instanceof CardItem)) {
             player.sendMessage(new TextComponent("You must hold a card in your hand.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
         }
+        CardItem cardItem = (CardItem) stack.getItem();
         if(amount != Math.round(amount*100)/100.0){
             player.sendMessage(new TextComponent("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
@@ -157,11 +157,11 @@ public class ModCommands {
     private static int resetMoney(CommandSourceStack source) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        CardItem cardItem = (CardItem) stack.getItem();
         if (!(stack.getItem() instanceof CardItem)) {
             player.sendMessage(new TextComponent("You must hold a card in your hand.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
         }
+        CardItem cardItem = (CardItem) stack.getItem();
         String cardCurrency = cardItem.getCurrency(stack);
         cardItem.setMoney(stack, 0);
         player.sendMessage(new TextComponent("You reset the amount on the card to 0 " + cardCurrency + ".").withStyle(ChatFormatting.GREEN), player.getUUID());
@@ -175,9 +175,7 @@ public class ModCommands {
             return 0;
         }
         ItemStack playerStack = player.getMainHandItem();
-        CardItem playerCard = (CardItem) playerStack.getItem();
         ItemStack targetStack = targetPlayer.getMainHandItem();
-        CardItem targetCard = (CardItem) targetStack.getItem();
         if (!(playerStack.getItem() instanceof CardItem)) {
             player.sendMessage(new TextComponent("You must hold a card in your hand.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
@@ -186,6 +184,8 @@ public class ModCommands {
             player.sendMessage(new TextComponent(targetPlayerName + " doesn't hold a card in their hand.").withStyle(ChatFormatting.RED), player.getUUID());
             return 0;
         }
+        CardItem playerCard = (CardItem) playerStack.getItem();
+        CardItem targetCard = (CardItem) targetStack.getItem();
         String playerCurrency = playerCard.getCurrency(playerStack);
         String targetCurrency = targetCard.getCurrency(targetStack);
         if (amount <= 0) {
@@ -340,8 +340,8 @@ public class ModCommands {
     private static int withdraw(CommandSourceStack source, double amount) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        CardItem cardItem = (CardItem) stack.getItem();
         if (stack.getItem() instanceof CardItem) {
+            CardItem cardItem = (CardItem) stack.getItem();
             if(amount != Math.round(amount*100)/100.0){
                 player.sendMessage(new TextComponent("The amount must have only 2 decimals.").withStyle(ChatFormatting.RED), player.getUUID());
                 return 0;

@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatur
 import tk.bubustein.money.MoneyMod;
 import net.fabricmc.api.ModInitializer;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.mixin.PoiTypesInvoker;
 import tk.bubustein.money.villager.ModVillagers;
 import tk.bubustein.money.world.ModStructures;
@@ -49,6 +50,8 @@ public class MoneyModFabric implements ModInitializer {
                         context -> context.getGenerationSettings().addStructure(CONFIGURED_MANSION_KEY)
                 );
         addStructureSpawningToOverworld();
+        ModItems.registerExchangeRates();
+        ModItems.registerCurrencyItems();
         ModVillagers.fillTradeData();
         registerPOIs();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
