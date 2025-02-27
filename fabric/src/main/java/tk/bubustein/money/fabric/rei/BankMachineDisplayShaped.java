@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class BankMachineDisplayShaped implements BankMachineDisplay {
-    private BankMachineRecipeShaped display;
-    private List<List<EntryStack>> input;
-    private List<EntryStack> output;
+    private final BankMachineRecipeShaped display;
+    private final List<List<EntryStack>> input;
+    private final List<EntryStack> output;
     public BankMachineDisplayShaped(BankMachineRecipeShaped recipe) {
         this.display = recipe;
         this.input = EntryStack.ofIngredients(recipe.getIngredients());

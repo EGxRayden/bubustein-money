@@ -14,7 +14,11 @@ import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.block.custom.BankMachine;
 import tk.bubustein.money.recipe.BankMachineRecipe;
+import tk.bubustein.money.recipe.BankMachineRecipeShaped;
+import tk.bubustein.money.recipe.BankMachineRecipeShapeless;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
@@ -26,23 +30,23 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.BANK_MACHINE.get()));
     }
     @Override
-    public ResourceLocation getUid() {
+    public @NotNull ResourceLocation getUid() {
         return UID;
     }
     @Override
-    public Class<? extends BankMachineRecipe> getRecipeClass() {
+    public @NotNull Class<? extends BankMachineRecipe> getRecipeClass() {
         return BankMachineRecipe.class;
     }
     @Override
-    public String getTitle() {
+    public @NotNull String getTitle() {
         return BankMachine.TITLE.getString();
     }
     @Override
-    public IDrawable getBackground() {
+    public @NotNull IDrawable getBackground() {
         return background;
     }
     @Override
-    public IDrawable getIcon() {
+    public @NotNull IDrawable getIcon() {
         return icon;
     }
     @Override
@@ -53,13 +57,26 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
     @Override
     public void setRecipe(@NotNull IRecipeLayout recipeLayout, BankMachineRecipe recipe, @NotNull IIngredients ingredients) {
         List<Ingredient> inputs = recipe.getIngredients();
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                int index = row * 3 + col;
-                if (index < inputs.size()) {
-                    recipeLayout.getItemStacks().init(index, true, col * 18, row * 18);
-                    recipeLayout.getItemStacks().set(index, Arrays.asList(inputs.get(index).getItems()));
+        if (recipe instanceof BankMachineRecipeShaped) {
+            BankMachineRecipeShaped shapedRecipe = (BankMachineRecipeShaped) recipe;
+            int width = shapedRecipe.getWidth();
+            int height = shapedRecipe.getHeight();
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    int slotIndex = row * width + col;
+                    if (slotIndex < inputs.size()) {
+                        recipeLayout.getItemStacks().init(slotIndex, true, col * 18, row * 18);
+                        recipeLayout.getItemStacks().set(slotIndex, Arrays.asList(inputs.get(slotIndex).getItems()));
+                    } else {
+                        recipeLayout.getItemStacks().init(slotIndex, true, col * 18, row * 18);
+                        recipeLayout.getItemStacks().set(slotIndex, Collections.singletonList(ItemStack.EMPTY));
+                    }
                 }
+            }
+        } else if (recipe instanceof BankMachineRecipeShapeless) {
+            if (!inputs.isEmpty() && !inputs.get(0).isEmpty()) {
+                recipeLayout.getItemStacks().init(0, true, 18, 18);
+                recipeLayout.getItemStacks().set(0, Arrays.asList(inputs.get(0).getItems()));
             }
         }
         recipeLayout.getItemStacks().init(9, false, 95, 18);

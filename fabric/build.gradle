@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradleup.shadow' version '8.3.0'
+    id 'com.gradleup.shadow' version '8.3.6'
     id "me.shedaniel.unified-publishing"
 }
 allprojects {
@@ -12,7 +12,7 @@ architectury {
     fabric()
 }
 repositories {
-    maven { url "https://maven.shedaniel.me" }
+    maven { url = "https://maven.shedaniel.me" }
 }
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
@@ -30,8 +30,8 @@ dependencies {
     modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rootProject.rei_version}"
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
 }
 processResources {
     inputs.property "version", project.version
@@ -80,7 +80,7 @@ unifiedPublishing {
         displayName = "[Fabric $rootProject.minecraft_version] v$rootProject.mod_version"
         releaseType = "$rootProject.artifact_type"
         changelog = releaseChangelog()
-        gameVersions = ["1.16.5"]
+        gameVersions = []
         gameLoaders = ["fabric"]
         mainPublication remapJar
         relations {
@@ -93,12 +93,8 @@ unifiedPublishing {
                 modrinth = "architectury-api"
             }
             optional {
-                curseforge = "rei"
+                curseforge = "roughly-enough-items"
                 modrinth = "rei"
-            }
-            conflicts {
-                curseforge = "entityculling"
-                modrinth = "entityculling"
             }
         }
         def isDev = project.findProperty("isDev")?.toBoolean() ?: false

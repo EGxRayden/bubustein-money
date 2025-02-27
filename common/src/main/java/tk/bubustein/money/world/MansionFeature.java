@@ -29,11 +29,10 @@ import java.util.List;
 
 public class MansionFeature extends StructureFeature<NoneFeatureConfiguration> {
     private static final List<MobSpawnSettings.SpawnerData> MANSION_ENEMIES = ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(EntityType.PILLAGER, 10, 20, 70),
-            new MobSpawnSettings.SpawnerData(EntityType.WITCH, 8, 10, 30),
-            new MobSpawnSettings.SpawnerData(EntityType.EVOKER, 5, 5, 15),
-            new MobSpawnSettings.SpawnerData(EntityType.VINDICATOR, 10, 20, 50),
-            new MobSpawnSettings.SpawnerData(EntityType.ILLUSIONER, 1, 1, 5)
+            new MobSpawnSettings.SpawnerData(EntityType.PILLAGER, 50, 75, 150),
+            new MobSpawnSettings.SpawnerData(EntityType.WITCH, 23, 12, 45),
+            new MobSpawnSettings.SpawnerData(EntityType.EVOKER, 10, 2, 7),
+            new MobSpawnSettings.SpawnerData(EntityType.VINDICATOR, 13, 2, 10)
     );
     public MansionFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);

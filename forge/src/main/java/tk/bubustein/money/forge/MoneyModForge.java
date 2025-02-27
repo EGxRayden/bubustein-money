@@ -1,7 +1,9 @@
 package tk.bubustein.money.forge;
 
+import com.mojang.brigadier.CommandDispatcher;
 import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -27,11 +30,14 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.bubustein.money.MoneyMod;
 import net.minecraftforge.eventbus.api.IEventBus;
+import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.screen.BankMachineScreen;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.villager.ModVillagers;
@@ -45,6 +51,7 @@ public class MoneyModForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EventBuses.registerModEventBus(MoneyMod.MOD_ID, bus);
         MoneyMod.init();
+        ModItems.registerExchangeRates();
         MoneyExpectPlatformImpl.register(bus);
         bus.addListener(this::setup);
         bus.addGenericListener(StructureFeature.class, this::onRegisterStructures);
@@ -55,12 +62,14 @@ public class MoneyModForge {
     @SubscribeEvent
     public void onServerAboutToStartEvent(FMLServerAboutToStartEvent event) {
         MoneyMod.registerJigsaws(event.getServer());
+        MoneyMod.onServerStarting(event.getServer());
     }
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ModVillagers.fillTradeData();
             registerPOIs();
         });
+        event.enqueueWork(ModItems::registerCurrencyItems);
     }
     void registerPOIs() {
         for (RegistryObject<PoiType> poi : MoneyExpectPlatformImpl.POI_TYPES.getEntries()) {
@@ -75,14 +84,11 @@ public class MoneyModForge {
         StructureRegistryForge.setupStructures(event);
         ConfiguredStructureRegistryForge.registerConfiguredStructures();
     }
-
     private static final List<ResourceKey<Biome>> VALID_BIOMES = Arrays.asList(
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:desert")),
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:plains")),
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:savanna")),
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:snowy_tundra")),
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:taiga")),
-            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:sunflower_plains"))
+            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:forest")),
+            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:snowy_taiga")),
+            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:giant_spruce_taiga")),
+            ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:dark_forest"))
     );
     public void onBiomeLoading(final BiomeLoadingEvent event) {
         ResourceKey<Biome> biomeKey = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
@@ -93,7 +99,6 @@ public class MoneyModForge {
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if (event.getWorld() instanceof ServerLevel) {
             ServerLevel serverWorld = (ServerLevel) event.getWorld();
-
             if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && serverWorld.dimension().equals(Level.OVERWORLD)) {
                 MoneyMod.LOGGER.info("Skipping Flat Level Source for Overworld.");
                 return;
@@ -106,12 +111,10 @@ public class MoneyModForge {
                 MoneyMod.LOGGER.info("Skipping for End dimension.");
                 return;
             }
-
             MoneyMod.LOGGER.info("Adding custom structures to dimension: {}", serverWorld.dimension().location());
             Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
             tempMap.putIfAbsent(ModStructures.MANSION, StructureSettings.DEFAULTS.get(ModStructures.MANSION));
             serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
-
         }
     }
     public static <T extends IForgeRegistryEntry<T>> T register(IForgeRegistry<T> registry, T entry, String registryKey) {
@@ -125,5 +128,14 @@ public class MoneyModForge {
         public static void onClientSetup(FMLClientSetupEvent event){
             MenuScreens.register(ModMenuTypes.BANK_MACHINE_MENU.get(), BankMachineScreen::new);
         }
+    }
+    @SubscribeEvent
+    public void ServerStopping(FMLServerStoppingEvent event){
+        MoneyMod.saveConfig(event.getServer());
+    }
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+        ModCommands.register(dispatcher);
     }
 }

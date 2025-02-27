@@ -24,7 +24,6 @@ public class BankMachineScreen extends AbstractContainerScreen<BankMachineMenu> 
         this.widthTooNarrow = this.width < 379;
         this.titleLabelX = 29;
     }
-
     public void tick() {
         super.tick();
     }

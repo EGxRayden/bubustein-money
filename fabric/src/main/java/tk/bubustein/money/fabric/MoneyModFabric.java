@@ -1,6 +1,7 @@
 package tk.bubustein.money.fabric;
 
 import net.fabricmc.fabric.api.biome.v1.*;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
@@ -20,16 +21,14 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import tk.bubustein.money.MoneyMod;
 import net.fabricmc.api.ModInitializer;
+import tk.bubustein.money.command.ModCommands;
 import tk.bubustein.money.mixin.PoiTypesInvoker;
 import tk.bubustein.money.villager.ModVillagers;
-import tk.bubustein.money.world.MansionFeature;
 import tk.bubustein.money.world.ModStructures;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class MoneyModFabric implements ModInitializer {
-
     public static final ResourceKey<ConfiguredStructureFeature<?, ?>> CONFIGURED_MANSION_KEY = ResourceKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(MoneyMod.MOD_ID, "mansion"));
     @Override
     public void onInitialize() {
@@ -42,19 +41,22 @@ public class MoneyModFabric implements ModInitializer {
         BiomeModifications.create(new ResourceLocation(MoneyMod.MOD_ID, "biome_modifications"))
                 .add(ModificationPhase.ADDITIONS,
                         BiomeSelectors.includeByKey(
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:desert")),
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:plains")),
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:savanna")),
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:snowy_tundra")),
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:taiga")),
-                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:sunflower_plains"))
+                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:forest")),
+                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:snowy_taiga")),
+                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:giant_spruce_taiga")),
+                                ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("minecraft:dark_forest"))
                         ),
                         context -> context.getGenerationSettings().addStructure(CONFIGURED_MANSION_KEY)
                 );
         addStructureSpawningToOverworld();
         ModVillagers.fillTradeData();
         registerPOIs();
-        ServerLifecycleEvents.SERVER_STARTING.register(MoneyMod::registerJigsaws);
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            MoneyMod.registerJigsaws(server);
+            MoneyMod.onServerStarting(server);
+        });
+        ServerLifecycleEvents.SERVER_STOPPING.register(MoneyMod::saveConfig);
+        CommandRegistrationCallback.EVENT.register((dispatcher, environment) -> ModCommands.register(dispatcher));
     }
     void registerPOIs() {
         PoiTypesInvoker.invokeRegisterBlockStates(ModVillagers.BANKER_POI.get());

@@ -11,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
 import org.apache.logging.log4j.Logger;
 import tk.bubustein.money.block.ModBlocks;
+import tk.bubustein.money.config.ModConfig;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.ModRecipes;
 import tk.bubustein.money.screen.ModMenuTypes;
@@ -27,9 +28,11 @@ public class MoneyMod {
             new ItemStack(ModItems.Euro2.get()));
     public static final CreativeModeTab SPECIAL = CreativeTabs.create(new ResourceLocation(MoneyMod.MOD_ID, "special"), () ->
             new ItemStack(ModBlocks.ATM.get()));
+    private static ModConfig config;
     public static void init() {
         LOGGER.info("[" + MOD_ID + "] Printing money. . . ;)");
         ModItems.init();
+        config = ModConfig.getInstance();
         LOGGER.info("[" + MOD_ID + "] Crafting ATM. . .");
         ModBlocks.init();
         LOGGER.info("[" + MOD_ID + "] Registering Bank Machine GUI. . .");
@@ -55,5 +58,18 @@ public class MoneyMod {
         JigsawHelper.addBuildingToPool(templatePoolRegistry, savannaPoolLocation, "bubusteinmoneymod:banker_house", 20);
         JigsawHelper.addBuildingToPool(templatePoolRegistry, taigaPoolLocation, "bubusteinmoneymod:banker_house", 20);
         JigsawHelper.addBuildingToPool(templatePoolRegistry, snowyPoolLocation, "bubusteinmoneymod:banker_house", 7);
+    }
+    public static void onServerStarting(MinecraftServer server) {
+        config.load(server);
+        setDefaultCurrency(config.getDefaultCurrency());
+    }
+    public static void setDefaultCurrency(String currency) {
+        config.setDefaultCurrency(currency);
+    }
+    public static String getDefaultCurrency() {
+        return config.getDefaultCurrency();
+    }
+    public static void saveConfig(MinecraftServer server) {
+        config.save(server);
     }
 }

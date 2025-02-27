@@ -96,8 +96,8 @@ public class ModVillagers {
                 },
                 // Level 3
                 {
-                        new SimpleTrade(new ItemStack(ModItems.Dollar50.get(),1), new ItemStack(ModItems.Dollar100.get(),3), new ItemStack(Items.NETHERITE_INGOT,1),6,8,0.2f),
-                        new SimpleTrade(new ItemStack(ModItems.Dollar50.get(), 1), new ItemStack(ModItems.Dollar100.get(),2), new ItemStack(Items.DIAMOND,1),6,8,0.2f),
+                        new SimpleTrade(new ItemStack(ModItems.Dollar50.get(),8), new ItemStack(ModItems.Dollar100.get(),21), new ItemStack(Items.NETHERITE_INGOT,1),6,8,0.2f),
+                        new SimpleTrade(new ItemStack(ModItems.Dollar50.get(), 4), new ItemStack(ModItems.Dollar100.get(),3), new ItemStack(Items.DIAMOND,1),6,8,0.2f),
                 },
                 // Level 4
                 {
