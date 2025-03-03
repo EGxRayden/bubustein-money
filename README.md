@@ -239,7 +239,7 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
     <td>x.0.9</td>
 </tr>
 <tr>
-    <td><p>???<sup>th</sup> February 2025</p></td>
+    <td><p>3rd<sup>th</sup> March 2025</p></td>
     <td>New ATM Texture (128x128px). (Without ATM GUI sadly) The Cards are not useless anymore.<br>
     Created a very complicated mechanism with Commands. Use `/bubustein help` to see all commands <br>
     Made Mansion less OP. <br>
