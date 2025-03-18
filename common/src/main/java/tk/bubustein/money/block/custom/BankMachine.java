@@ -20,7 +20,7 @@ import tk.bubustein.money.screen.BankMachineMenu;
 
 @SuppressWarnings("deprecation")
 public class BankMachine extends Block {
-    public static Component TITLE = Component.literal("Bank Machine");
+    public static Component TITLE = Component.translatable("block.bubusteinmoneymod.bank_machine");
     public BankMachine() {
         super(BlockBehaviour.Properties.ofFullCopy(Blocks.CRAFTING_TABLE).strength(2.5f).requiresCorrectToolForDrops());
     }

@@ -216,7 +216,7 @@ public class ModVillagers {
     }
     private static Int2ObjectMap<VillagerTrades.ItemListing[]> toIntMap(VillagerTrades.ItemListing[][] trades) {
         Int2ObjectMap<VillagerTrades.ItemListing[]> map = new Int2ObjectOpenHashMap<>();
-        for (int i = 0; i < trades.length; i++) {
+        for(int i = 0; i < trades.length; i++) {
             map.put(i + 1, trades[i]);
         }
         return map;

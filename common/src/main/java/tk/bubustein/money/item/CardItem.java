@@ -76,13 +76,13 @@ public class CardItem extends Item {
         String currency = getCurrency(stack);
         DecimalFormat df = new DecimalFormat("#.##");
         String formattedMoney = df.format(Math.round(money * 100)/ 100.0);
-        tooltip.add(Component.literal("Balance: " + formattedMoney + " " + currency)
+        tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.balance", formattedMoney, currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
         if (stack.getItem() == ModItems.VisaClassic.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_max").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         else if (stack.getItem() == ModItems.VisaGold.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 2%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_middle").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         else if (stack.getItem() == ModItems.VisaSteel.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 0.5%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_min").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
 }
