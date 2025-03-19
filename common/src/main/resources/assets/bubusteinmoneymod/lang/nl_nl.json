@@ -359,8 +359,8 @@
   "item.bubusteinmoneymod.card_steel": "Visa Staal",
   "item.bubusteinmoneymod.special_paper":"Speciaal Papier",
 
-  "block.bubusteinmoneymod.atm": "geldautomaat",
-  "block.bubusteinmoneymod.bank_machine": "Bank Machine",
+  "block.bubusteinmoneymod.atm": "Geldautomaat",
+  "block.bubusteinmoneymod.bank_machine": "Bankmachine",
 
   "entity.minecraft.villager.bubusteinmoneymod.banker": "Bankier",
   "entity.minecraft.villager.bubusteinmoneymod.exchanger": "Geldwisselaar",
