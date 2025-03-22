@@ -1,60 +1,69 @@
+/*
+ * This file is licensed under the MIT License, part of Roughly Enough Items.
+ * Copyright (c) 2018, 2019, 2020, 2021, 2022, 2023 shedaniel
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package tk.bubustein.money.compat.rei;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCraftingDisplay;
+import me.shedaniel.rei.plugin.common.displays.crafting.CraftingDisplay;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import org.jetbrains.annotations.Nullable;
-import tk.bubustein.money.recipe.BankMachineRecipe;
-import tk.bubustein.money.recipe.BankMachineRecipeShaped;
-import tk.bubustein.money.recipe.ModRecipes;
-
+import tk.bubustein.money.compat.rei.client.ClientSidedBankMachineDisplay;
+import tk.bubustein.money.recipe.*;
 import java.util.List;
 import java.util.Optional;
 
-public class BankMachineDisplay extends DefaultCraftingDisplay {
-    private final Optional<RecipeHolder<BankMachineRecipe>> recipe;
-
-    public BankMachineDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<RecipeHolder<BankMachineRecipe>> recipe) {
-        super(inputs, outputs, recipe.map(bankMachineRecipeRecipeHolder -> bankMachineRecipeRecipeHolder.id().location()));
-        this.recipe = recipe;
+public abstract class BankMachineDisplay extends BasicDisplay implements CraftingDisplay {
+    public BankMachineDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<ResourceLocation> recipe) {
+        super(inputs, outputs, recipe);
     }
-
+    public static @Nullable BankMachineDisplay of(RecipeHolder<? extends Recipe<?>> holder) {
+        Recipe<?> recipe = holder.value();
+        if (recipe instanceof BankMachineRecipeShapeless) {
+            return new BankMachineShapelessDisplay((RecipeHolder<BankMachineRecipeShapeless>) holder);
+        } else if (recipe instanceof BankMachineRecipeShaped) {
+            return new BankMachineShapedDisplay((RecipeHolder<BankMachineRecipeShaped>) holder);
+        } else {
+            if (!recipe.isSpecial()) {
+                for(RecipeDisplay d : recipe.display()) {
+                    if (d instanceof BankMachineRecipeShapedDisplay display) {
+                        return new ClientSidedBankMachineDisplay.Shaped(display, Optional.empty()) {
+                        };
+                    }
+                    if (d instanceof BankMachineRecipeShapelessDisplay display) {
+                        return new ClientSidedBankMachineDisplay.Shapeless(display, Optional.empty());
+                    }
+                }
+            }
+            return null;
+        }
+    }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return BankMachineCategory.BANK_MACHINE_CATEGORY;
-    }
-    @Override
-    public Optional<ResourceLocation> getDisplayLocation() {
-        return getOptionalRecipe().map(holder -> holder.id().location());
-    }
-    @Override
-    public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        if(isShapeless()) return (DisplaySerializer<? extends Display>) ModRecipes.BANK_MACHINE_SHAPELESS.get();
-        else return (DisplaySerializer<? extends Display>) ModRecipes.BANK_MACHINE_SHAPED.get();
-    }
-    public Optional<RecipeHolder<BankMachineRecipe>> getOptionalRecipe() {
-        return recipe;
-    }
-    @Override
-    public boolean isShapeless() {
-        return getOptionalRecipe().map(holder -> holder.value().isShapeless()).orElse(false);
-    }
-    @Override
-    public int getWidth() {
-        if (recipe.isPresent() && recipe.get().value() instanceof BankMachineRecipeShaped shapedRecipe) {
-            return shapedRecipe.getIngredients().size() == 4 ? 2 : 3;
-        }
-        return 3;
-    }
-    @Override
-    public int getHeight() {
-        if (recipe.isPresent() && recipe.get().value() instanceof BankMachineRecipeShaped shapedRecipe) {
-            return shapedRecipe.getIngredients().size() == 4 ? 2 : 3;
-        }
-        return 3;
     }
 }

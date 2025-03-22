@@ -14,7 +14,7 @@
     "homepage": "https://modrinth.com/mod/bubustein-money",
     "issues": "https://www.github.com/bubustein13/bubustein-money/issues"
   },
-  "license": "GNU AGPL 3.0 WITH Minecraft linking exception",
+  "license": "GNU LGPL 3.0",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
@@ -35,7 +35,6 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.wiki": "https://wiki.bubustein.tk",
         "modmenu.discord": "https://discord.gg/PrKgF9gNfW",
         "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/bubustein-money",
         "modmenu.patreon": "https://patreon.com/bubustein",

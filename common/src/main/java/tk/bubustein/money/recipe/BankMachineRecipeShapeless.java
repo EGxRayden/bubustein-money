@@ -1,3 +1,23 @@
+/*
+ * This file is licensed under the GNU Lesser General Public License v3.0,
+ * part of Bubustein's Money Mod.
+ * Copyright (c) 2022-2025 BUBUSTEIN (GitHub username: BUBUSTEIN13)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package tk.bubustein.money.recipe;
 
 import com.mojang.serialization.Codec;
@@ -11,18 +31,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
-import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tk.bubustein.money.block.ModBlocks;
-
 import java.util.List;
 
 public class BankMachineRecipeShapeless implements BankMachineRecipe {
     final String group;
-    final ItemStack result;
+    public final ItemStack result;
     final List<Ingredient> ingredients;
     @Nullable
     private PlacementInfo placementInfo;
@@ -35,7 +53,7 @@ public class BankMachineRecipeShapeless implements BankMachineRecipe {
     public boolean isShapeless() {
         return true;
     }
-    public RecipeSerializer<BankMachineRecipeShapeless> getSerializer() {
+    public @NotNull RecipeSerializer<BankMachineRecipeShapeless> getSerializer() {
         return ModRecipes.BANK_MACHINE_SHAPELESS.get();
     }
     public String group() {
@@ -54,11 +72,11 @@ public class BankMachineRecipeShapeless implements BankMachineRecipe {
             return craftingInput.size() == 1 && this.ingredients.size() == 1 ? this.ingredients.getFirst().test(craftingInput.getItem(0)) : craftingInput.stackedContents().canCraft(this, null);
         }
     }
-    public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider) {
         return this.result.copy();
     }
-    public List<RecipeDisplay> display() {
-        return List.of(new ShapelessCraftingRecipeDisplay(this.ingredients.stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new BankMachineRecipeShapelessDisplay(this.ingredients.stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(this.result), new SlotDisplay.ItemSlotDisplay(Item.byBlock(ModBlocks.BANK_MACHINE.get()))));
     }
     public static class Serializer implements RecipeSerializer<BankMachineRecipeShapeless> {
         public static final Serializer INSTANCE = new Serializer();
@@ -66,10 +84,10 @@ public class BankMachineRecipeShapeless implements BankMachineRecipe {
         public static final StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> STREAM_CODEC;
         public Serializer() {
         }
-        public MapCodec<BankMachineRecipeShapeless> codec() {
+        public @NotNull MapCodec<BankMachineRecipeShapeless> codec() {
             return CODEC;
         }
-        public StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShapeless> streamCodec() {
             return STREAM_CODEC;
         }
         static {
