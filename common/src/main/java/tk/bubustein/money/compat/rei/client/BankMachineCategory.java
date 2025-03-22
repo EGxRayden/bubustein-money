@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-package tk.bubustein.money.compat.rei;
+package tk.bubustein.money.compat.rei.client;
 
 import com.google.common.collect.Lists;
 import me.shedaniel.math.Point;
@@ -36,24 +36,24 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.InputIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.plugin.common.displays.crafting.CraftingDisplay;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NonBlocking;
 import org.jetbrains.annotations.Nullable;
-import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.block.custom.BankMachine;
+import tk.bubustein.money.compat.rei.MoneyModREIPlugin;
 import java.util.Iterator;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class BankMachineCategory implements DisplayCategory<BankMachineDisplay> {
-    public static final CategoryIdentifier<BankMachineDisplay> BANK_MACHINE_CATEGORY = CategoryIdentifier.of(MoneyMod.MOD_ID, "bank_machine");
+public class BankMachineCategory implements DisplayCategory<CraftingDisplay> {
     @Override
-    public CategoryIdentifier<? extends BankMachineDisplay> getCategoryIdentifier() {
-        return BANK_MACHINE_CATEGORY;
+    public CategoryIdentifier<? extends CraftingDisplay> getCategoryIdentifier() {
+        return MoneyModREIPlugin.BANK_MACHINE_CATEGORY;
     }
     @Override
     public Component getTitle() {
@@ -65,7 +65,7 @@ public class BankMachineCategory implements DisplayCategory<BankMachineDisplay> 
         return EntryStacks.of(ModBlocks.BANK_MACHINE.get());
     }
     @Override
-    public List<Widget> setupDisplay(BankMachineDisplay display, Rectangle bounds) {
+    public List<Widget> setupDisplay(CraftingDisplay display, Rectangle bounds) {
         Point startPoint = new Point(bounds.getCenterX() - 58, bounds.getCenterY() - 27);
         List<Widget> widgets = Lists.newArrayList();
         widgets.add(Widgets.createRecipeBase(bounds));
@@ -88,10 +88,10 @@ public class BankMachineCategory implements DisplayCategory<BankMachineDisplay> 
     }
     @Override
     @Nullable
-    public DisplayMerger<BankMachineDisplay> getDisplayMerger() {
+    public DisplayMerger<CraftingDisplay> getDisplayMerger() {
         return new DisplayMerger<>() {
             @Override
-            public boolean canMerge(BankMachineDisplay first, BankMachineDisplay second) {
+            public boolean canMerge(CraftingDisplay first, CraftingDisplay second) {
                 if (!first.getCategoryIdentifier().equals(second.getCategoryIdentifier())) return false;
                 if (equals(first.getOrganisedInputEntries(3, 3), second.getOrganisedInputEntries(3, 3))) return false;
                 if (equals(first.getOutputEntries(), second.getOutputEntries())) return false;
@@ -100,7 +100,7 @@ public class BankMachineCategory implements DisplayCategory<BankMachineDisplay> 
                 return first.getHeight() == second.getHeight();
             }
             @Override
-            public int hashOf(BankMachineDisplay display) {
+            public int hashOf(CraftingDisplay display) {
                 return display.getCategoryIdentifier().hashCode() * 31 * 31 * 31 + display.getOrganisedInputEntries(3, 3).hashCode() * 31 * 31 + display.getOutputEntries().hashCode();
             }
             private boolean equals(List<EntryIngredient> l1, List<EntryIngredient> l2) {

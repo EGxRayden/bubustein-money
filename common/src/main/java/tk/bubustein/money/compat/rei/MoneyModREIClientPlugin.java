@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.ModBlocks;
+import tk.bubustein.money.compat.rei.client.BankMachineCategory;
 import tk.bubustein.money.compat.rei.client.ClientSidedBankMachineDisplay;
 import tk.bubustein.money.recipe.BankMachineRecipeShapedDisplay;
 import tk.bubustein.money.recipe.BankMachineRecipeShapelessDisplay;
@@ -18,7 +19,7 @@ public class MoneyModREIClientPlugin implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new BankMachineCategory());
-        registry.addWorkstations(BankMachineCategory.BANK_MACHINE_CATEGORY, EntryStacks.of(ModBlocks.BANK_MACHINE.get()));
+        registry.addWorkstations(MoneyModREIPlugin.BANK_MACHINE_CATEGORY, EntryStacks.of(ModBlocks.BANK_MACHINE.get()));
         LOGGER.info("[" + MoneyMod.MOD_ID + "] Bank Machine Category has been registered successfully.");
     }
     @Override

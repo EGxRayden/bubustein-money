@@ -64,6 +64,6 @@ public abstract class BankMachineDisplay extends BasicDisplay implements Craftin
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return BankMachineCategory.BANK_MACHINE_CATEGORY;
+        return MoneyModREIPlugin.BANK_MACHINE_CATEGORY;
     }
 }
