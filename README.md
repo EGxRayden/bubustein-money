@@ -152,8 +152,8 @@
         <td>1.21.4</td>
         <td>9.x.y</td>
         <td>⛔</td>
-        <td>📅</td>
-        <td>📅</td>
+        <td>✅</td>
+        <td>✅</td>
     </tr>
     <tr>
         <td>1.21.5</td>
