@@ -253,7 +253,6 @@ public class ModCommands {
                         String oldCurrency = cardItem.getCurrency(stack);
                         cardItem.setCurrency(stack, currency);
                         cardItem.convertMoney(stack, oldCurrency, currency);
-
                         player.sendSystemMessage(Component.literal("Your card has been converted from " + oldCurrency +
                                         " to " + currency + ": " + formatMoney(cardItem.getMoney(stack)) + " " + currency)
                                 .withStyle(ChatFormatting.GREEN));
