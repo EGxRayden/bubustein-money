@@ -597,7 +597,7 @@ public class ModItems {
         audItems.put(100.0, DollarA100.get());
         audItems.put(50.0, DollarA50.get());
         audItems.put(20.0, DollarA20.get());
-        audItems.put(10.0, Dollar10.get());
+        audItems.put(10.0, DollarA10.get());
         audItems.put(5.0, DollarA5.get());
         audItems.put(2.0, DollarA2.get());
         audItems.put(1.0, DollarA1.get());
