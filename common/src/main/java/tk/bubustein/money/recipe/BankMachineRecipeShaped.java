@@ -31,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import tk.bubustein.money.item.CardItem;
 
 public class BankMachineRecipeShaped implements BankMachineRecipe {
     final ShapedRecipePattern pattern;
@@ -46,37 +47,40 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
     public BankMachineRecipeShaped(String string, ShapedRecipePattern shapedRecipePattern, ItemStack itemStack) {
         this(string, shapedRecipePattern, itemStack, true);
     }
-
     public @NotNull RecipeSerializer<?> getSerializer() {
         return ModRecipes.BANK_MACHINE_SHAPED.get();
     }
-
     public @NotNull String getGroup() {
         return this.group;
     }
-
     public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
         return this.result;
     }
-
     public @NotNull NonNullList<Ingredient> getIngredients() {
         return this.pattern.ingredients();
     }
-
     public boolean showNotification() {
         return this.showNotification;
     }
-
     public boolean canCraftInDimensions(int i, int j) {
         return i >= this.pattern.width() && j >= this.pattern.height();
     }
-
     public boolean matches(CraftingInput craftingInput, Level level) {
         return this.pattern.matches(craftingInput);
     }
-
+    @Override
     public @NotNull ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider) {
-        return this.getResultItem(provider).copy();
+        ItemStack result = this.getResultItem(provider).copy();
+        if (result.getItem() instanceof CardItem resultCardItem) {
+            ItemStack sourceCard = craftingInput.getItem(4);
+            if (sourceCard.getItem() instanceof CardItem sourceCardItem) {
+                double money = sourceCardItem.getMoney(sourceCard);
+                String currency = sourceCardItem.getCurrency(sourceCard);
+                resultCardItem.setMoney(result, money);
+                resultCardItem.setCurrency(result, currency);
+            }
+        }
+        return result;
     }
     @Override
     public boolean isShapeless() {
@@ -85,16 +89,13 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
     public int getWidth() {
         return this.pattern.width();
     }
-
     public int getHeight() {
         return this.pattern.height();
     }
-
     public boolean isIncomplete() {
         NonNullList<Ingredient> nonNullList = this.getIngredients();
         return nonNullList.isEmpty() || nonNullList.stream().filter((ingredient) -> !ingredient.isEmpty()).anyMatch((ingredient) -> ingredient.getItems().length == 0);
     }
-
     public static class Serializer implements RecipeSerializer<BankMachineRecipeShaped> {
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<BankMachineRecipeShaped> CODEC = RecordCodecBuilder.mapCodec((instance) ->
@@ -108,15 +109,12 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
 
         public Serializer() {
         }
-
         public @NotNull MapCodec<BankMachineRecipeShaped> codec() {
             return CODEC;
         }
-
         public @NotNull StreamCodec<RegistryFriendlyByteBuf, BankMachineRecipeShaped> streamCodec() {
             return STREAM_CODEC;
         }
-
         private static BankMachineRecipeShaped fromNetwork(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
             String string = registryFriendlyByteBuf.readUtf();
             ShapedRecipePattern shapedRecipePattern = ShapedRecipePattern.STREAM_CODEC.decode(registryFriendlyByteBuf);
@@ -124,7 +122,6 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
             boolean bl = registryFriendlyByteBuf.readBoolean();
             return new BankMachineRecipeShaped(string, shapedRecipePattern, itemStack, bl);
         }
-
         private static void toNetwork(RegistryFriendlyByteBuf registryFriendlyByteBuf, BankMachineRecipeShaped shapedRecipe) {
             registryFriendlyByteBuf.writeUtf(shapedRecipe.group);
             ShapedRecipePattern.STREAM_CODEC.encode(registryFriendlyByteBuf, shapedRecipe.pattern);

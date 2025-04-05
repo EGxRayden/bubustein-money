@@ -56,8 +56,10 @@ public class CardItem extends Item {
     }
     @Override
     public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        stack.set(MONEY_COMPONENT.get(), 0.0);
-        stack.set(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
+        if (!stack.has(MONEY_COMPONENT.get())) {
+            stack.set(MONEY_COMPONENT.get(), 0.0);
+            stack.set(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
+        }
     }
     @Override
     public boolean isFoil(ItemStack stack) {
