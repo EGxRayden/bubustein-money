@@ -3,7 +3,7 @@ name: Sync Readme Files
 on:
   push:
     branches:
-      - 21.4
+      - 21.5
     paths:
       - 'README.md'
       - 'README_CURSEFORGE.md'
@@ -29,7 +29,7 @@ jobs:
         id: get-branches
         run: |
           git fetch --all
-          branches=$(git branch -r | grep -v 'origin/21.4' | sed 's/origin\///' | grep -v 'HEAD' | awk '{print $1}')
+          branches=$(git branch -r | grep -v 'origin/21.5' | sed 's/origin\///' | grep -v 'HEAD' | awk '{print $1}')
           if [ -z "$branches" ]; then
             echo "No branches to sync"
             exit 0
@@ -41,9 +41,9 @@ jobs:
           while IFS= read -r branch; do
             echo "Syncing to branch: $branch"
             git checkout $branch
-            git checkout 21.4 -- README.md README_CURSEFORGE.md
+            git checkout 21.5 -- README.md README_CURSEFORGE.md
             git add README.md README_CURSEFORGE.md
-            git commit -m "Sync README files from 21.4" || echo "No changes to commit"
+            git commit -m "Sync README files from 21.5" || echo "No changes to commit"
             git push origin $branch
           done < branches.txt
         env:
