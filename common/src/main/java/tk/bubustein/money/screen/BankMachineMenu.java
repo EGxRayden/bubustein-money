@@ -119,7 +119,7 @@ public class BankMachineMenu extends AbstractContainerMenu {
             ItemStack itemStack2 = slot.getItem();
             itemStack = itemStack2.copy();
             if (i == 0) {
-                this.access.execute((level, blockPos) -> itemStack2.getItem().onCraftedBy(itemStack2, level, player));
+                this.access.execute((level, blockPos) -> itemStack2.getItem().onCraftedBy(itemStack2, player));
                 if (!this.moveItemStackTo(itemStack2, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
                     return ItemStack.EMPTY;
                 }

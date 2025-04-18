@@ -28,6 +28,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -36,6 +37,7 @@ import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.command.ModCommands;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -54,7 +56,7 @@ public class CardItem extends Item {
         super(properties);
     }
     @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
+    public void onCraftedBy(ItemStack stack, Player player) {
         stack.set(MONEY_COMPONENT.get(), 0.0);
         stack.set(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
     }
@@ -90,19 +92,20 @@ public class CardItem extends Item {
     public void setCurrency(ItemStack stack, String currency) {
         stack.set(CURRENCY_COMPONENT.get(), currency);
     }
+    @SuppressWarnings("deprecation")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltip, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
         DecimalFormat df = new DecimalFormat("#.##");
         String formattedMoney = df.format(Math.round(money * 100)/ 100.0);
-        tooltip.add(Component.literal("Balance: " + formattedMoney + " " + currency)
+        consumer.accept(Component.literal("Balance: " + formattedMoney + " " + currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
         if (stack.getItem() == ModItems.VisaClassic.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            consumer.accept(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         else if (stack.getItem() == ModItems.VisaGold.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 2%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            consumer.accept(Component.literal("Withdrawal Fee: 2%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         else if (stack.getItem() == ModItems.VisaSteel.get())
-            tooltip.add(Component.literal("Withdrawal Fee: 0.5%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+            consumer.accept(Component.literal("Withdrawal Fee: 0.5%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
 }

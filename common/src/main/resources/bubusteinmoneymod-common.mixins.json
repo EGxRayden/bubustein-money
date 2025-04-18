@@ -6,7 +6,6 @@
   "client": [
   ],
   "mixins": [
-    "MixinTitleScreen",
     "PoiTypesInvoker",
     "StructureTemplatePoolAccessor"
   ],

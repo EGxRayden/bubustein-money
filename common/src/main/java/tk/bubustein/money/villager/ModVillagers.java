@@ -28,6 +28,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -51,12 +53,13 @@ public class ModVillagers {
     public static final Supplier<PoiType> BANKER_POI = MoneyExpectPlatform.registerPoiType("banker_poi", () -> PoiTypesInvoker.invokeGetBlockStates(ModBlocks.BANK_MACHINE.get()));
     public static final Supplier<PoiType> EXCHANGER_POI = MoneyExpectPlatform.registerPoiType("exchanger_poi", () -> PoiTypesInvoker.invokeGetBlockStates(ModBlocks.ATM.get()));
     public static final Supplier<VillagerProfession> BANKER = MoneyExpectPlatform.registerProfession("banker",
-            () -> new VillagerProfession("banker", holder -> holder.value().equals(BANKER_POI.get()), holder -> holder.value().equals(BANKER_POI.get()), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN));
+            () -> new VillagerProfession(Component.translatable("entity.minecraft.villager.bubusteinmoneymod.banker"), holder -> holder.value().equals(BANKER_POI.get()), holder -> holder.value().equals(BANKER_POI.get()), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN));
     public static final Supplier<VillagerProfession> EXCHANGER = MoneyExpectPlatform.registerProfession("exchanger",
-            () -> new VillagerProfession("exchanger", holder -> holder.value().equals(EXCHANGER_POI.get()), holder -> holder.value().equals(EXCHANGER_POI.get()), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN));
+            () -> new VillagerProfession(Component.translatable("entity.minecraft.villager.bubusteinmoneymod.exchanger"), holder -> holder.value().equals(EXCHANGER_POI.get()), holder -> holder.value().equals(EXCHANGER_POI.get()), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN));
 
     public static void fillTradeData(MinecraftServer server) {
         RegistryAccess registryAccess = server.registryAccess();
+        Registry<VillagerProfession> professionRegistry = registryAccess.lookupOrThrow(Registries.VILLAGER_PROFESSION);
         Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
         Holder<Enchantment> PROTECTION = enchantmentRegistry.getOrThrow(Enchantments.PROTECTION);
         Holder<Enchantment> FEATHER_FALLING = enchantmentRegistry.getOrThrow(Enchantments.FEATHER_FALLING);
@@ -79,6 +82,8 @@ public class ModVillagers {
         Holder<Enchantment> QUICK_CHARGE = enchantmentRegistry.getOrThrow(Enchantments.QUICK_CHARGE);
         Holder<Enchantment> PIERCING = enchantmentRegistry.getOrThrow(Enchantments.PIERCING);
         Holder<Enchantment> MENDING = enchantmentRegistry.getOrThrow(Enchantments.MENDING);
+        ResourceKey<VillagerProfession> bankerKey = professionRegistry.getResourceKey(BANKER.get()).orElseThrow();
+        ResourceKey<VillagerProfession> exchangerKey = professionRegistry.getResourceKey(EXCHANGER.get()).orElseThrow();
 
         ItemStack BOOTS = new ItemStack(Items.DIAMOND_BOOTS);
         BOOTS.enchant(PROTECTION,4);
@@ -231,8 +236,8 @@ public class ModVillagers {
                     new SimpleTrade(new ItemCost(ModItems.L5.get(), 1), Optional.empty(), new ItemStack(ModItems.Euro50.get(), 5), 3, 10, 0.9f)
                 }
         };
-        VillagerTrades.TRADES.put(BANKER.get(), toIntMap(bankerTrades));
-        VillagerTrades.TRADES.put(EXCHANGER.get(), toIntMap(exchangerTrades));
+        VillagerTrades.TRADES.put(bankerKey, toIntMap(bankerTrades));
+        VillagerTrades.TRADES.put(exchangerKey, toIntMap(exchangerTrades));
     }
     private static Int2ObjectMap<VillagerTrades.ItemListing[]> toIntMap(VillagerTrades.ItemListing[][] trades) {
         Int2ObjectMap<VillagerTrades.ItemListing[]> map = new Int2ObjectOpenHashMap<>();

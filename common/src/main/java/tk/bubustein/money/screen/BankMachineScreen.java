@@ -56,7 +56,6 @@ public class BankMachineScreen extends AbstractContainerScreen<BankMachineMenu> 
     }
     protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BANK_MACHINE_LOCATION);
         int k = this.leftPos;
         int l = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(RenderType::guiTextured, BANK_MACHINE_LOCATION, k, l, 0, 0, this.imageWidth, this.imageHeight, 256, 256);

@@ -23,6 +23,7 @@ package tk.bubustein.money.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -76,7 +77,7 @@ public class ATM extends HorizontalDirectionalBlock {
         }*/
 
         world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING)), 3);
-        world.blockUpdated(pos, this);
+        world.updateNeighborsAt(pos, this);
     }
 /*
     @Override
@@ -100,15 +101,10 @@ public class ATM extends HorizontalDirectionalBlock {
         }
     }*/
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-       /*if(state.getValue(HALF) == DoubleBlockHalf.LOWER){
-            BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-            if(worldIn instanceof ServerLevel && blockEntity instanceof ATMBlockEntity atmBe){
-                atmBe.dropContents();
-            }
-        }*/
-        super.onRemove(state, worldIn, pos, newState, isMoving);
+    public void affectNeighborsAfterRemoval(BlockState state, ServerLevel worldIn, BlockPos pos, boolean isMoving) {
+        super.affectNeighborsAfterRemoval(state, worldIn, pos, isMoving);
     }
+    @SuppressWarnings("deprecated")
     @Override
     public @NotNull BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player playerEntity) {
         BlockPos blockpos = pos.below();

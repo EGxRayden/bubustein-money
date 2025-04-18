@@ -62,7 +62,7 @@ public class BankMachineResultSlot extends Slot {
     }
     protected void checkTakeAchievements(ItemStack itemStack) {
         if (this.removeCount > 0) {
-            itemStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
+            itemStack.onCraftedBy(this.player, this.removeCount);
         }
         if (this.container instanceof RecipeCraftingHolder recipeCraftingHolder) {
             recipeCraftingHolder.awardUsedRecipes(this.player, this.craftSlots.getItems());
