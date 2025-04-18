@@ -99,8 +99,6 @@ public class ATM extends HorizontalDirectionalBlock {
             return InteractionResult.SUCCESS;
         }
     }*/
-
-    @SuppressWarnings("deprecated")
     @Override
     public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
        /*if(state.getValue(HALF) == DoubleBlockHalf.LOWER){
@@ -111,7 +109,6 @@ public class ATM extends HorizontalDirectionalBlock {
         }*/
         super.onRemove(state, worldIn, pos, newState, isMoving);
     }
-    @SuppressWarnings("deprecated")
     @Override
     public @NotNull BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player playerEntity) {
         BlockPos blockpos = pos.below();

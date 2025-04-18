@@ -42,7 +42,6 @@ import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.screen.BankMachineMenu;
 
-@SuppressWarnings("deprecation")
 public class BankMachine extends Block {
     public static Component TITLE = Component.literal("Bank Machine");
     public BankMachine() {
@@ -50,7 +49,7 @@ public class BankMachine extends Block {
     }
     @Override
     public @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult){
-        if (!level.isClientSide) {
+        if (!level.isClientSide){
             MenuRegistry.openExtendedMenu((ServerPlayer) player, blockState.getMenuProvider(level, pos), friendlyByteBuf -> {});
             return InteractionResult.CONSUME;
         }
