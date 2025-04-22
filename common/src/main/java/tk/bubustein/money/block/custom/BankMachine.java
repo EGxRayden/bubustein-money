@@ -42,7 +42,6 @@ import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.screen.BankMachineMenu;
 
-@SuppressWarnings("deprecation")
 public class BankMachine extends Block {
     public static Component TITLE = Component.literal("Bank Machine");
     public BankMachine() {
