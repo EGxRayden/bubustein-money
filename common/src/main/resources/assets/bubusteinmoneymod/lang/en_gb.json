@@ -389,7 +389,9 @@
   "message.bubusteinmoneymod.resetMoney": "Reset the amount of money on the card in hand to 0.",
   "message.bubusteinmoneymod.pay": "Transfer money to another player.",
   "message.bubusteinmoneymod.requires_op": "(Requires OP)",
-
+  "message.bubusteinmoneymod.cannot_pay_self": "You cannot send money to yourself!",
+  "message.bubusteinmoneymod.not_enough_funds_with_fee": "Not enough funds! Maximum withdrawal amount: %s %s (including fee: %s %s)",
+  "message.bubusteinmoneymod.amount_too_large": "Amount too large! Maximum allowed is %s",
   "message.bubusteinmoneymod.deposit_success": "You deposited %s %s into the card (%s %s). New balance: %s %s",
   "message.bubusteinmoneymod.deposit_partial": "The exact amount couldn't be deposited. Uncovered difference: %s %s",
   "message.bubusteinmoneymod.withdraw_success": "You withdrew %s %s. Withdrawal fee: %s %s. New balance: %s %s",
@@ -408,7 +410,5 @@
   "message.bubusteinmoneymod.amount_positive": "The amount must be greater than 0.",
   "message.bubusteinmoneymod.no_physical_currency": "We don't have banknotes/coins for the currency %s",
   "cardItem.bubusteinmoneymod.balance": "Balance: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee_max": "Withdrawal Fee: 3%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_middle": "Withdrawal Fee: 2%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_min": "Withdrawal Fee: 0.5%"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s"
 }

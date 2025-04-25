@@ -408,7 +408,5 @@
   "message.bubusteinmoneymod.amount_positive": "De hoeveelheid moet groter zijn dan 0.",
   "message.bubusteinmoneymod.no_physical_currency": "Er zijn geen bankbiljetten/munten voor deze valuta %s",
   "cardItem.bubusteinmoneymod.balance": "Balans: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee_max": "Opnamekosten: 3%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_middle": "Opnamekosten: 2%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_min": "Opnamekosten: 0.5%"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Opnamekosten: %s"
 }

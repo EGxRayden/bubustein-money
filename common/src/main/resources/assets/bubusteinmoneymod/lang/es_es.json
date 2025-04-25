@@ -408,7 +408,5 @@
   "message.bubusteinmoneymod.amount_positive": "The amount must be greater than 0.",
   "message.bubusteinmoneymod.no_physical_currency": "We don't have banknotes/coins for the currency %s",
   "cardItem.bubusteinmoneymod.balance": "Balance: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee_max": "Withdrawal Fee: 3%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_middle": "Withdrawal Fee: 2%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_min": "Withdrawal Fee: 0.5%"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s"
 }

@@ -406,7 +406,5 @@
   "message.bubusteinmoneymod.amount_positive": "Der Betrag muss größer als 0 sein.",
   "message.bubusteinmoneymod.no_physical_currency": "Es gibt keine Banknoten/Münzen für die Währung %s",
   "cardItem.bubusteinmoneymod.balance": "Guthaben: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee_max": "Abhebegebühr: 3%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_middle": "Abhebegebühr: 2%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_min": "Abhebegebühr: 0.5%"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Abhebegebühr: %s"
 }

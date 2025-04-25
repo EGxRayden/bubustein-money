@@ -386,7 +386,9 @@
   "message.bubusteinmoneymod.resetMoney": "Resetează suma de bani de pe cardul din mână la 0.",
   "message.bubusteinmoneymod.pay": "Transferă bani altui jucător.",
   "message.bubusteinmoneymod.requires_op": "(Permisiuni de Operator necesare)",
-
+  "message.bubusteinmoneymod.cannot_pay_self": "Nu poți trimite bani către tine însuți!",
+  "message.bubusteinmoneymod.not_enough_funds_with_fee": "Fonduri insuficiente! Suma maximă de retragere: %s %s (inclusiv taxa: %s %s)",
+  "message.bubusteinmoneymod.amount_too_large": "Sumă prea mare! Maximul permis este %s",
   "message.bubusteinmoneymod.deposit_success": "Ai depus %s %s pe card (%s %s). Balanța: %s %s",
   "message.bubusteinmoneymod.deposit_partial": "Suma exactă nu a putut fi depusă. Diferența neacoperită: %s %s",
   "message.bubusteinmoneymod.withdraw_success": "Ai retras %s %s. Taxa de retragere: %s %s. Balanța: %s %s",
@@ -405,7 +407,5 @@
   "message.bubusteinmoneymod.amount_positive": "Suma trebuie să fie mai mare decât 0.",
   "message.bubusteinmoneymod.no_physical_currency": "Nu avem bancnote/monede pentru moneda %s",
   "cardItem.bubusteinmoneymod.balance": "Balanța: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee_max": "Taxă de retragere: 3%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_middle": "Taxă de retragere: 2%",
-  "cardItem.bubusteinmoneymod.withdraw_fee_min": "Taxă de retragere: 0.5%"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Taxă de retragere: %s"
 }
