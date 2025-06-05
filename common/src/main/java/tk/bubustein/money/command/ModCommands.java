@@ -44,6 +44,8 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class ModCommands {
+    private static final BigDecimal MAX_AMOUNT = new BigDecimal("1000000000");
+    private static final Set<String> CURRENCIES_CACHE = Collections.unmodifiableSet(ModItems.EXCHANGE_RATES.keySet());
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("bubustein")
                 .then(Commands.literal("help")
@@ -51,11 +53,10 @@ public class ModCommands {
                 .then(Commands.literal("setcurrency")
                         .then(Commands.argument("currency", StringArgumentType.word())
                                 .suggests((context, builder) -> {
-                                    for(String currency : ModItems.EXCHANGE_RATES.keySet()){
-                                        if(currency.toLowerCase().startsWith(builder.getRemaining().toLowerCase())){
-                                            builder.suggest(currency);
-                                        }
-                                    }
+                                    String input = builder.getRemaining().toLowerCase();
+                                    CURRENCIES_CACHE.stream()
+                                            .filter(c -> c.toLowerCase().startsWith(input))
+                                            .forEach(builder::suggest);
                                     return builder.buildFuture();
                                 })
                                 .executes(context -> setCurrency(context.getSource(), StringArgumentType.getString(context, "currency")))))
@@ -63,11 +64,10 @@ public class ModCommands {
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.argument("currency", StringArgumentType.word())
                                 .suggests((context, builder) -> {
-                                    for(String currency : ModItems.EXCHANGE_RATES.keySet()){
-                                        if(currency.toLowerCase().startsWith(builder.getRemaining().toLowerCase())){
-                                            builder.suggest(currency);
-                                        }
-                                    }
+                                    String input = builder.getRemaining().toLowerCase();
+                                    CURRENCIES_CACHE.stream()
+                                            .filter(c -> c.toLowerCase().startsWith(input))
+                                            .forEach(builder::suggest);
                                     return builder.buildFuture();
                                 })
                                 .executes(context -> setDefaultCurrency(context.getSource(), StringArgumentType.getString(context, "currency")))))
@@ -76,11 +76,10 @@ public class ModCommands {
                                 .executes(context -> deposit(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), null))
                                 .then(Commands.argument("currency", StringArgumentType.word())
                                         .suggests((context, builder) -> {
-                                            for(String currency : ModItems.EXCHANGE_RATES.keySet()){
-                                                if(currency.toLowerCase().startsWith(builder.getRemaining().toLowerCase())){
-                                                    builder.suggest(currency);
-                                                }
-                                            }
+                                            String input = builder.getRemaining().toLowerCase();
+                                            CURRENCIES_CACHE.stream()
+                                                    .filter(c -> c.toLowerCase().startsWith(input))
+                                                    .forEach(builder::suggest);
                                             return builder.buildFuture();
                                         })
                                         .executes(context -> deposit(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), StringArgumentType.getString(context, "currency"))))))
@@ -95,11 +94,10 @@ public class ModCommands {
                                 .executes(context -> ecoAddMoney(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), null))
                                 .then(Commands.argument("currency", StringArgumentType.word())
                                         .suggests((context, builder) -> {
-                                            for(String currency : ModItems.EXCHANGE_RATES.keySet()){
-                                                if(currency.toLowerCase().startsWith(builder.getRemaining().toLowerCase())){
-                                                    builder.suggest(currency);
-                                                }
-                                            }
+                                            String input = builder.getRemaining().toLowerCase();
+                                            CURRENCIES_CACHE.stream()
+                                                    .filter(c -> c.toLowerCase().startsWith(input))
+                                                    .forEach(builder::suggest);
                                             return builder.buildFuture();
                                         })
                                         .executes(context -> ecoAddMoney(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), StringArgumentType.getString(context, "currency"))))))
@@ -109,11 +107,10 @@ public class ModCommands {
                                 .executes(context -> ecoSetMoney(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), null))
                                 .then(Commands.argument("currency", StringArgumentType.word())
                                         .suggests((context, builder) -> {
-                                            for(String currency : ModItems.EXCHANGE_RATES.keySet()){
-                                                if(currency.toLowerCase().startsWith(builder.getRemaining().toLowerCase())){
-                                                    builder.suggest(currency);
-                                                }
-                                            }
+                                            String input = builder.getRemaining().toLowerCase();
+                                            CURRENCIES_CACHE.stream()
+                                                    .filter(c -> c.toLowerCase().startsWith(input))
+                                                    .forEach(builder::suggest);
                                             return builder.buildFuture();
                                         })
                                         .executes(context -> ecoSetMoney(context.getSource(), DoubleArgumentType.getDouble(context, "amount"), StringArgumentType.getString(context, "currency"))))))
@@ -174,8 +171,16 @@ public class ModCommands {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
+        if(amount <= 0){
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
+            return 0;
+        }
         if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large" + MAX_AMOUNT).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -197,8 +202,16 @@ public class ModCommands {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
+        if(amount <= 0){
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
+            return 0;
+        }
         if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -232,6 +245,18 @@ public class ModCommands {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.player_not_online", targetPlayerName).withStyle(ChatFormatting.RED));
             return 0;
         }
+        if (targetPlayerName.equalsIgnoreCase(player.getName().getString())) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.cannot_pay_self").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if(amount <= 0){
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (BigDecimal.valueOf(amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large" + MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            return 0;
+        }
         ItemStack playerStack = player.getMainHandItem();
         ItemStack targetStack = targetPlayer.getMainHandItem();
         if (!(playerStack.getItem() instanceof CardItem playerCard)) {
@@ -244,10 +269,6 @@ public class ModCommands {
         }
         String playerCurrency = playerCard.getCurrency(playerStack);
         String targetCurrency = targetCard.getCurrency(targetStack);
-        if (amount <= 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
-            return 0;
-        }
         if(amount != Math.round(amount * 100) / 100.0){
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
             return 0;
@@ -319,10 +340,14 @@ public class ModCommands {
                 player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.no_physical_currency", depositCurrency).withStyle(ChatFormatting.RED));
                 return 0;
             }
-            Map<Item, Integer> availableItems = new HashMap<>();
-            for (Item item : items.values()) {
-                availableItems.put(item, player.getInventory().countItem(item));
+            if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+                return 0;
             }
+            Map<Item, Integer> availableItems = new HashMap<>();
+            player.getInventory().items.stream()
+                    .filter(stack1 -> items.containsValue(stack1.getItem()))
+                    .forEach(stack1 -> availableItems.merge(stack1.getItem(), stack1.getCount(), Integer::sum));
             double totalAvailable = 0;
             for (Map.Entry<Double, Item> entry : items.entrySet()) {
                 totalAvailable += entry.getKey() * availableItems.get(entry.getValue());
@@ -365,19 +390,15 @@ public class ModCommands {
         }
         return Command.SINGLE_SUCCESS;
     }
-    private static void removeItemsFromInventory(Player player, Item item, int count) {
-        int removedCount = 0;
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+    public static void removeItemsFromInventory(Player player, Item item, int count) {
+        for (int i = 0; i < player.getInventory().getContainerSize() && count > 0; i++) {
             ItemStack stack = player.getInventory().getItem(i);
-            if (stack.getItem() == item) {
-                int toRemove = Math.min(stack.getCount(), count - removedCount);
-                stack.shrink(toRemove);
-                removedCount += toRemove;
+            if (!stack.isEmpty() && stack.getItem() == item) {
+                int remove = Math.min(count, stack.getCount());
+                stack.shrink(remove);
+                count -= remove;
                 if (stack.isEmpty()) {
                     player.getInventory().setItem(i, ItemStack.EMPTY);
-                }
-                if (removedCount >= count) {
-                    break;
                 }
             }
         }
@@ -385,49 +406,64 @@ public class ModCommands {
     private static int withdraw(CommandSourceStack source, double amount) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        if (stack.getItem() instanceof CardItem cardItem) {
-            if(amount != Math.round(amount * 100) / 100.0){
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
-                return 0;
-            }
-            String cardCurrency = cardItem.getCurrency(stack);
-            double currentBalance = cardItem.getMoney(stack);
-            double feeInCardCurrency = calculateWithdrawFee(stack, amount);
-            double totalWithdrawInCardCurrency = amount + feeInCardCurrency;
-            if (currentBalance >= totalWithdrawInCardCurrency) {
-                cardItem.setMoney(stack, currentBalance - totalWithdrawInCardCurrency);
-                double remainingAmount = 0;
-                if (ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
-                    remainingAmount = withdrawCurrency(player, amount, cardCurrency);
-                    if (remainingAmount > 0) {
-                        cardItem.addMoney(stack, remainingAmount);
-                        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_partial",
-                                formatMoney(remainingAmount), cardCurrency).withStyle(ChatFormatting.YELLOW));
-                    }
-                } else {
-                    player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_no_currency",
-                            cardCurrency).withStyle(ChatFormatting.YELLOW));
-                }
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_success",
-                        formatMoney(amount-remainingAmount), cardCurrency,
-                        formatMoney(feeInCardCurrency), cardCurrency,
-                        formatMoney(cardItem.getMoney(stack)), cardCurrency).withStyle(ChatFormatting.GREEN));
-            } else {
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds").withStyle(ChatFormatting.RED));
+        if (!(stack.getItem() instanceof CardItem cardItem)) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (amount != Math.round(amount * 100) / 100.0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (amount <= 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        String cardCurrency = cardItem.getCurrency(stack);
+        double currentBalance = cardItem.getMoney(stack);
+        double fee = calculateWithdrawFee(stack, amount);
+        BigDecimal totalWithdraw = BigDecimal.valueOf(amount).add(BigDecimal.valueOf(fee));
+        if (BigDecimal.valueOf(currentBalance).compareTo(totalWithdraw) < 0) {
+            BigDecimal maxWithdrawable = BigDecimal.valueOf(currentBalance)
+                    .divide(BigDecimal.ONE.add(BigDecimal.valueOf(fee).divide(BigDecimal.valueOf(amount), 4, RoundingMode.HALF_UP)), RoundingMode.DOWN);
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds_with_fee",
+                    formatMoney(maxWithdrawable.doubleValue()), cardCurrency,
+                    formatMoney(fee), cardCurrency).withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        double remainingAmount = 0;
+        if (ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
+            remainingAmount = withdrawCurrency(player, amount, cardCurrency);
+            if (remainingAmount > 0) {
+                cardItem.addMoney(stack, remainingAmount);
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_partial",
+                        formatMoney(remainingAmount), cardCurrency).withStyle(ChatFormatting.YELLOW));
             }
         } else {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_no_currency",
+                    cardCurrency).withStyle(ChatFormatting.YELLOW));
         }
+        double newBalance = BigDecimal.valueOf(currentBalance)
+                .subtract(BigDecimal.valueOf(amount)
+                        .subtract(BigDecimal.valueOf(fee))
+                        .add(BigDecimal.valueOf(remainingAmount)))
+                        .doubleValue();
+        cardItem.setMoney(stack, newBalance);
+        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_success",
+                formatMoney(amount - remainingAmount), cardCurrency,
+                formatMoney(fee), cardCurrency,
+                formatMoney(newBalance), cardCurrency).withStyle(ChatFormatting.GREEN));
+
         return Command.SINGLE_SUCCESS;
     }
     private static double calculateWithdrawFee(ItemStack stack, double amount) {
-        if (stack.getItem() == ModItems.VisaClassic.get()) {
-            return amount * 0.03; // 3% fee
-        } else if (stack.getItem() == ModItems.VisaGold.get()) {
-            return amount * 0.02; // 2% fee
-        } else if (stack.getItem() == ModItems.VisaSteel.get()) {
-            return amount * 0.005; // 0.5% fee
-        }
+        if (stack.getItem() == ModItems.Card.get()) return amount * 0.03; // 3% fee
+        else if (stack.getItem() == ModItems.GoldCard.get()) return amount * 0.02; // 2% fee
+        else if (stack.getItem() == ModItems.SteelCard.get()) return amount * 0.01; // 1% fee
+        else if(stack.getItem() == ModItems.RustyCard.get()) return amount * 0.1; // 10% fee
         return 0;
     }
     private static double withdrawCurrency(Player player, double amount, String currency) {
@@ -467,10 +503,13 @@ public class ModCommands {
         if (fromCurrency.equals(toCurrency)) {
             return amount;
         }
-        double fromRate = ModItems.EXCHANGE_RATES.get(fromCurrency);
-        double toRate = ModItems.EXCHANGE_RATES.get(toCurrency);
-        double amountInEUR = amount / fromRate;
-        return amountInEUR * toRate;
+        BigDecimal amountBD = BigDecimal.valueOf(amount);
+        BigDecimal fromRate = BigDecimal.valueOf(ModItems.EXCHANGE_RATES.get(fromCurrency));
+        BigDecimal toRate = BigDecimal.valueOf(ModItems.EXCHANGE_RATES.get(toCurrency));
+        return amountBD.divide(fromRate, 10, RoundingMode.HALF_UP)
+                .multiply(toRate)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
     private static String formatMoney(double amount) {
         return String.format("%.2f", Math.round(amount * 100) / 100.0);
