@@ -21,14 +21,15 @@
 package tk.bubustein.money.block.custom;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -36,21 +37,29 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+import tk.bubustein.money.item.KeyItem;
 import tk.bubustein.money.screen.BankMachineMenu;
 
-@SuppressWarnings("deprecation")
 public class BankMachine extends Block {
     public static Component TITLE = Component.translatable("block.bubusteinmoneymod.bank_machine");
     public BankMachine() {
         super(BlockBehaviour.Properties.ofFullCopy(Blocks.CRAFTING_TABLE).strength(2.5f).requiresCorrectToolForDrops());
     }
     @Override
-    public @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult){
-        if (!level.isClientSide) {
-            MenuRegistry.openExtendedMenu((ServerPlayer) player, blockState.getMenuProvider(level, pos), friendlyByteBuf -> {});
-            return InteractionResult.CONSUME;
+    public @NotNull ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        ItemStack stack = player.getItemInHand(interactionHand);
+        if(!level.isClientSide){
+            if(stack.getItem() instanceof KeyItem){
+                stack.hurtAndBreak(1, player,
+                        interactionHand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+                MenuRegistry.openExtendedMenu((ServerPlayer) player, blockState.getMenuProvider(level, blockPos), friendlyByteBuf -> {});
+                return ItemInteractionResult.CONSUME;
+            } else {
+                player.sendSystemMessage(Component.literal("Cannot use Bank Machine. Missing Key").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+                return ItemInteractionResult.FAIL;
+            }
         }
-        return InteractionResult.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
     @Override
     public MenuProvider getMenuProvider(BlockState blockState, Level level, BlockPos blockPos) {

@@ -354,9 +354,9 @@
   "item.bubusteinmoneymod.five_hundred_ph_piso": "500 Filipijnse Piso",
   "item.bubusteinmoneymod.thousand_ph_piso": "1000 Filipijnse Piso",
 
-  "item.bubusteinmoneymod.card_classic": "Visa Klassiek",
-  "item.bubusteinmoneymod.card_gold": "Visa Goud",
-  "item.bubusteinmoneymod.card_steel": "Visa Staal",
+  "item.bubusteinmoneymod.card_classic": "Card Klassiek",
+  "item.bubusteinmoneymod.card_gold": "Card Goud",
+  "item.bubusteinmoneymod.card_steel": "Card Staal",
   "item.bubusteinmoneymod.special_paper":"Speciaal Papier",
 
   "block.bubusteinmoneymod.atm": "Geldautomaat",
@@ -408,5 +408,11 @@
   "message.bubusteinmoneymod.amount_positive": "De hoeveelheid moet groter zijn dan 0.",
   "message.bubusteinmoneymod.no_physical_currency": "Er zijn geen bankbiljetten/munten voor deze valuta %s",
   "cardItem.bubusteinmoneymod.balance": "Balans: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee": "Opnamekosten: %s"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Opnamekosten: %s",
+  "item.bubusteinmoneymod.card_rusty": "Rusty Card",
+  "item.bubusteinmoneymod.card_supreme": "Supreme Card",
+  "item.bubusteinmoneymod.key": "Key",
+  "message.bubusteinmoneymod.cannot_pay_self": "You cannot send money to yourself!",
+  "message.bubusteinmoneymod.not_enough_funds_with_fee": "Not enough funds! Maximum withdrawal amount: %s %s (including fee: %s %s)",
+  "message.bubusteinmoneymod.amount_too_large": "Amount too large! Maximum allowed is %s"
 }

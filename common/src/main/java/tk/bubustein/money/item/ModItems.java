@@ -18,7 +18,6 @@
  *
  */
 
-
 package tk.bubustein.money.item;
 
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -443,44 +442,52 @@ public class ModItems {
     public static final Supplier<Item> L50 = registerItem("cincizeci_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
     public static final Supplier<Item> L100 = registerItem("suta_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
 
-    public static final Supplier<Item> VisaClassic = MoneyExpectPlatform.registerItem("card_classic",
+    public static final Supplier<Item> RustyCard = MoneyExpectPlatform.registerItem("card_rusty",
+            () -> new CardItem(new Item.Properties().stacksTo(1).arch$tab(MoneyMod.SPECIAL)));
+    public static final Supplier<Item> Card = MoneyExpectPlatform.registerItem("card_classic",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).arch$tab(MoneyMod.SPECIAL)));
-    public static final Supplier<Item> VisaGold = MoneyExpectPlatform.registerItem("card_gold",
+    public static final Supplier<Item> GoldCard = MoneyExpectPlatform.registerItem("card_gold",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).arch$tab(MoneyMod.SPECIAL)));
-    public static final Supplier<Item> VisaSteel = MoneyExpectPlatform.registerItem("card_steel",
+    public static final Supplier<Item> SteelCard = MoneyExpectPlatform.registerItem("card_steel",
+            () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
+    public static final Supplier<Item> SupremeCard = MoneyExpectPlatform.registerItem("card_supreme",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
 
     public static final Supplier<Item> SpecialPaper = registerItem("special_paper", MoneyMod.SPECIAL);
+    public static final Supplier<Item> Key = MoneyExpectPlatform.registerItem("key",
+            () -> new KeyItem(new Item.Properties().stacksTo(1).durability(50).arch$tab(MoneyMod.SPECIAL)));
+
     public static final Map<String, Double> EXCHANGE_RATES = new HashMap<>();
     public static void registerExchangeRates() {
-        // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 26th DECEMBER
+        // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 25th MAY 2025
         EXCHANGE_RATES.put("EUR", 1.00);
-        EXCHANGE_RATES.put("USD", 1.04);
-        EXCHANGE_RATES.put("GBP", 0.83);
-        EXCHANGE_RATES.put("CAD", 1.50);
-        EXCHANGE_RATES.put("RON", 4.98);
-        EXCHANGE_RATES.put("MDL", 19.18);
-        EXCHANGE_RATES.put("CHF", 0.94);
-        EXCHANGE_RATES.put("AUD", 1.67);
-        EXCHANGE_RATES.put("JPY", 163.92);
-        EXCHANGE_RATES.put("BGN", 1.96);
-        EXCHANGE_RATES.put("CZK", 25.11);
-        EXCHANGE_RATES.put("NOK", 11.84);
+        EXCHANGE_RATES.put("USD", 1.13);
+        EXCHANGE_RATES.put("GBP", 0.84);
+        EXCHANGE_RATES.put("CAD", 1.56);
+        EXCHANGE_RATES.put("RON", 5.05);
+        EXCHANGE_RATES.put("MDL", 19.64);
+        EXCHANGE_RATES.put("CHF", 0.93);
+        EXCHANGE_RATES.put("AUD", 1.75);
+        EXCHANGE_RATES.put("JPY", 162.07);
+        // SOON BGN will be deprecated
+        EXCHANGE_RATES.put("BGN", 1.95);
+        EXCHANGE_RATES.put("CZK", 24.84);
+        EXCHANGE_RATES.put("NOK", 11.49);
         EXCHANGE_RATES.put("DKK", 7.46);
-        EXCHANGE_RATES.put("SEK", 11.5);
-        EXCHANGE_RATES.put("HUF", 409.77);
-        EXCHANGE_RATES.put("PLN", 4.26);
-        EXCHANGE_RATES.put("RSD", 116.96);
-        EXCHANGE_RATES.put("ISK", 145.1);
-        EXCHANGE_RATES.put("CNY", 7.59);
-        EXCHANGE_RATES.put("INR",88.66);
-        EXCHANGE_RATES.put("KRW", 1523.05);
+        EXCHANGE_RATES.put("SEK", 10.83);
+        EXCHANGE_RATES.put("HUF", 403.85);
+        EXCHANGE_RATES.put("PLN", 4.25);
+        EXCHANGE_RATES.put("RSD", 117.70);
+        EXCHANGE_RATES.put("ISK", 145.11);
+        EXCHANGE_RATES.put("CNY", 8.16);
+        EXCHANGE_RATES.put("INR",96.71);
+        EXCHANGE_RATES.put("KRW", 1552.62);
         EXCHANGE_RATES.put("BRL", 6.42);
-        EXCHANGE_RATES.put("MXN", 21.00);
-        EXCHANGE_RATES.put("ZAR", 19.36);
-        EXCHANGE_RATES.put("TRY", 36.61);
-        EXCHANGE_RATES.put("NZD", 1.84);
-        EXCHANGE_RATES.put("PHP", 60.28);
+        EXCHANGE_RATES.put("MXN", 21.87);
+        EXCHANGE_RATES.put("ZAR", 20.28);
+        EXCHANGE_RATES.put("TRY", 44.36);
+        EXCHANGE_RATES.put("NZD", 1.90);
+        EXCHANGE_RATES.put("PHP", 62.94);
     }
     public static final Map<String, TreeMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
     public static void registerCurrencyItems(){

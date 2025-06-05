@@ -354,9 +354,9 @@
   "item.bubusteinmoneymod.five_hundred_ph_piso": "500 Philippines Piso",
   "item.bubusteinmoneymod.thousand_ph_piso": "1000 Philippines Piso",
 
-  "item.bubusteinmoneymod.card_classic": "Visa Classic",
-  "item.bubusteinmoneymod.card_gold": "Visa Gold",
-  "item.bubusteinmoneymod.card_steel": "Visa Steel",
+  "item.bubusteinmoneymod.card_classic": "Card",
+  "item.bubusteinmoneymod.card_gold": "Gold Card",
+  "item.bubusteinmoneymod.card_steel": "Steel Card",
   "item.bubusteinmoneymod.special_paper":"Special Paper",
 
   "block.bubusteinmoneymod.atm": "ATM",
@@ -410,5 +410,8 @@
   "message.bubusteinmoneymod.amount_positive": "The amount must be greater than 0.",
   "message.bubusteinmoneymod.no_physical_currency": "We don't have banknotes/coins for the currency %s",
   "cardItem.bubusteinmoneymod.balance": "Balance: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s",
+  "item.bubusteinmoneymod.card_supreme": "Supreme Card",
+  "item.bubusteinmoneymod.key": "Key",
+  "item.bubusteinmoneymod.card_rusty": "Rusty Card"
 }

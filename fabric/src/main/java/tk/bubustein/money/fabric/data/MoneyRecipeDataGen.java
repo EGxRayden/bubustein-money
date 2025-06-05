@@ -61,6 +61,34 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput exporter) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.Key.get())
+                .pattern("GGD")
+                .pattern("G  ")
+                .pattern("   ")
+                .unlockedBy(getHasName(Items.DIAMOND), has(Items.DIAMOND))
+                .define('G', Items.GOLD_INGOT)
+                .define('D', Items.DIAMOND)
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.SupremeCard.get())
+                .pattern("NSN")
+                .pattern("BCB")
+                .pattern("EGE")
+                .define('C', ModItems.SteelCard.get())
+                .define('S', Items.NETHERITE_INGOT)
+                .define('N', Items.CYAN_DYE)
+                .define('B', Items.DIAMOND)
+                .define('E', Items.EMERALD)
+                .define('G', Items.GOLD_INGOT)
+                .unlockedBy(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.RustyCard.get())
+                .pattern(" C ")
+                .pattern("CLC")
+                .pattern(" C ")
+                .define('C', Items.COPPER_INGOT)
+                .define('L', Items.CLAY_BALL)
+                .unlockedBy(getHasName(Items.COPPER_INGOT), has(Items.COPPER_INGOT))
+                .save(exporter);
         /*
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BANK_MACHINE.get())
                 .pattern("DII")

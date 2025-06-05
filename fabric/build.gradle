@@ -21,6 +21,10 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
 }
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath

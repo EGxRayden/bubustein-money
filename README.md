@@ -88,15 +88,15 @@
     <tr>
         <td>1.18.2</td>
         <td>2.x.y</td>
-        <td>✅</td>
-        <td>✅</td>
+        <td>🍂</td>
+        <td>🍂</td>
         <td>⛔</td>
     </tr>
     <tr>
         <td>1.19.2</td>
         <td>3.x.y</td>
-        <td>✅</td>
-        <td>✅</td>
+        <td>🍂</td>
+        <td>🍂</td>
         <td>⛔</td>
     </tr>
     <tr>

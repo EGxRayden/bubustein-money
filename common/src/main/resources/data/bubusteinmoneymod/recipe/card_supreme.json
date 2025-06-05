@@ -1,0 +1,32 @@
+{
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:diamond"
+    },
+    "C": {
+      "item": "bubusteinmoneymod:card_steel"
+    },
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "N": {
+      "item": "minecraft:cyan_dye"
+    },
+    "S": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "pattern": [
+    "NSN",
+    "BCB",
+    "EGE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:card_supreme"
+  }
+}

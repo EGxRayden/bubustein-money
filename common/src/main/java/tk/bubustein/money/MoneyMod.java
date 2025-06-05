@@ -18,7 +18,6 @@
  *
  */
 
-
 package tk.bubustein.money;
 
 import com.mojang.logging.LogUtils;

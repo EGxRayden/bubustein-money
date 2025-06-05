@@ -37,6 +37,9 @@ public class MoneyModelDataGen extends FabricModelProvider {
     }
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator){
+        //itemModelGenerator.generateFlatItem(ModItems.RustyCard.get(), ModelTemplates.FLAT_ITEM);
+        //itemModelGenerator.generateFlatItem(ModItems.SupremeCard.get(), ModelTemplates.FLAT_ITEM);
+        //itemModelGenerator.generateFlatItem(ModItems.Key.get(), ModelTemplates.FLAT_ITEM);
          /*
         itemModelGenerator.generateFlatItem(ModItems.PHS1.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.PHS5.get(), ModelTemplates.FLAT_ITEM);

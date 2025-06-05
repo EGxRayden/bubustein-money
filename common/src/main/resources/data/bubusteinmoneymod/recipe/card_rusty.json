@@ -1,0 +1,20 @@
+{
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "L": {
+      "item": "minecraft:clay_ball"
+    }
+  },
+  "pattern": [
+    " C ",
+    "CLC",
+    " C "
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:card_rusty"
+  }
+}

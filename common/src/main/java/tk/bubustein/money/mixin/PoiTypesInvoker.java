@@ -31,7 +31,6 @@ import java.util.Set;
 
 @Mixin(PoiTypes.class)
 public interface PoiTypesInvoker {
-
     @Invoker("getBlockStates")
     static Set<BlockState> invokeGetBlockStates(Block block) {
         throw new AssertionError();

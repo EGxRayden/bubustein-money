@@ -18,7 +18,6 @@
  *
  */
 
-
 package tk.bubustein.money.item;
 
 import com.mojang.serialization.Codec;
@@ -101,11 +100,20 @@ public class CardItem extends Item {
         String formattedMoney = df.format(Math.round(money * 100)/ 100.0);
         tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.balance", formattedMoney, currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
-        if (stack.getItem() == ModItems.VisaClassic.get())
-            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_max").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        else if (stack.getItem() == ModItems.VisaGold.get())
-            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_middle").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        else if (stack.getItem() == ModItems.VisaSteel.get())
-            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee_min").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+        if (stack.getItem() == ModItems.Card.get())
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "3%")
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+        else if (stack.getItem() == ModItems.GoldCard.get())
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "2%")
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+        else if (stack.getItem() == ModItems.SteelCard.get())
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "1%")
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+        else if (stack.getItem() == ModItems.SupremeCard.get())
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "0%")
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+        else if(stack.getItem() == ModItems.RustyCard.get())
+            tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "10%")
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
 }

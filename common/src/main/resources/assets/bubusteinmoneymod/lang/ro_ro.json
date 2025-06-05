@@ -351,9 +351,9 @@
   "item.bubusteinmoneymod.five_hundred_ph_piso": "500 Peso Filipinez",
   "item.bubusteinmoneymod.thousand_ph_piso": "1000 Peso Filipinez",
 
-  "item.bubusteinmoneymod.card_classic": "Visa Clasic",
-  "item.bubusteinmoneymod.card_gold": "Visa Aur",
-  "item.bubusteinmoneymod.card_steel": "Visa Oțel",
+  "item.bubusteinmoneymod.card_classic": "Card",
+  "item.bubusteinmoneymod.card_gold": "Card de Aur",
+  "item.bubusteinmoneymod.card_steel": "Card de Oțel",
   "item.bubusteinmoneymod.special_paper":"Hârtie Specială",
 
   "block.bubusteinmoneymod.atm": "Bancomat",
@@ -407,5 +407,8 @@
   "message.bubusteinmoneymod.amount_positive": "Suma trebuie să fie mai mare decât 0.",
   "message.bubusteinmoneymod.no_physical_currency": "Nu avem bancnote/monede pentru moneda %s",
   "cardItem.bubusteinmoneymod.balance": "Balanța: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee": "Taxă de retragere: %s"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Taxă de retragere: %s",
+  "item.bubusteinmoneymod.card_supreme": "Visa Suprem",
+  "item.bubusteinmoneymod.key": "Cheie",
+  "item.bubusteinmoneymod.card_rusty": "Card Ruginit"
 }
