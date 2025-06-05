@@ -407,7 +407,7 @@
   "message.bubusteinmoneymod.no_physical_currency": "Es gibt keine Banknoten/Münzen für die Währung %s",
   "cardItem.bubusteinmoneymod.balance": "Guthaben: %s %s",
   "cardItem.bubusteinmoneymod.withdraw_fee": "Abhebegebühr: %s",
-  "item.bubusteinmoneymod.card_supreme": "Visa Supreme",
+  "item.bubusteinmoneymod.card_supreme": "Card Supreme",
   "message.bubusteinmoneymod.cannot_pay_self": "You cannot send money to yourself!",
   "message.bubusteinmoneymod.not_enough_funds_with_fee": "Not enough funds! Maximum withdrawal amount: %s %s (including fee: %s %s)",
   "message.bubusteinmoneymod.amount_too_large": "Amount too large! Maximum allowed is %s",

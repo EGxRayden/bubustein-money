@@ -408,7 +408,7 @@
   "message.bubusteinmoneymod.no_physical_currency": "Nu avem bancnote/monede pentru moneda %s",
   "cardItem.bubusteinmoneymod.balance": "Balanța: %s %s",
   "cardItem.bubusteinmoneymod.withdraw_fee": "Taxă de retragere: %s",
-  "item.bubusteinmoneymod.card_supreme": "Visa Suprem",
+  "item.bubusteinmoneymod.card_supreme": "Cardul Suprem",
   "item.bubusteinmoneymod.key": "Cheie",
   "item.bubusteinmoneymod.card_rusty": "Card Ruginit"
 }
