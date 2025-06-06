@@ -180,7 +180,7 @@ public class ModCommands {
             return 0;
         }
         if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large" + MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -253,10 +253,6 @@ public class ModCommands {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (BigDecimal.valueOf(amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large" + MAX_AMOUNT).withStyle(ChatFormatting.RED));
-            return 0;
-        }
         ItemStack playerStack = player.getMainHandItem();
         ItemStack targetStack = targetPlayer.getMainHandItem();
         if (!(playerStack.getItem() instanceof CardItem playerCard)) {
@@ -265,6 +261,10 @@ public class ModCommands {
         }
         if (!(targetStack.getItem() instanceof CardItem targetCard)) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName).withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (BigDecimal.valueOf(targetCard.getMoney(targetStack)+amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
             return 0;
         }
         String playerCurrency = playerCard.getCurrency(playerStack);
@@ -345,9 +345,9 @@ public class ModCommands {
                 return 0;
             }
             Map<Item, Integer> availableItems = new HashMap<>();
-            player.getInventory().items.stream()
-                    .filter(stack1 -> items.containsValue(stack1.getItem()))
-                    .forEach(stack1 -> availableItems.merge(stack1.getItem(), stack1.getCount(), Integer::sum));
+            for (Item item : items.values()) {
+                availableItems.put(item, player.getInventory().countItem(item));
+            }
             double totalAvailable = 0;
             for (Map.Entry<Double, Item> entry : items.entrySet()) {
                 totalAvailable += entry.getKey() * availableItems.get(entry.getValue());
