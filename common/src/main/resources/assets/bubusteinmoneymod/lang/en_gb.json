@@ -413,5 +413,7 @@
   "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s",
   "item.bubusteinmoneymod.card_supreme": "Supreme Card",
   "item.bubusteinmoneymod.key": "Key",
-  "item.bubusteinmoneymod.card_rusty": "Rusty Card"
+  "item.bubusteinmoneymod.card_rusty": "Rusty Card",
+  "message.bubusteinmoneymod.missing_key": "Cannot use Bank Machine. Missing Key",
+  "keyItem.bubusteinmoneymod.tooltip": "It opens the Bank Machine"
 }

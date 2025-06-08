@@ -47,7 +47,7 @@ public class KeyItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("It opens the Bank Machine")
-                .withStyle(style -> style.withColor(TextColor.fromRgb(0x00FFFF))));
+        tooltip.add(Component.translatable("keyItem.bubusteinmoneymod.tooltip")
+                .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
     }
 }

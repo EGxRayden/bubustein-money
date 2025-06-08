@@ -414,5 +414,7 @@
   "message.bubusteinmoneymod.amount_positive": "The amount must be greater than 0.",
   "message.bubusteinmoneymod.no_physical_currency": "We don't have banknotes/coins for the currency %s",
   "cardItem.bubusteinmoneymod.balance": "Balance: %s %s",
-  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s"
+  "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s",
+  "message.bubusteinmoneymod.missing_key": "Cannot use Bank Machine. Missing Key",
+  "keyItem.bubusteinmoneymod.tooltip": "It opens the Bank Machine"
 }

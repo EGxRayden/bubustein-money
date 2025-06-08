@@ -410,5 +410,7 @@
   "cardItem.bubusteinmoneymod.withdraw_fee": "Taxă de retragere: %s",
   "item.bubusteinmoneymod.card_supreme": "Cardul Suprem",
   "item.bubusteinmoneymod.key": "Cheie",
-  "item.bubusteinmoneymod.card_rusty": "Card Ruginit"
+  "item.bubusteinmoneymod.card_rusty": "Card Ruginit",
+  "message.bubusteinmoneymod.missing_key": "Masa de făcut bani nu poate fi utilizată. Cheie lipsă.",
+  "keyItem.bubusteinmoneymod.tooltip": "Deschide masa de făcut bani"
 }

@@ -55,7 +55,7 @@ public class BankMachine extends Block {
                 MenuRegistry.openExtendedMenu((ServerPlayer) player, blockState.getMenuProvider(level, blockPos), friendlyByteBuf -> {});
                 return ItemInteractionResult.CONSUME;
             } else {
-                player.sendSystemMessage(Component.literal("Cannot use Bank Machine. Missing Key").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.missing_key").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
                 return ItemInteractionResult.FAIL;
             }
         }
