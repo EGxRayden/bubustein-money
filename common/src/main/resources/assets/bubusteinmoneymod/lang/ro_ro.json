@@ -342,7 +342,7 @@
   "item.bubusteinmoneymod.special_paper":"Hârtie Specială",
 
   "block.bubusteinmoneymod.atm": "Bancomat",
-  "block.bubusteinmoneymod.bank_machine": "Masă de făcut bani",
+  "block.bubusteinmoneymod.bank_machine": "Masă de tipărit bani",
 
   "entity.minecraft.villager.bubusteinmoneymod.banker": "Bancher",
   "entity.minecraft.villager.bubusteinmoneymod.exchanger": "Schimbător de valute",
@@ -396,6 +396,6 @@
   "item.bubusteinmoneymod.card_supreme": "Cardul Suprem",
   "item.bubusteinmoneymod.key": "Cheie",
   "item.bubusteinmoneymod.card_rusty": "Card Ruginit",
-  "message.bubusteinmoneymod.missing_key": "Masa de făcut bani nu poate fi utilizată. Cheie lipsă.",
-  "keyItem.bubusteinmoneymod.tooltip": "Deschide masa de făcut bani"
+  "message.bubusteinmoneymod.missing_key": "Masa de tipărit bani nu poate fi utilizată. Cheie lipsă.",
+  "keyItem.bubusteinmoneymod.tooltip": "Deschide masa de tipărit bani"
 }
