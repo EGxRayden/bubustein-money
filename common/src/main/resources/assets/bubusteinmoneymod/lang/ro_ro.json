@@ -51,20 +51,6 @@
   "item.bubusteinmoneymod.twenty_pounds": "20 Lire Sterline",
   "item.bubusteinmoneymod.fifty_pounds": "50 Lire Sterline",
 
-  "item.bubusteinmoneymod.one_stotinka": "1 Stotinkă Bulgărească",
-  "item.bubusteinmoneymod.two_stotinki": "2 Stotinki Bulgărești",
-  "item.bubusteinmoneymod.five_stotinki": "5 Stotinki Bulgărești",
-  "item.bubusteinmoneymod.ten_stotinki": "10 Stotinki Bulgărești",
-  "item.bubusteinmoneymod.twenty_stotinki": "20 Stotinki Bulgărești",
-  "item.bubusteinmoneymod.fifty_stotinki": "50 Stotinki Bulgărești",
-  "item.bubusteinmoneymod.one_lev": "1 Levă Bulgărească",
-  "item.bubusteinmoneymod.two_leva": "2 Leva Bulgărească",
-  "item.bubusteinmoneymod.five_leva": "5 Leva Bulgărească",
-  "item.bubusteinmoneymod.ten_leva": "10 Leva Bulgărească",
-  "item.bubusteinmoneymod.twenty_leva": "20 Leva Bulgărească",
-  "item.bubusteinmoneymod.fifty_leva": "50 Leva Bulgărească",
-  "item.bubusteinmoneymod.hundred_leva": "100 Leva Bulgărească",
-
   "item.bubusteinmoneymod.un_ban_1900": "1 Ban",
   "item.bubusteinmoneymod.doi_bani_1900": "2 Bani",
   "item.bubusteinmoneymod.cinci_bani_1900": "5 Bani",
@@ -79,7 +65,6 @@
   "item.bubusteinmoneymod.douazeci_cinci_lei_1900": "25 Lei",
   "item.bubusteinmoneymod.cincizeci_lei_1900": "50 Lei",
   "item.bubusteinmoneymod.suta_lei_1900": "100 Lei",
-
 
   "item.bubusteinmoneymod.un_ban": "1 Ban",
   "item.bubusteinmoneymod.cinci_bani": "5 Bani",

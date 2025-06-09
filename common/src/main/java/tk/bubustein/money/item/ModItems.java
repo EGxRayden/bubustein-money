@@ -120,15 +120,6 @@ public class ModItems {
     public static final Supplier<Item> Yen100 = registerItem("hundred_yen", MoneyMod.COINS);
     public static final Supplier<Item> Yen500 = registerItem("five_hundred_yen", MoneyMod.COINS);
 
-    public static final Supplier<Item> Stotinka1 = registerItem("one_stotinka", MoneyMod.COINS);
-    public static final Supplier<Item> Stotinka2 = registerItem("two_stotinki", MoneyMod.COINS);
-    public static final Supplier<Item> Stotinka5 = registerItem("five_stotinki", MoneyMod.COINS);
-    public static final Supplier<Item> Stotinka10 = registerItem("ten_stotinki", MoneyMod.COINS);
-    public static final Supplier<Item> Stotinka20 = registerItem("twenty_stotinki", MoneyMod.COINS);
-    public static final Supplier<Item> Stotinka50 = registerItem("fifty_stotinki", MoneyMod.COINS);
-    public static final Supplier<Item> Leva1 = registerItem("one_lev", MoneyMod.COINS);
-    public static final Supplier<Item> Leva2 = registerItem("two_leva", MoneyMod.COINS);
-
     public static final Supplier<Item> CZkr1 = registerItem("one_cz_krone", MoneyMod.COINS);
     public static final Supplier<Item> CZkr2 = registerItem("two_cz_krone", MoneyMod.COINS);
     public static final Supplier<Item> CZkr5 = registerItem("five_cz_krone", MoneyMod.COINS);
@@ -301,12 +292,6 @@ public class ModItems {
     public static final Supplier<Item> Yen5000 = registerItem("five_thousand_yen", MoneyMod.BANKNOTES);
     public static final Supplier<Item> Yen10000 = registerItem("ten_thousand_yen", MoneyMod.BANKNOTES);
 
-    public static final Supplier<Item> Leva5 = registerItem("five_leva", MoneyMod.BANKNOTES);
-    public static final Supplier<Item> Leva10 = registerItem("ten_leva", MoneyMod.BANKNOTES);
-    public static final Supplier<Item> Leva20 = registerItem("twenty_leva", MoneyMod.BANKNOTES);
-    public static final Supplier<Item> Leva50 = registerItem("fifty_leva", MoneyMod.BANKNOTES);
-    public static final Supplier<Item> Leva100 = registerItem("hundred_leva", MoneyMod.BANKNOTES);
-
     public static final Supplier<Item> CZkr100 = registerItem("hundred_cz_krone", MoneyMod.BANKNOTES);
     public static final Supplier<Item> CZkr200 = registerItem("two_hundred_cz_krone", MoneyMod.BANKNOTES);
     public static final Supplier<Item> CZkr500 = registerItem("five_hundred_cz_krone", MoneyMod.BANKNOTES);
@@ -469,8 +454,6 @@ public class ModItems {
         EXCHANGE_RATES.put("CHF", 0.93);
         EXCHANGE_RATES.put("AUD", 1.75);
         EXCHANGE_RATES.put("JPY", 162.07);
-        // SOON BGN will be deprecated
-        EXCHANGE_RATES.put("BGN", 1.95);
         EXCHANGE_RATES.put("CZK", 24.84);
         EXCHANGE_RATES.put("NOK", 11.49);
         EXCHANGE_RATES.put("DKK", 7.46);
@@ -625,22 +608,6 @@ public class ModItems {
         jpyItems.put(5.0, Yen5.get());
         jpyItems.put(1.0, Yen1.get());
         CURRENCY_ITEMS.put("JPY", jpyItems);
-        // BGN
-        TreeMap<Double, Item> bgnItems = new TreeMap<>(Comparator.naturalOrder());
-        bgnItems.put(100.0, Leva100.get());
-        bgnItems.put(50.0, Leva50.get());
-        bgnItems.put(20.0, Leva20.get());
-        bgnItems.put(10.0, Leva10.get());
-        bgnItems.put(5.0, Leva5.get());
-        bgnItems.put(2.0, Leva2.get());
-        bgnItems.put(1.0, Leva1.get());
-        bgnItems.put(0.5, Stotinka50.get());
-        bgnItems.put(0.2, Stotinka20.get());
-        bgnItems.put(0.1, Stotinka10.get());
-        bgnItems.put(0.05, Stotinka5.get());
-        bgnItems.put(0.02, Stotinka2.get());
-        bgnItems.put(0.01, Stotinka1.get());
-        CURRENCY_ITEMS.put("BGN", bgnItems);
         // CZK
         TreeMap<Double, Item> czkItems = new TreeMap<>(Comparator.naturalOrder());
         czkItems.put(5000.0, CZkr5000.get());
