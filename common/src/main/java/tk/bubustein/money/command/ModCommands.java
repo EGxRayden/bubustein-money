@@ -296,8 +296,7 @@ public class ModCommands {
                 String oldCurrency = cardItem.getCurrency(stack);
                 cardItem.setCurrency(stack, currency);
                 cardItem.convertMoney(stack, oldCurrency, currency);
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.currency_changed", currency,
-                        formatMoney(cardItem.getMoney(stack)), currency).withStyle(ChatFormatting.GREEN));
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.currency_changed", currency, formatMoney(cardItem.getMoney(stack)), currency).withStyle(ChatFormatting.GREEN));
             } else {
                 source.sendFailure(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             }
