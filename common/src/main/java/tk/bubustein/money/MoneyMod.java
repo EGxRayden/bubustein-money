@@ -64,6 +64,7 @@ public class MoneyMod {
     public static final ResourceKey<LootTable> TAIGA_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/taiga_banker_house_chest"));
     public static final ResourceKey<LootTable> SNOWY_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/snowy_banker_house_chest"));
     public static final ResourceKey<LootTable> SAVANNA_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/savanna_banker_house_chest"));
+    public static final ResourceKey<LootTable> DESERT_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/desert_banker_house_chest"));
     private static ModConfig config;
     public static void init() {
         LOGGER.info("[" + MOD_ID + "] Printing money. . . ;)");
@@ -94,10 +95,10 @@ public class MoneyMod {
         ResourceLocation taigaPoolLocation = ResourceLocation.parse("minecraft:village/taiga/houses");
 
         JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsPoolLocation, "bubusteinmoneymod:banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, desertPoolLocation, "bubusteinmoneymod:banker_house", 7);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaPoolLocation, "bubusteinmoneymod:banker_house", 20);
+        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, desertPoolLocation, "bubusteinmoneymod:desert_banker_house", 20);
+        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaPoolLocation, "bubusteinmoneymod:savanna_banker_house", 20);
         JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaPoolLocation, "bubusteinmoneymod:taiga_banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyPoolLocation, "bubusteinmoneymod:snowy_banker_house", 7);
+        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyPoolLocation, "bubusteinmoneymod:snowy_banker_house", 20);
     }
     public static void onServerStarting(MinecraftServer server) {
         config.load(server);
