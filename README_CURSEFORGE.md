@@ -10,7 +10,7 @@
 
 ### Ever wish Minecraft had a money mod? Search no further!
 
-[![Fabric](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=4) [![Quilt](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=5) [![Neoforge](https://wsrv.nl/?url=https://us-east-1.tixte.net/uploads/bubustein.tixte.co/neoforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=6) [![Forge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=1) [![Curseforge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money)
+[![Fabric](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=4)  [![Neoforge](https://wsrv.nl/?url=https://us-east-1.tixte.net/uploads/bubustein.tixte.co/neoforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=6) [![Forge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=1) [![Curseforge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money)
 
 **You now have Bubustein's Money Mod, which contains US Dollars, Euros, Pound sterling, Canadian dollars, and more. Even an ATM (soon) is available where you can deposit your cash into a bank account. It works in reverse! Banker and Exchanger villager professions are also important where emeralds can be converted into Currency to be used with other players. You can resume using the village's trading hall because it works in reverse. Also, you can get some OP items from Banker since x.0.9!**
 
@@ -58,20 +58,13 @@
 
 | Minecraft Version / |Version Number / |Forge / |Fabric / |Neoforge |
 | ------------------- |---------------- |------- |-------- |-------- |
-| 1.16.4 or older     |🪦               |🪦      |🪦       |⛔        |
+| Other versions      |🪦               |🪦      |🪦       |⛔        |
 | 1.16.5              |1.x.y            |🍂      |🍂       |⛔        |
-| 1.17.1              |🪦               |🪦      |🪦       |⛔        |
-| 1.18.2              |2.x.y            |✅       |✅        |⛔        |
-| 1.19.2              |3.x.y            |✅       |✅        |⛔        |
-| 1.19.3-1.19.4       |4.x.y            |🪦      |🪦       |⛔        |
 | 1.20.1              |5.x.y            |✅       |✅        |✅        |
-| 1.20.2              |🪦               |🪦      |🪦       |🪦       |
-| 1.20.4              |6.x.y            |🪦      |🪦       |🪦       |
-| 1.20.5-1.20.6       |6.0.7d, 7.x.y    |⛔       |🪦       |🪦       |
 | 1.21-1.21.1         |8.x.y            |⛔       |✅        |✅        |
-| 1.21.2-1.21.3       |🪦               |🪦      |🪦       |🪦       |
-| 1.21.4              |9.x.y            |⛔       |✅       |✅       |
-| 1.21.5              |10.x.y           |⛔       |✅       |✅       |
+| 1.21.4              |9.x.y            |⛔       |✅        |✅        |
+| 1.21.5              |10.x.y           |⛔       |✅        |✅        |
+| 1.21.6              |11.x.y           |⛔       |📅       |📅       |
 
 ## Requirements
 
