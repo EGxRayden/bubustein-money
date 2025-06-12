@@ -7,7 +7,6 @@
 ### Ever wish Minecraft had a money mod? Search no further!
 
 <a href="https://modrinth.com/mod/bubustein-money/versions?l=fabric"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsupported%2Ffabric_vector.svg&n=-1"></a>
-<a href="https://modrinth.com/mod/bubustein-money/versions?l=quilt"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsupported%2Fquilt_vector.svg&n=-1"></a>
 <a href="https://modrinth.com/mod/bubustein-money/versions?l=neoforge"><img src="https://wsrv.nl/?url=https%3A%2F%2Fus-east-1.tixte.net%2Fuploads%2Fbubustein.tixte.co%2Fneoforge_vector.svg&n=-1"></a>
 <a href="https://modrinth.com/mod/bubustein-money/versions?l=forge"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsupported%2Fforge_vector.svg&n=-1"></a>
 <a href="https://modrinth.com/mod/bubustein-money"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Favailable%2Fmodrinth_vector.svg&n=-1"></a>
@@ -61,49 +60,21 @@
         <td>Minecraft Version</td>
         <td>Version Number</td>
         <td>Forge</td>
-        <td>Fabric/Quilt</td>
+        <td>Fabric</td>
         <td>Neoforge</td>
     </tr>
     <tr>
-        <td>1.16.4 or older</td>
+        <td>Other versions</td>
         <td>🪦</td>
         <td>🪦</td>
         <td>🪦</td>
-        <td>⛔</td>
+        <td>🪦</td>
     </tr>
     <tr>
         <td>1.16.5</td>
         <td>1.x.y</td>
         <td>🍂</td>
         <td>🍂</td>
-        <td>⛔</td>
-    </tr>
-    <tr>
-        <td>1.17.1</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>⛔</td>
-    </tr>
-    <tr>
-        <td>1.18.2</td>
-        <td>2.x.y</td>
-        <td>🍂</td>
-        <td>🍂</td>
-        <td>⛔</td>
-    </tr>
-    <tr>
-        <td>1.19.2</td>
-        <td>3.x.y</td>
-        <td>🍂</td>
-        <td>🍂</td>
-        <td>⛔</td>
-    </tr>
-    <tr>
-        <td>1.19.3-1.19.4</td>
-        <td>4.x.y</td>
-        <td>🪦</td>
-        <td>🪦</td>
         <td>⛔</td>
     </tr>
     <tr>
@@ -114,39 +85,11 @@
         <td>✅</td>
     </tr>
     <tr>
-        <td>1.20.2</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
-    </tr>
-    <tr>
-        <td>1.20.4</td>
-        <td>6.x.y</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
-    </tr>
-    <tr>
-        <td>1.20.5-1.20.6</td>
-        <td>6.0.7d, 7.x.y</td>
-        <td>⛔</td>
-        <td>🪦</td>
-        <td>🪦</td>
-    </tr>
-    <tr>
         <td>1.21-1.21.1</td>
         <td>8.x.y</td>
         <td>⛔</td>
         <td>✅</td>
         <td>✅</td>
-    </tr>
-    <tr>
-        <td>1.21.2-1.21.3</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
-        <td>🪦</td>
     </tr>
     <tr>
         <td>1.21.4</td>
@@ -161,6 +104,13 @@
         <td>⛔</td>
         <td>✅</td>
         <td>✅</td>
+    </tr>
+    <tr>
+        <td>1.21.6</td>
+        <td>11.x.y</td>
+        <td>⛔</td>
+        <td>📅</td>
+        <td>📅</td>
     </tr>
 </table>
 
