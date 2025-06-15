@@ -200,8 +200,7 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
 </table>
 
 ### Be our HERO! Apply for Beta-Tester and help us to beat the "dragons".
-**here** [Google Forms](https://forms.gle/nkQWZdhY35XHMFWU9)
-You must join on my discord server before applying.
+**here** <a href="https://dsc.gg/bubustein" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsocial%2Fdiscord-plural_vector.svg&n=-1"></a>
 
 ## <b>MODPACKS</b>
 ### You may use BUBUSTEIN's Money Mod in your modpack only if you upload your modpack only on Modrinth and give credit. You AREN'T ALLOWED to upload your modpack to any site other than MODRINTH.
