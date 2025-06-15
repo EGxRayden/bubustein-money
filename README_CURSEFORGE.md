@@ -99,7 +99,7 @@
 
 ### Be our HERO! Apply for Beta-Tester and help us beating the "dragons".
 
-**[here](https://forms.gle/nkQWZdhY35XHMFWU9)** You must join my Discord server before sending the apply.
+[![Discord](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg&n=-1)](https://dsc.gg/bubustein)
 
 ## MODPACKS
 
