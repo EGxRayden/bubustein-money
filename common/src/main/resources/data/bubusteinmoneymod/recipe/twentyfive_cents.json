@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
+    "type": "minecraft:crafting_shaped",
     "key": {
         "#": {
             "item": "bubusteinmoneymod:five_cents"
@@ -11,5 +11,6 @@
     ],
     "result": {
         "id": "bubusteinmoneymod:twentyfive_cents"
-    }
+    },
+    "category": "misc"
 }

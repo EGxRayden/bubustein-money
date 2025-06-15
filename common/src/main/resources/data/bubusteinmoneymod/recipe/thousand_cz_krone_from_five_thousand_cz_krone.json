@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shapeless",
+    "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
             "item": "bubusteinmoneymod:five_thousand_cz_krone"
@@ -8,5 +8,6 @@
     "result": {
         "count": 5,
         "id": "bubusteinmoneymod:thousand_cz_krone"
-    }
+    },
+    "category": "misc"
 }

@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shapeless",
+    "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
             "item": "bubusteinmoneymod:fifty_in_rupees"
@@ -8,5 +8,6 @@
     "result": {
         "count": 5,
         "id": "bubusteinmoneymod:ten_in_rupees"
-    }
+    },
+    "category": "misc"
 }

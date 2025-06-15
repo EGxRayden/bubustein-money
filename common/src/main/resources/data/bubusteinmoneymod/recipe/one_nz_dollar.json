@@ -1,15 +1,16 @@
 {
-  "type": "bubusteinmoneymod:bank_machine_shaped",
-  "key": {
-    "#": {
-      "item": "bubusteinmoneymod:fifty_nz_cents"
-    }
-  },
-  "pattern": [
-    "##"
-  ],
-  "result": {
-    "count": 1,
-    "id": "bubusteinmoneymod:one_nz_dollar"
-  }
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "#": {
+            "item": "bubusteinmoneymod:fifty_nz_cents"
+        }
+    },
+    "pattern": [
+        "##"
+    ],
+    "result": {
+        "count": 1,
+        "id": "bubusteinmoneymod:one_nz_dollar"
+    },
+    "category": "misc"
 }

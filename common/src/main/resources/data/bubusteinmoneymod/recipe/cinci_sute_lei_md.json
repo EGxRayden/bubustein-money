@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
+    "type": "minecraft:crafting_shaped",
     "key": {
         "#": {
             "item": "bubusteinmoneymod:suta_lei_md"
@@ -11,5 +11,6 @@
     ],
     "result": {
         "id": "bubusteinmoneymod:cinci_sute_lei_md"
-    }
+    },
+    "category": "misc"
 }

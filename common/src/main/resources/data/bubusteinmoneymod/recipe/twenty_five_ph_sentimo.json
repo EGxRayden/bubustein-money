@@ -1,16 +1,17 @@
 {
-  "type": "bubusteinmoneymod:bank_machine_shaped",
-  "key": {
-    "#": {
-      "item": "bubusteinmoneymod:five_ph_sentimo"
-    }
-  },
-  "pattern": [
-    "# #",
-    "###"
-  ],
-  "result": {
-    "count": 1,
-    "id": "bubusteinmoneymod:twenty_five_ph_sentimo"
-  }
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "#": {
+            "item": "bubusteinmoneymod:five_ph_sentimo"
+        }
+    },
+    "pattern": [
+        "# #",
+        "###"
+    ],
+    "result": {
+        "count": 1,
+        "id": "bubusteinmoneymod:twenty_five_ph_sentimo"
+    },
+    "category": "misc"
 }

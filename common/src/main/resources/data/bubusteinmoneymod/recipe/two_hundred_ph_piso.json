@@ -1,15 +1,16 @@
 {
-  "type": "bubusteinmoneymod:bank_machine_shaped",
-  "key": {
-    "#": {
-      "item": "bubusteinmoneymod:hundred_ph_piso"
-    }
-  },
-  "pattern": [
-    "##"
-  ],
-  "result": {
-    "count": 1,
-    "id": "bubusteinmoneymod:two_hundred_ph_piso"
-  }
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "#": {
+            "item": "bubusteinmoneymod:hundred_ph_piso"
+        }
+    },
+    "pattern": [
+        "##"
+    ],
+    "result": {
+        "count": 1,
+        "id": "bubusteinmoneymod:two_hundred_ph_piso"
+    },
+    "category": "misc"
 }

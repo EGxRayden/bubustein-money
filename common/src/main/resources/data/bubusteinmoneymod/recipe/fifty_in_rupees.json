@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
+    "type": "minecraft:crafting_shaped",
     "key": {
         "#": {
             "item": "bubusteinmoneymod:ten_in_rupees"
@@ -11,5 +11,6 @@
     ],
     "result": {
         "id": "bubusteinmoneymod:fifty_in_rupees"
-    }
+    },
+    "category": "misc"
 }

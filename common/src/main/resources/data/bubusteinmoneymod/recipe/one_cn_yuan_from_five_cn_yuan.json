@@ -1,5 +1,5 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shapeless",
+    "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
             "item": "bubusteinmoneymod:five_cn_yuan"
@@ -8,5 +8,6 @@
     "result": {
         "count": 5,
         "id": "bubusteinmoneymod:one_cn_yuan"
-    }
+    },
+    "category": "misc"
 }

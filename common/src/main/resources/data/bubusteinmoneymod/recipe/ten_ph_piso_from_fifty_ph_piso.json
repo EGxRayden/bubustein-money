@@ -1,12 +1,13 @@
 {
-  "type": "bubusteinmoneymod:bank_machine_shapeless",
-  "ingredients": [
-    {
-      "item": "bubusteinmoneymod:fifty_ph_piso"
-    }
-  ],
-  "result": {
-    "count": 5,
-    "id": "bubusteinmoneymod:ten_ph_piso"
-  }
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "bubusteinmoneymod:fifty_ph_piso"
+        }
+    ],
+    "result": {
+        "count": 5,
+        "id": "bubusteinmoneymod:ten_ph_piso"
+    },
+    "category": "misc"
 }
