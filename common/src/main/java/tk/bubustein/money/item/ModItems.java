@@ -422,11 +422,11 @@ public class ModItems {
     public static final Supplier<Item> L50 = registerItem("cincizeci_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
     public static final Supplier<Item> L100 = registerItem("suta_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
 
-    public static final Supplier<Item> VisaClassic = MoneyExpectPlatform.registerItem("card_classic",
+    public static final Supplier<Item> Card = MoneyExpectPlatform.registerItem("card_classic",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).arch$tab(MoneyMod.SPECIAL)));
-    public static final Supplier<Item> VisaGold = MoneyExpectPlatform.registerItem("card_gold",
+    public static final Supplier<Item> GoldCard = MoneyExpectPlatform.registerItem("card_gold",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).arch$tab(MoneyMod.SPECIAL)));
-    public static final Supplier<Item> VisaSteel = MoneyExpectPlatform.registerItem("card_steel",
+    public static final Supplier<Item> SteelCard = MoneyExpectPlatform.registerItem("card_steel",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
 
     public static final Supplier<Item> SpecialPaper = registerItem("special_paper", MoneyMod.SPECIAL);
@@ -576,7 +576,7 @@ public class ModItems {
         audItems.put(100.0, DollarA100.get());
         audItems.put(50.0, DollarA50.get());
         audItems.put(20.0, DollarA20.get());
-        audItems.put(10.0, Dollar10.get());
+        audItems.put(10.0, DollarA10.get());
         audItems.put(5.0, DollarA5.get());
         audItems.put(2.0, DollarA2.get());
         audItems.put(1.0, DollarA1.get());

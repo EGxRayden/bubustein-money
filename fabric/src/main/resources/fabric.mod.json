@@ -14,7 +14,7 @@
     "homepage": "https://modrinth.com/mod/bubustein-money",
     "issues": "https://www.github.com/bubustein13/bubustein-money/issues"
   },
-  "license": "GNU AGPL 3.0 WITH Minecraft linking exception",
+  "license": "GNU LGPL 3.0",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
