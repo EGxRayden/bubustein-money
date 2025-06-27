@@ -376,11 +376,11 @@ public class ModCommands {
         return Command.SINGLE_SUCCESS;
     }
     private static double calculateWithdrawFee(ItemStack stack, double amount) {
-        if (stack.getItem() == ModItems.VisaClassic.get()) {
+        if (stack.getItem() == ModItems.Card.get()) {
             return amount * 0.03; // 3% fee
-        } else if (stack.getItem() == ModItems.VisaGold.get()) {
+        } else if (stack.getItem() == ModItems.GoldCard.get()) {
             return amount * 0.02; // 2% fee
-        } else if (stack.getItem() == ModItems.VisaSteel.get()) {
+        } else if (stack.getItem() == ModItems.SteelCard.get()) {
             return amount * 0.005; // 0.5% fee
         }
         return 0;

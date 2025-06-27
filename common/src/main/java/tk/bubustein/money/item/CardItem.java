@@ -92,11 +92,11 @@ public class CardItem extends Item {
         DecimalFormat df = new DecimalFormat("#.##");
         String formattedMoney = df.format(Math.round(money*100) / 100.0);
         tooltip.add(new TextComponent("Balance: " + formattedMoney + " " + currency).withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
-        if (stack.getItem() == ModItems.VisaClassic.get()) {
+        if (stack.getItem() == ModItems.Card.get()) {
             tooltip.add(new TextComponent("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        } else if (stack.getItem() == ModItems.VisaGold.get()) {
+        } else if (stack.getItem() == ModItems.GoldCard.get()) {
             tooltip.add(new TextComponent("Withdrawal Fee: 2%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        } else if (stack.getItem() == ModItems.VisaSteel.get()) {
+        } else if (stack.getItem() == ModItems.SteelCard.get()) {
             tooltip.add(new TextComponent("Withdrawal Fee: 0.5%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
         }
     }
