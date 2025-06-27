@@ -104,7 +104,7 @@
 
 ## **Disclaimer:**
 
-## _This mod does not support illegal activities. “Money is fake and exists only in the game world.”  
+## _This mod does not support illegal activities. “Money is fake and exists only in the game world.”
 _
 
  

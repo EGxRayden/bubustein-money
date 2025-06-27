@@ -23,8 +23,7 @@
 <a href="https://wiki.bubustein.tk" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdocumentation%2Fgitbook_vector.svg&n=-1"></a>
 <a href="https://bubustein.tk" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdocumentation%2Fwebsite_vector.svg&n=-1"></a>
 
-
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0bd76b615b4bf2919d247a2b4b36e5a74079bcb8.png)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png](https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/ab8e1e84682685f55246101421ab97ae328188f3.png)
 
@@ -34,9 +33,9 @@
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/14433fa779767c43b99a1937a75664a069ebb526.png)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/a4e61b1f162a5d58fce544bdf3656137818d4b4b.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0206e8e9a59d2464251f38b3c4b74454c412ae01.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/b5bbabb53174d5b18ee2731fcb66aeacae537739.png)
 
@@ -106,7 +105,7 @@
         <td>✅</td>
     </tr>
     <tr>
-        <td>1.21.6</td>
+        <td>1.21.7</td>
         <td>11.x.y</td>
         <td>⛔</td>
         <td>📅</td>
@@ -200,7 +199,12 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
 </table>
 
 ### Be our HERO! Apply for Beta-Tester and help us to beat the "dragons".
-**here** <a href="https://dsc.gg/bubustein" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsocial%2Fdiscord-plural_vector.svg&n=-1"></a>
+**here** [Google Forms](https://forms.gle/nkQWZdhY35XHMFWU9)
+You must join on my discord server before applying.
+
+## Disclaimer:
+<b><i>This mod does not support illegal activities. “Money is fake and exists only in the game world.”</i></b>
+
 
 ## <b>MODPACKS</b>
 ### You may use BUBUSTEIN's Money Mod in your modpack only if you upload your modpack only on Modrinth and give credit. You AREN'T ALLOWED to upload your modpack to any site other than MODRINTH.
