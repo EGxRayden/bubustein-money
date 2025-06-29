@@ -10,6 +10,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +40,7 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
     }
     @Override
     public void draw(BankMachineRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "textures/container/bank_machine.png"), 0, 0, 29, 16, getWidth(), getHeight(), 256, 256);
+        guiGraphics.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "textures/container/bank_machine.png"), 0, 0, 29, 16, getWidth(), getHeight(), 256, 256);
     }
     @Override
     public int getWidth() {
@@ -55,7 +56,7 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
     }
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BankMachineRecipe recipe, IFocusGroup focuses) {
-        List<Ingredient> ingredients = recipe.getIngredients();
+        List<Ingredient> ingredients = recipe.placementInfo().ingredients();
         if (recipe instanceof BankMachineRecipeShaped shapedRecipe) {
             int width = shapedRecipe.getWidth();
             int height = shapedRecipe.getHeight();
@@ -64,26 +65,22 @@ public class BankMachineCategory implements IRecipeCategory<BankMachineRecipe> {
                 for (int col = 0; col < width; col++) {
                     if (index < ingredients.size()) {
                         if (!ingredients.get(index).isEmpty()) {
-                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
-                                    .addIngredients(ingredients.get(index));
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18).add(ingredients.get(index));
                         } else {
-                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
-                                    .addItemStack(ItemStack.EMPTY);
+                            builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18).add(ItemStack.EMPTY);
                         }
                     } else {
-                        builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18)
-                                .addItemStack(ItemStack.EMPTY);
+                        builder.addSlot(RecipeIngredientRole.INPUT, 1 + col * 18, 1 + row * 18).add(ItemStack.EMPTY);
                     }
                     index++;
                 }
             }
         } else if (recipe instanceof BankMachineRecipeShapeless) {
             if (!ingredients.isEmpty() && !ingredients.getFirst().isEmpty()) {
-                builder.addSlot(RecipeIngredientRole.INPUT, 1 + 18, 1 + 18)
-                        .addIngredients(ingredients.getFirst());
+                builder.addSlot(RecipeIngredientRole.INPUT, 1 + 18, 1 + 18).add(ingredients.getFirst());
             }
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 18)
-                .addItemStack(recipe.getResultItem(null));
+                .add(recipe.display().getFirst().result());
     }
 }*/

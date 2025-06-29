@@ -41,7 +41,6 @@ public record BankMachineRecipeShapelessDisplay(List<SlotDisplay> ingredients, S
         this.result = result;
         this.craftingStation = craftingStation;
     }
-
     public RecipeDisplay.@NotNull Type<BankMachineRecipeShapelessDisplay> type() {
         return TYPE;
     }
