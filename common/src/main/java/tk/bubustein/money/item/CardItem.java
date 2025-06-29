@@ -99,11 +99,11 @@ public class CardItem extends Item {
         String formattedMoney = df.format(Math.round(money * 100)/ 100.0);
         consumer.accept(Component.literal("Balance: " + formattedMoney + " " + currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
-        if (stack.getItem() == ModItems.VisaClassic.get())
+        if (stack.getItem() == ModItems.Card.get())
             consumer.accept(Component.literal("Withdrawal Fee: 3%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        else if (stack.getItem() == ModItems.VisaGold.get())
+        else if (stack.getItem() == ModItems.GoldCard.get())
             consumer.accept(Component.literal("Withdrawal Fee: 2%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-        else if (stack.getItem() == ModItems.VisaSteel.get())
+        else if (stack.getItem() == ModItems.SteelCard.get())
             consumer.accept(Component.literal("Withdrawal Fee: 0.5%").withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
 }

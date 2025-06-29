@@ -448,13 +448,13 @@ public class ModItems {
     public static final Supplier<Item> L50 = registerItem("cincizeci_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
     public static final Supplier<Item> L100 = registerItem("suta_lei_1900", MoneyMod.SPECIAL, Rarity.EPIC, true);
 
-    public static final Supplier<Item> VisaClassic = MoneyExpectPlatform.registerItem("card_classic",
+    public static final Supplier<Item> Card = MoneyExpectPlatform.registerItem("card_classic",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).arch$tab(MoneyMod.SPECIAL)
                     .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "card_classic")))));
-    public static final Supplier<Item> VisaGold = MoneyExpectPlatform.registerItem("card_gold",
+    public static final Supplier<Item> GoldCard = MoneyExpectPlatform.registerItem("card_gold",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).arch$tab(MoneyMod.SPECIAL)
                     .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "card_gold")))));
-    public static final Supplier<Item> VisaSteel = MoneyExpectPlatform.registerItem("card_steel",
+    public static final Supplier<Item> SteelCard = MoneyExpectPlatform.registerItem("card_steel",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)
                     .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "card_steel")))));
 
