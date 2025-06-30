@@ -354,9 +354,9 @@
   "item.bubusteinmoneymod.five_hundred_ph_piso": "500 Philippines Piso",
   "item.bubusteinmoneymod.thousand_ph_piso": "1000 Philippines Piso",
 
-  "item.bubusteinmoneymod.card_classic": "Visa Classic",
-  "item.bubusteinmoneymod.card_gold": "Visa Gold",
-  "item.bubusteinmoneymod.card_steel": "Visa Steel",
+  "item.bubusteinmoneymod.card_classic": "Card Classic",
+  "item.bubusteinmoneymod.card_gold": "Card Gold",
+  "item.bubusteinmoneymod.card_steel": "Card Steel",
   "item.bubusteinmoneymod.special_paper":"Special Paper",
 
   "block.bubusteinmoneymod.atm": "ATM | Bancomat",

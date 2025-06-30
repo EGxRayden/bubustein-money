@@ -35,7 +35,7 @@ public class MoneyModNeoForge {
         ModVillagers.fillTradeData(event.getServer());
         MoneyMod.onServerStarting(event.getServer());
     }
-    @EventBusSubscriber(modid = MoneyMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = MoneyMod.MOD_ID)
     public static class ModEvents {
         @SubscribeEvent
         public static void onCommonSetup(FMLCommonSetupEvent event) {
@@ -52,7 +52,7 @@ public class MoneyModNeoForge {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         ModCommands.register(dispatcher);
     }
-    @EventBusSubscriber(modid = MoneyMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MoneyMod.MOD_ID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
