@@ -102,12 +102,33 @@
 
 **[here](https://forms.gle/nkQWZdhY35XHMFWU9)** You must join my Discord server before sending the apply.
 
-## **Disclaimer:**
+## Legal Disclaimer
 
-## _This mod does not support illegal activities. “Money is fake and exists only in the game world.”  
-_
+This Minecraft modification ("mod") is a fictional project intended solely for entertainment purposes within the Minecraft game environment. It is not affiliated with, endorsed by, or associated with any official currency issuer, financial institution, or government body.
 
- 
+### About the Visual Assets
+
+This mod includes digital textures that depict coins and banknotes based loosely on real-world currencies. These visual elements have been significantly altered from their original source images and meet the following conditions:
+
+- Only one side (obverse or reverse) of each banknote or coin is used.
+- The textures are heavily resized (typically 128x128px or 256x256px), reducing visual detail substantially.
+- All identifying features such as serial numbers, signatures, and official seals are either removed, blurred, distorted, or illegible due to resolution.
+- Some banknotes include visible "SPECIMEN" watermarks as present in the source image; this mod does not add or remove such markings.
+- Where applicable, source images were obtained from platforms such as Wikipedia or Numista, under Creative Commons or similar licenses that allow adaptation and reuse.
+- No textures are presented at a quality or resolution that would allow them to be used for realistic reproduction or counterfeiting purposes.
+
+### Legal Intent
+
+- This mod **does not promote or support counterfeiting**, forgery, or any illegal activity involving real-world money.
+- The currency depicted in this mod **cannot be printed, extracted, or used as legal tender**.
+- All money items are strictly fictional and only exist inside the Minecraft game as digital assets.
+- Use of these textures is purely artistic, for creative or roleplay gameplay, and intended to simulate a fantasy economic environment.
+
+### Licensing
+
+The mod is released under the GNU LGPL v3 license. All original code and assets created specifically for this mod are subject to that license unless otherwise stated.
+If you are the copyright holder of a referenced image and believe your material is used inappropriately, please contact the mod author via the repository or mod page, and the content will be reviewed or removed as necessary.
+
 
 ## MODPACKS
 
