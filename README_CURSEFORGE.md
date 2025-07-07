@@ -10,7 +10,7 @@
 
 ### Ever wish Minecraft had a money mod? Search no further!
 
-[![Fabric](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=4) [![Quilt](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/quilt_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=5) [![Neoforge](https://wsrv.nl/?url=https://us-east-1.tixte.net/uploads/bubustein.tixte.co/neoforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=6) [![Forge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=1) [![Curseforge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money)
+[![Fabric](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=4)  [![Neoforge](https://wsrv.nl/?url=https://us-east-1.tixte.net/uploads/bubustein.tixte.co/neoforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=6) [![Forge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money/files?page=1&pageSize=20&gameVersionTypeId=1) [![Curseforge](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg&n=-1)](https://www.curseforge.com/minecraft/mc-mods/bubustein-money)
 
 **You now have Bubustein's Money Mod, which contains US Dollars, Euros, Pound sterling, Canadian dollars, and more. Even an ATM (soon) is available where you can deposit your cash into a bank account. It works in reverse! Banker and Exchanger villager professions are also important where emeralds can be converted into Currency to be used with other players. You can resume using the village's trading hall because it works in reverse. Also, you can get some OP items from Banker since x.0.9!**
 
@@ -18,7 +18,7 @@
 
 [![Patreon](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/patreon-singular_vector.svg&n=-1)](https://patreon.com/bubustein) [![Ko-Fi](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg&n=-1)](https://ko-fi.com/bubustein) [![Github](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg&n=-1)](https://github.com/BUBUSTEIN13/bubustein-money) [![Discord](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg&n=-1)](https://dsc.gg/bubustein) [![Wiki](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/gitbook_vector.svg&n=-1)](https://wiki.bubustein.tk/) [![Website](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/website_vector.svg&n=-1)](https://bubustein.tk/)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0bd76b615b4bf2919d247a2b4b36e5a74079bcb8.png)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png](https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/ab8e1e84682685f55246101421ab97ae328188f3.png)
 
@@ -28,11 +28,12 @@
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/14433fa779767c43b99a1937a75664a069ebb526.png)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/a4e61b1f162a5d58fce544bdf3656137818d4b4b.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0206e8e9a59d2464251f38b3c4b74454c412ae01.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/b5bbabb53174d5b18ee2731fcb66aeacae537739.png)
+
 
 ### P.S. The Dark GUI isn't included in this mod ;) If you want the dark version of Bank Machine GUI -> [Bubustein's Dark Textures](https://www.curseforge.com/minecraft/texture-packs/bubustein-dark-textures)
 
@@ -58,20 +59,13 @@
 
 | Minecraft Version / |Version Number / |Forge / |Fabric / |Neoforge |
 | ------------------- |---------------- |------- |-------- |-------- |
-| 1.16.4 or older     |🪦               |🪦      |🪦       |⛔        |
+| Other versions      |🪦               |🪦      |🪦       |⛔        |
 | 1.16.5              |1.x.y            |🍂      |🍂       |⛔        |
-| 1.17.1              |🪦               |🪦      |🪦       |⛔        |
-| 1.18.2              |2.x.y            |✅       |✅        |⛔        |
-| 1.19.2              |3.x.y            |✅       |✅        |⛔        |
-| 1.19.3-1.19.4       |4.x.y            |🪦      |🪦       |⛔        |
 | 1.20.1              |5.x.y            |✅       |✅        |✅        |
-| 1.20.2              |🪦               |🪦      |🪦       |🪦       |
-| 1.20.4              |6.x.y            |🪦      |🪦       |🪦       |
-| 1.20.5-1.20.6       |6.0.7d, 7.x.y    |⛔       |🪦       |🪦       |
 | 1.21-1.21.1         |8.x.y            |⛔       |✅        |✅        |
-| 1.21.2-1.21.3       |🪦               |🪦      |🪦       |🪦       |
-| 1.21.4              |9.x.y            |⛔       |📅       |📅       |
-| 1.21.5              |10.x.y           |⛔       |📅       |📅       |
+| 1.21.4              |9.x.y            |⛔       |✅        |✅        |
+| 1.21.5              |10.x.y           |⛔       |✅        |✅        |
+| 1.21.7              |11.x.y           |⛔       |📅       |📅       |
 
 ## Requirements
 
@@ -107,6 +101,13 @@
 ### Be our HERO! Apply for Beta-Tester and help us beating the "dragons".
 
 **[here](https://forms.gle/nkQWZdhY35XHMFWU9)** You must join my Discord server before sending the apply.
+
+## **Disclaimer:**
+
+## _This mod does not support illegal activities. “Money is fake and exists only in the game world.”  
+_
+
+ 
 
 ## MODPACKS
 
