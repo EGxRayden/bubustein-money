@@ -23,8 +23,7 @@
 <a href="https://wiki.bubustein.tk" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdocumentation%2Fgitbook_vector.svg&n=-1"></a>
 <a href="https://bubustein.tk" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdocumentation%2Fwebsite_vector.svg&n=-1"></a>
 
-
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0bd76b615b4bf2919d247a2b4b36e5a74079bcb8.png)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png](https://cdn.modrinth.com/data/QzlWq3M9/images/8dd5f180e341a1777cfab40dfefc7fdd94025f54.png)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/ab8e1e84682685f55246101421ab97ae328188f3.png)
 
@@ -34,9 +33,9 @@
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/14433fa779767c43b99a1937a75664a069ebb526.png)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/a4e61b1f162a5d58fce544bdf3656137818d4b4b.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/5a4c81869238ddb02c035dbb9f55c1b8f5f7bfa8.jpeg)
 
-![](https://cdn.modrinth.com/data/QzlWq3M9/images/0206e8e9a59d2464251f38b3c4b74454c412ae01.jpeg)
+![https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg](https://cdn.modrinth.com/data/QzlWq3M9/images/b87a59a285a5253738f6c105ffe49d6298d7323e.jpeg)
 
 ![](https://cdn.modrinth.com/data/QzlWq3M9/images/b5bbabb53174d5b18ee2731fcb66aeacae537739.png)
 
@@ -106,7 +105,7 @@
         <td>✅</td>
     </tr>
     <tr>
-        <td>1.21.6</td>
+        <td>1.21.7</td>
         <td>11.x.y</td>
         <td>⛔</td>
         <td>📅</td>
@@ -200,7 +199,35 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
 </table>
 
 ### Be our HERO! Apply for Beta-Tester and help us to beat the "dragons".
-**here** <a href="https://dsc.gg/bubustein" target="_blank"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsocial%2Fdiscord-plural_vector.svg&n=-1"></a>
+**here** [Google Forms](https://forms.gle/nkQWZdhY35XHMFWU9)
+You must join on my discord server before applying.
+
+## Legal Disclaimer
+
+This Minecraft modification ("mod") is a fictional project intended solely for entertainment purposes within the Minecraft game environment. It is not affiliated with, endorsed by, or associated with any official currency issuer, financial institution, or government body.
+
+### About the Visual Assets
+
+This mod includes digital textures that depict coins and banknotes based loosely on real-world currencies. These visual elements have been significantly altered from their original source images and meet the following conditions:
+
+- Only one side (obverse or reverse) of each banknote or coin is used.
+- The textures are heavily resized (typically 128x128px or 256x256px), reducing visual detail substantially.
+- All identifying features such as serial numbers, signatures, and official seals are either removed, blurred, distorted, or illegible due to resolution.
+- Some banknotes include visible "SPECIMEN" watermarks as present in the source image; this mod does not add or remove such markings.
+- Where applicable, source images were obtained from platforms such as Wikipedia or Numista, under Creative Commons or similar licenses that allow adaptation and reuse.
+- No textures are presented at a quality or resolution that would allow them to be used for realistic reproduction or counterfeiting purposes.
+
+### Legal Intent
+
+- This mod **does not promote or support counterfeiting**, forgery, or any illegal activity involving real-world money.
+- The currency depicted in this mod **cannot be printed, extracted, or used as legal tender**.
+- All money items are strictly fictional and only exist inside the Minecraft game as digital assets.
+- Use of these textures is purely artistic, for creative or roleplay gameplay, and intended to simulate a fantasy economic environment.
+
+### Licensing
+
+The mod is released under the GNU LGPL v3 license. All original code and assets created specifically for this mod are subject to that license unless otherwise stated.
+If you are the copyright holder of a referenced image and believe your material is used inappropriately, please contact the mod author via the repository or mod page, and the content will be reviewed or removed as necessary.
 
 ## <b>MODPACKS</b>
 ### You may use BUBUSTEIN's Money Mod in your modpack only if you upload your modpack only on Modrinth and give credit. You AREN'T ALLOWED to upload your modpack to any site other than MODRINTH.
