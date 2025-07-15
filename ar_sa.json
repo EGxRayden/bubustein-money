@@ -362,4 +362,4 @@
   "message.bubusteinmoneymod.hold_card": "يجب أن تحمل بطاقة في يدك.",
   "message.bubusteinmoneymod.invalid_currency": "عملة غير صالحة. العملات المتاحة هي: %s",
   "message.bubusteinmoneymod.not_enough_funds": "ليس لديك أموال كافية لإجراء هذه المعاملة.",
-  "message.bubusteinmoneymod.available": "متاح: %s %
+  "message.bubusteinmoneymod.available": "متاح: %s %"
