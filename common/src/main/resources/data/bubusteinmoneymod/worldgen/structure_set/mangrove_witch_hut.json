@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:mangrove_witch_hut",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "exclusion_zone": {
+      "chunk_count": 2,
+      "other_set": "minecraft:villages"
+    },
+    "salt": 506988861,
+    "spacing": 20,
+    "separation": 10
+  }
+}

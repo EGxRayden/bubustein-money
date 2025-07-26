@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:hotel",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "exclusion_zone": {
+      "chunk_count": 2,
+      "other_set": "minecraft:villages"
+    },
+    "salt": 506797851,
+    "spacing": 26,
+    "separation": 16
+  }
+}

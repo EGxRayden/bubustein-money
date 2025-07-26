@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:jigsaw",
+  "start_pool": "bubusteinmoneymod:hotel/start_pool",
+  "size": 2,
+  "max_distance_from_center": 100,
+  "biomes": "#bubusteinmoneymod:has_structure/hotel",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": -1
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "use_expansion_hack": false,
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "full",
+      "spawns": [
+        {
+          "type": "minecraft:pillager",
+          "weight": 50,
+          "minCount": 3,
+          "maxCount": 4
+        },
+        {
+          "type": "minecraft:vindicator",
+          "weight": 13,
+          "minCount": 1,
+          "maxCount": 3
+        }
+      ]
+    }
+  }
+}

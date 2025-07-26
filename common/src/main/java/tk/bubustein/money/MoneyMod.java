@@ -63,7 +63,9 @@ public class MoneyMod {
     public static final ResourceKey<LootTable> SNOWY_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/snowy_banker_house_chest"));
     public static final ResourceKey<LootTable> SAVANNA_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/savanna_banker_house_chest"));
     public static final ResourceKey<LootTable> DESERT_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/desert_banker_house_chest"));
+    public static final ResourceKey<LootTable> COTTAGE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/mansion_forest_chest"));
     public static final ResourceKey<LootTable> MANSION_DOUBLE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/mansion_double_chest"));
+    public static final ResourceKey<LootTable> HOTEL_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/hotel_chest"));
     public static final ResourceKey<LootTable> MANSION_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/mansion_chest"));
     private static ModConfig config;
     public static void init() {

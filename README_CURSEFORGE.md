@@ -65,7 +65,7 @@
 | 1.21-1.21.1         |8.x.y            |⛔       |✅        |✅        |
 | 1.21.4              |9.x.y            |⛔       |✅        |✅        |
 | 1.21.5              |10.x.y           |⛔       |✅        |✅        |
-| 1.21.7              |11.x.y           |⛔       |📅       |📅       |
+| 1.21.8              |11.x.y           |⛔       |✅       |✅       |
 
 ## Requirements
 
@@ -97,6 +97,8 @@
 ### x.0.9 Beta: Removed some recipes. Added Special Paper. The bank machine recipe of first banknote of every currency has changed, from now you need Special Paper. Restructured villager trades. The Banker has new trades USD for diamond and netherite ingot, and ROL (1900) for enchanted armor and tools. The Exchanger trades are now restructured. Level 1 - every European currency + USD change for EUR, Level 2 - reverse, Level 3 - every non-european currency change for USD/GBP Level 4 - reverse, Level 5 - ROL (1900) change for EUR and reverse. The mansion has more witches and pillagers than in the previous version. Added Philippines Piso. Modified some textures. **You need to backup your worlds before installing x.0.9!**
 
 ### x.0.10 Beta: New ATM Texture. (Without ATM GUI Sadly) The Cards are not useless anymore. Created a very complicated mechanism with Commands. Use `/bubustein help` to see all commands. Made Mansion less OP. **You need to backup your worlds before installing x.0.10!**
+
+### x.0.11 Beta: Fixed AUD Typo. Changed Card textures. **You need to backup your worlds before installing x.0.11!**
 
 ### Be our HERO! Apply for Beta-Tester and help us beating the "dragons".
 

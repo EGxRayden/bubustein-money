@@ -23,13 +23,11 @@ package tk.bubustein.money.fabric.data;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,12 +41,6 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
     public MoneyRecipeDataGen(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture){
         super(output, registriesFuture);
     }
-    public static void conversionRecipe(RecipeOutput recipeOutput, ItemLike output, ItemLike input, @Nullable String string) {
-        conversionRecipe(recipeOutput, output, input, string, 1);
-    }
-    public static void conversionRecipe(RecipeOutput recipeOutput, ItemLike output, ItemLike input, @Nullable String string, int i) {
-        BankMachineRecipeShapelessBuilder.shapeless(output, i).requires(input).group(string).unlockedBy(getHasName(input), has(input)).save(recipeOutput, getConversionRecipeName(output, input));
-    }
     public static void fiveItems(RecipeOutput recipeOutput, ItemLike output, ItemLike input) {
         BankMachineRecipeShapedBuilder.shaped(output).define('#', input).pattern("# #").pattern("###").unlockedBy(getHasName(input), has(input)).save(recipeOutput);
     }
@@ -61,6 +53,24 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput exporter) {
+        /*
+        oneToOneConversionRecipe(exporter, ModItems.EGPound100.get(), ModItems.EGPound200.get(), "", 2);
+        oneToOneConversionRecipe(exporter, ModItems.EGPound50.get(), ModItems.EGPound100.get(), "", 2);
+        oneToOneConversionRecipe(exporter, ModItems.EGPound10.get(), ModItems.EGPound50.get(), "", 5);
+        oneToOneConversionRecipe(exporter, ModItems.EGPound10.get(), ModItems.EGPound20.get(), "", 2);
+        oneToOneConversionRecipe(exporter, ModItems.EGPound5.get(), ModItems.EGPound10.get(), "", 2);
+        oneToOneConversionRecipe(exporter, ModItems.EGPound1.get(), ModItems.EGPound5.get(), "", 5);
+        oneToOneConversionRecipe(exporter, ModItems.EGPiastre50.get(), ModItems.EGPound1.get(), "", 2);
+        oneToOneConversionRecipe(exporter, ModItems.EGPiastre25.get(), ModItems.EGPiastre50.get(), "", 2);
+        pressurePlate(exporter, ModItems.EGPiastre50.get(), ModItems.EGPiastre25.get());
+        pressurePlate(exporter, ModItems.EGPound1.get(), ModItems.EGPiastre50.get());
+        woodenBoat(exporter, ModItems.EGPound5.get(), ModItems.EGPound1.get());
+        pressurePlate(exporter, ModItems.EGPound10.get(), ModItems.EGPound5.get());
+        pressurePlate(exporter, ModItems.EGPound20.get(), ModItems.EGPound10.get());
+        woodenBoat(exporter, ModItems.EGPound50.get(), ModItems.EGPound10.get());
+        pressurePlate(exporter, ModItems.EGPound100.get(), ModItems.EGPound50.get());
+        pressurePlate(exporter, ModItems.EGPound200.get(), ModItems.EGPound100.get());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.Key.get())
                 .pattern("GGD")
                 .pattern("G  ")
@@ -89,7 +99,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('L', Items.CLAY_BALL)
                 .unlockedBy(getHasName(Items.COPPER_INGOT), has(Items.COPPER_INGOT))
                 .save(exporter);
-        /*
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BANK_MACHINE.get())
                 .pattern("DII")
                 .pattern("GPP")

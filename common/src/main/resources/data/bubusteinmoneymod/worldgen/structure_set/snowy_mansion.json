@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:snowy_mansion",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "exclusion_zone": {
+      "chunk_count": 4,
+      "other_set": "minecraft:villages"
+    },
+    "salt": 496996851,
+    "spacing": 40,
+    "separation": 24
+  }
+}

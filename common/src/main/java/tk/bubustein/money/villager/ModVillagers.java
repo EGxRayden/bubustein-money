@@ -206,6 +206,7 @@ public class ModVillagers {
                     new SimpleTrade(new ItemCost(ModItems.MXPeso100.get(), 1), Optional.empty(), new ItemStack(ModItems.Dollar5.get(), 1), 5, 7, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.ZARand50.get(), 1), Optional.empty(), new ItemStack(ModItems.Pound2.get(), 1), 5, 7, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.DollarA10.get(), 1), Optional.empty(), new ItemStack(ModItems.Pound5.get(), 1), 5, 7, 0.2f),
+                    new SimpleTrade(new ItemCost(ModItems.EGPound50.get(), 1), Optional.empty(), new ItemStack(ModItems.Pence10.get(), 7), 5, 7, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.PHP100.get(), 1), Optional.of(new ItemCost(ModItems.PHP5.get(), 3)), new ItemStack(ModItems.Dollar1.get(), 2), 5, 7, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.INr100.get(), 1), Optional.empty(), new ItemStack(ModItems.Dollar1.get(), 1), 5, 7, 0.2f),
                 },
@@ -221,6 +222,7 @@ public class ModVillagers {
                     new SimpleTrade(new ItemCost(ModItems.Dollar1.get(), 2), Optional.empty(), new ItemStack(ModItems.MXPeso10.get(), 3), 5, 8, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.Pound5.get(), 1), Optional.empty(), new ItemStack(ModItems.ZARand100.get(), 1), 5, 8, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.Pound5.get(),1), Optional.empty(), new ItemStack(ModItems.DollarA5.get(),1),5,8,0.2f),
+                    new SimpleTrade(new ItemCost(ModItems.Pound5.get(), 1), Optional.empty(), new ItemStack(ModItems.EGPound10.get(), 33), 5, 8, 0.2f),
                     new SimpleTrade(new ItemCost(ModItems.Dollar5.get(), 1), Optional.empty(), new ItemStack(ModItems.INr100.get(), 4), 5, 8, 0.2f),
                 },
                 // Level 5

@@ -37,10 +37,21 @@ public class MoneyModelDataGen extends FabricModelProvider {
     }
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator){
-        //itemModelGenerator.generateFlatItem(ModItems.RustyCard.get(), ModelTemplates.FLAT_ITEM);
-        //itemModelGenerator.generateFlatItem(ModItems.SupremeCard.get(), ModelTemplates.FLAT_ITEM);
-        //itemModelGenerator.generateFlatItem(ModItems.Key.get(), ModelTemplates.FLAT_ITEM);
-         /*
+        /*
+        itemModelGenerator.generateFlatItem(ModItems.EGPiastre25.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPiastre50.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound1.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound5.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound10.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound20.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound50.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound100.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.EGPound200.get(), ModelTemplates.FLAT_ITEM);
+
+        itemModelGenerator.generateFlatItem(ModItems.RustyCard.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.SupremeCard.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.Key.get(), ModelTemplates.FLAT_ITEM);
+
         itemModelGenerator.generateFlatItem(ModItems.PHS1.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.PHS5.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.PHS25.get(), ModelTemplates.FLAT_ITEM);

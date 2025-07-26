@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:cottage",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "exclusion_zone": {
+      "chunk_count": 4,
+      "other_set": "minecraft:villages"
+    },
+    "salt": 496982851,
+    "spacing": 29,
+    "separation": 20
+  }
+}

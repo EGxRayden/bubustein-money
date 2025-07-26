@@ -405,6 +405,17 @@ public class ModItems {
     public static final Supplier<Item> PHP200 = registerItem("two_hundred_ph_piso", MoneyMod.BANKNOTES);
     public static final Supplier<Item> PHP500 = registerItem("five_hundred_ph_piso", MoneyMod.BANKNOTES);
     public static final Supplier<Item> PHP1000 = registerItem("thousand_ph_piso", MoneyMod.BANKNOTES);
+
+    public static final Supplier<Item> EGPiastre25 = registerItem("twentyfive_eg_piastres", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPiastre50 = registerItem("fifty_eg_piastres", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound1 = registerItem("one_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound5 = registerItem("five_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound10 = registerItem("ten_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound20 = registerItem("twenty_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound50 = registerItem("fifty_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound100 = registerItem("hundred_eg_pound", MoneyMod.BANKNOTES);
+    public static final Supplier<Item> EGPound200 = registerItem("two_hundred_eg_pound", MoneyMod.BANKNOTES);
+
     /*
      * ////////////////////////////////////////////////////
      * //////////////// SPECIAL TAB ///////////////////////
@@ -471,6 +482,7 @@ public class ModItems {
         EXCHANGE_RATES.put("TRY", 44.36);
         EXCHANGE_RATES.put("NZD", 1.90);
         EXCHANGE_RATES.put("PHP", 62.94);
+        EXCHANGE_RATES.put("EGP", 57.69); // 24th JULY 2025
     }
     public static final Map<String, TreeMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
     public static void registerCurrencyItems(){
@@ -846,5 +858,17 @@ public class ModItems {
         phpItems.put(0.05, PHS5.get());
         phpItems.put(0.01, PHS1.get());
         CURRENCY_ITEMS.put("PHP", phpItems);
+        // EGP
+        TreeMap<Double, Item> egpItems = new TreeMap<>(Comparator.naturalOrder());
+        egpItems.put(200.0, EGPound200.get());
+        egpItems.put(100.0, EGPound100.get());
+        egpItems.put(50.0, EGPound50.get());
+        egpItems.put(20.0, EGPound20.get());
+        egpItems.put(10.0, EGPound10.get());
+        egpItems.put(5.0, EGPound5.get());
+        egpItems.put(1.0, EGPound1.get());
+        egpItems.put(0.5, EGPiastre50.get());
+        egpItems.put(0.25, EGPiastre25.get());
+        CURRENCY_ITEMS.put("EGP", egpItems);
     }
 }

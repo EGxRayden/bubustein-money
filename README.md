@@ -105,11 +105,11 @@
         <td>✅</td>
     </tr>
     <tr>
-        <td>1.21.7</td>
+        <td>1.21.8</td>
         <td>11.x.y</td>
         <td>⛔</td>
-        <td>📅</td>
-        <td>📅</td>
+        <td>✅</td>
+        <td>✅</td>
     </tr>
 </table>
 
@@ -195,6 +195,13 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
     <b>You need to backup your worlds before installing x.0.10!</b>
 </td>
     <td>x.0.10</td>
+</tr>
+<tr>
+    <td><p>July 2025</p></td>
+    <td>Fixed AUD Typo. Changed the Card textures.<br>
+    <b>You need to backup your worlds before installing x.0.11!</b>
+</td>
+    <td>x.0.11</td>
 </tr>
 </table>
 

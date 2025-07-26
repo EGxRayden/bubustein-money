@@ -1,0 +1,36 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:desert_castle",
+      "weight": 1
+    },
+    {
+      "structure": "bubusteinmoneymod:gong",
+      "weight": 1
+    },
+    {
+      "structure": "bubusteinmoneymod:jungle_hut",
+      "weight": 1
+    },
+    {
+      "structure": "bubusteinmoneymod:mangrove_witch_hut",
+      "weight": 1
+    },
+    {
+      "structure": "bubusteinmoneymod:swamp_witch_hut",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 25,
+    "separation": 15,
+    "spread_type": "triangular",
+    "salt": 506997861,
+    "frequency_reduction_method": "default",
+    "exclusion_zone": {
+      "other_set": "bubusteinmoneymod:high_value_landmarks",
+      "chunk_count": 4
+    }
+  }
+}
