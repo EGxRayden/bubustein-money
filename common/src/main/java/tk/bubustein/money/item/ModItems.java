@@ -450,6 +450,7 @@ public class ModItems {
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
 
     public static final Supplier<Item> SpecialPaper = registerItem("special_paper", MoneyMod.SPECIAL);
+    public static final Supplier<Item> Polymer = registerItem("polymer", MoneyMod.SPECIAL);
     public static final Supplier<Item> Key = MoneyExpectPlatform.registerItem("key",
             () -> new KeyItem(new Item.Properties().stacksTo(1).durability(50).arch$tab(MoneyMod.SPECIAL)));
 
