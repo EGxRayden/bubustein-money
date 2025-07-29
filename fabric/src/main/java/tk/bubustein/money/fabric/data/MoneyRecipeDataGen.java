@@ -53,6 +53,37 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput exporter) {
+        BankMachineRecipeShapedBuilder.shaped(ModItems.RustyCard.get())
+                .pattern(" D ")
+                .pattern("NCD")
+                .pattern(" D ")
+                .define('D', Items.BROWN_DYE)
+                .define('C', Items.CLAY_BALL)
+                .define('N', Items.GOLD_NUGGET)
+                .unlockedBy(getHasName(Items.BROWN_DYE), has(Items.BROWN_DYE))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.GoldCard.get())
+                .pattern("YDY")
+                .pattern("NCY")
+                .pattern("III")
+                .define('Y', Items.YELLOW_DYE)
+                .define('D', Items.DIAMOND)
+                .define('N', Items.GOLD_NUGGET)
+                .define('C', ModItems.Card.get())
+                .define('I', Items.GOLD_INGOT)
+                .unlockedBy(getHasName(ModItems.Card.get()), has(ModItems.Card.get()))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.SteelCard.get())
+                .pattern("GGG")
+                .pattern("NCG")
+                .pattern("DDD")
+                .define('G', Items.GRAY_DYE)
+                .define('D', Items.DIAMOND)
+                .define('N', Items.GOLD_NUGGET)
+                .define('C', ModItems.GoldCard.get())
+                .unlockedBy(getHasName(ModItems.GoldCard.get()), has(ModItems.GoldCard.get()))
+                .save(exporter);
+
         /*
         oneToOneConversionRecipe(exporter, ModItems.EGPound100.get(), ModItems.EGPound200.get(), "", 2);
         oneToOneConversionRecipe(exporter, ModItems.EGPound50.get(), ModItems.EGPound100.get(), "", 2);
