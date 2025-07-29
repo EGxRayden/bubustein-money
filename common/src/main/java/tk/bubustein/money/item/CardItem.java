@@ -55,7 +55,7 @@ public class CardItem extends Item {
     }
     @Override
     public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        if (!stack.has(MONEY_COMPONENT.get())) {
+        if(!stack.has(MONEY_COMPONENT.get())) {
             stack.set(MONEY_COMPONENT.get(), 0.0);
             stack.set(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
         }
@@ -64,7 +64,7 @@ public class CardItem extends Item {
     public boolean isFoil(ItemStack stack) {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
-        if (!currency.equals("EUR")) {
+        if(!currency.equals("EUR")) {
             money = ModCommands.convertCurrency(money, currency, "EUR");
         }
         return money >= GLOW_THRESHOLD_EUR;
@@ -77,14 +77,9 @@ public class CardItem extends Item {
         return stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
     }
     public void setMoney(ItemStack stack, double amount) {
-        if (amount < 0) amount = 0;
+        if(amount < 0) amount = 0;
         double finalAmount = amount;
         stack.update(MONEY_COMPONENT.get(), 0.0, existingMoney -> finalAmount);
-    }
-    public void convertMoney(ItemStack stack, String fromCurrency, String toCurrency) {
-        double currentAmount = getMoney(stack);
-        double convertedAmount = ModCommands.convertCurrency(currentAmount, fromCurrency, toCurrency);
-        setMoney(stack, convertedAmount);
     }
     public String getCurrency(ItemStack stack) {
         return stack.getOrDefault(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
@@ -92,12 +87,54 @@ public class CardItem extends Item {
     public void setCurrency(ItemStack stack, String currency) {
         stack.set(CURRENCY_COMPONENT.get(), currency);
     }
+    public static String formatMoney(double amount) {
+        if(amount >= 1000000000){
+            if(amount == 1000000000) {
+                return "1B";
+            } else {
+                DecimalFormat df = new DecimalFormat("#.##");
+                return df.format(amount / 1000000000.0) + "B";
+            }
+        } else if(amount >= 1000000){
+            DecimalFormat df = new DecimalFormat("#.##");
+            return df.format(amount / 1000000.0) + "M";
+        } else if(amount >= 100000){
+            DecimalFormat df = new DecimalFormat("#.##");
+            return df.format(amount / 1000.0) + "K";
+        } else if(amount >= 10000){
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formatted = df.format(Math.round(amount * 100) / 100.0);
+            if(formatted.contains(".")) {
+                String[] parts = formatted.split("\\.");
+                String integerPart = parts[0];
+                String decimalPart = parts[1];
+                if(integerPart.length() >= 4) {
+                    String thousands = integerPart.substring(0, integerPart.length() - 3);
+                    String hundreds = integerPart.substring(integerPart.length() - 3);
+                    return thousands + " " + hundreds + "." + decimalPart;
+                } else {
+                    return formatted;
+                }
+            } else {
+                if(formatted.length() >= 4) {
+                    String thousands = formatted.substring(0, formatted.length() - 3);
+                    String hundreds = formatted.substring(formatted.length() - 3);
+                    return thousands + " " + hundreds;
+                } else {
+                    return formatted;
+                }
+            }
+        } else {
+            DecimalFormat df = new DecimalFormat("#.##");
+            return df.format(Math.round(amount * 100) / 100.0);
+        }
+    }
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
         DecimalFormat df = new DecimalFormat("#.##");
-        String formattedMoney = df.format(Math.round(money * 100)/ 100.0);
+        String formattedMoney = formatMoney(money);
         tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.balance", formattedMoney, currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
         if (stack.getItem() == ModItems.Card.get())

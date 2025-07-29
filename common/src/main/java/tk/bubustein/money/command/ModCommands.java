@@ -180,7 +180,7 @@ public class ModCommands {
             return 0;
         }
         if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -210,8 +210,8 @@ public class ModCommands {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+        if (BigDecimal.valueOf(amount).compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
@@ -264,7 +264,7 @@ public class ModCommands {
             return 0;
         }
         if (BigDecimal.valueOf(targetCard.getMoney(targetStack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
             return 0;
         }
         String playerCurrency = playerCard.getCurrency(playerStack);
@@ -346,7 +346,7 @@ public class ModCommands {
                 return 0;
             }
             if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
                 return 0;
             }
             Map<Item, Integer> availableItems = new HashMap<>();
@@ -424,7 +424,7 @@ public class ModCommands {
             return 0;
         }
         if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
