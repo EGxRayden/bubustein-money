@@ -2,7 +2,7 @@
   "structures": [
     {
       "structure": "bubusteinmoneymod:desert_castle",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "bubusteinmoneymod:gong",
@@ -10,15 +10,15 @@
     },
     {
       "structure": "bubusteinmoneymod:jungle_hut",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "bubusteinmoneymod:mangrove_witch_hut",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "bubusteinmoneymod:swamp_witch_hut",
-      "weight": 1
+      "weight": 5
     }
   ],
   "placement": {
