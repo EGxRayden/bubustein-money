@@ -5,6 +5,7 @@
   "max_distance_from_center": 100,
   "biomes": "#bubusteinmoneymod:has_structure/mansion",
   "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
   "start_height": {
     "absolute": -3
   },
