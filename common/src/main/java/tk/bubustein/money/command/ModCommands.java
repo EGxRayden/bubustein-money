@@ -294,9 +294,15 @@ public class ModCommands {
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof CardItem cardItem) {
                 String oldCurrency = cardItem.getCurrency(stack);
+                double currentAmount = cardItem.getMoney(stack);
+                double convertedAmount = convertCurrency(currentAmount, oldCurrency, currency);
+                if (BigDecimal.valueOf(convertedAmount).compareTo(MAX_AMOUNT) > 0) {
+                    player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+                    return 0;
+                }
                 cardItem.setCurrency(stack, currency);
-                cardItem.convertMoney(stack, oldCurrency, currency);
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.currency_changed", currency, formatMoney(cardItem.getMoney(stack)), currency).withStyle(ChatFormatting.GREEN));
+                cardItem.setMoney(stack, convertedAmount);
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.currency_changed", currency, formatMoney(convertedAmount), currency).withStyle(ChatFormatting.GREEN));
             } else {
                 source.sendFailure(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             }
