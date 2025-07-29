@@ -2,16 +2,19 @@
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
     "C": {
-      "item": "minecraft:copper_ingot"
-    },
-    "L": {
       "item": "minecraft:clay_ball"
+    },
+    "D": {
+      "item": "minecraft:brown_dye"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
     }
   },
   "pattern": [
-    " C ",
-    "CLC",
-    " C "
+    " D ",
+    "NCD",
+    " D "
   ],
   "result": {
     "count": 1,
