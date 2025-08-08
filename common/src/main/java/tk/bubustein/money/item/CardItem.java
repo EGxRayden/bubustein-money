@@ -133,7 +133,6 @@ public class CardItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
-        DecimalFormat df = new DecimalFormat("#.##");
         String formattedMoney = formatMoney(money);
         tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.balance", formattedMoney, currency)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
