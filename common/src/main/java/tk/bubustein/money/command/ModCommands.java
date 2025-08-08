@@ -297,7 +297,7 @@ public class ModCommands {
                 double currentAmount = cardItem.getMoney(stack);
                 double convertedAmount = convertCurrency(currentAmount, oldCurrency, currency);
                 if (BigDecimal.valueOf(convertedAmount).compareTo(MAX_AMOUNT) > 0) {
-                    player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", MAX_AMOUNT).withStyle(ChatFormatting.RED));
+                    player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
                     return 0;
                 }
                 cardItem.setCurrency(stack, currency);
@@ -411,57 +411,51 @@ public class ModCommands {
     private static int withdraw(CommandSourceStack source, double amount) throws CommandSyntaxException {
         Player player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
-        if (!(stack.getItem() instanceof CardItem cardItem)) {
+        if(!(stack.getItem() instanceof CardItem cardItem)) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (amount != Math.round(amount * 100) / 100.0) {
+        if(amount != Math.round(amount * 100) / 100.0) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (amount <= 0) {
+        if(amount <= 0) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
-            return 0;
-        }
-        if (BigDecimal.valueOf(cardItem.getMoney(stack)+amount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large", CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
             return 0;
         }
         String cardCurrency = cardItem.getCurrency(stack);
         double currentBalance = cardItem.getMoney(stack);
         double fee = calculateWithdrawFee(stack, amount);
-        BigDecimal totalWithdraw = BigDecimal.valueOf(amount).add(BigDecimal.valueOf(fee));
-        if (BigDecimal.valueOf(currentBalance).compareTo(totalWithdraw) < 0) {
+        BigDecimal totalNeeded = BigDecimal.valueOf(amount).add(BigDecimal.valueOf(fee));
+        if(BigDecimal.valueOf(currentBalance).compareTo(totalNeeded) < 0) {
+            double feeRate = fee / amount;
             BigDecimal maxWithdrawable = BigDecimal.valueOf(currentBalance)
-                    .divide(BigDecimal.ONE.add(BigDecimal.valueOf(fee).divide(BigDecimal.valueOf(amount), 4, RoundingMode.HALF_UP)), RoundingMode.DOWN);
+                    .divide(BigDecimal.ONE.add(BigDecimal.valueOf(feeRate)), 2, RoundingMode.DOWN);
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds_with_fee",
                     formatMoney(maxWithdrawable.doubleValue()), cardCurrency,
-                    formatMoney(fee), cardCurrency).withStyle(ChatFormatting.RED));
+                    formatMoney(calculateWithdrawFee(stack, maxWithdrawable.doubleValue())), cardCurrency).withStyle(ChatFormatting.RED));
             return 0;
         }
-        double remainingAmount = 0;
-        if (ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
+        double remainingAmount;
+        if(ModItems.CURRENCY_ITEMS.containsKey(cardCurrency)) {
             remainingAmount = withdrawCurrency(player, amount, cardCurrency);
-            if (remainingAmount > 0) {
-                cardItem.addMoney(stack, remainingAmount);
+            if(remainingAmount > 0) {
                 player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_partial",
                         formatMoney(remainingAmount), cardCurrency).withStyle(ChatFormatting.YELLOW));
             }
         } else {
+            remainingAmount = amount;
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_no_currency",
                     cardCurrency).withStyle(ChatFormatting.YELLOW));
         }
-        double newBalance = BigDecimal.valueOf(currentBalance)
-                .subtract(BigDecimal.valueOf(amount)
-                        .subtract(BigDecimal.valueOf(fee))
-                        .add(BigDecimal.valueOf(remainingAmount)))
-                        .doubleValue();
+        double actuallyWithdrawn = amount - remainingAmount;
+        double actualFee = calculateWithdrawFee(stack, actuallyWithdrawn);
+        double newBalance = currentBalance - actuallyWithdrawn - actualFee;
         cardItem.setMoney(stack, newBalance);
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.withdraw_success",
-                formatMoney(amount - remainingAmount), cardCurrency,
-                formatMoney(fee), cardCurrency,
+                formatMoney(actuallyWithdrawn), cardCurrency,
+                formatMoney(actualFee), cardCurrency,
                 formatMoney(newBalance), cardCurrency).withStyle(ChatFormatting.GREEN));
-
         return Command.SINGLE_SUCCESS;
     }
     private static double calculateWithdrawFee(ItemStack stack, double amount) {
