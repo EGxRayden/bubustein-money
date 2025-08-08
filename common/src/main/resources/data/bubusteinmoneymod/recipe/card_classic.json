@@ -3,7 +3,7 @@
     "pattern": [
         "RLL",
         "GCD",
-        "DDD"
+        "DDY"
     ],
     "key": {
         "L": {
@@ -20,6 +20,9 @@
         },
         "C": {
             "item": "bubusteinmoneymod:card_rusty"
+        },
+        "Y": {
+            "item": "minecraft:yellow_dye"
         }
     },
     "result": {

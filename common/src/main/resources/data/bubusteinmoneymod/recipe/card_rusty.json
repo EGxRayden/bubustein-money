@@ -2,19 +2,22 @@
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
     "C": {
-      "item": "minecraft:clay_ball"
+      "item": "bubusteinmoneymod:plastic_card"
     },
     "D": {
       "item": "minecraft:brown_dye"
     },
     "N": {
       "item": "minecraft:gold_nugget"
+    },
+    "W": {
+      "item": "minecraft:white_dye"
     }
   },
   "pattern": [
     " D ",
     "NCD",
-    " D "
+    " W "
   ],
   "result": {
     "count": 1,

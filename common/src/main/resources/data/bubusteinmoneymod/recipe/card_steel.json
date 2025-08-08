@@ -12,11 +12,14 @@
     },
     "N": {
       "item": "minecraft:gold_nugget"
+    },
+    "W": {
+      "item": "minecraft:white_dye"
     }
   },
   "pattern": [
     "GGG",
-    "NCG",
+    "NCW",
     "DDD"
   ],
   "result": {

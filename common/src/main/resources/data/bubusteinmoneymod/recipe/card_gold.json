@@ -1,6 +1,9 @@
 {
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
+    "B": {
+      "item": "minecraft:black_dye"
+    },
     "C": {
       "item": "bubusteinmoneymod:card_classic"
     },
@@ -19,7 +22,7 @@
   },
   "pattern": [
     "YDY",
-    "NCY",
+    "NCB",
     "III"
   ],
   "result": {
