@@ -1187,7 +1187,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bubusteinmoneymod:polymer",
+          "name": "bubusteinmoneymod:polymer_sheet",
           "weight": 40
         },
         {

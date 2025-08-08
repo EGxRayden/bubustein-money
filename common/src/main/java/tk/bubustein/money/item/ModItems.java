@@ -451,6 +451,10 @@ public class ModItems {
 
     public static final Supplier<Item> SpecialPaper = registerItem("special_paper", MoneyMod.SPECIAL);
     public static final Supplier<Item> Polymer = registerItem("polymer", MoneyMod.SPECIAL);
+    public static final Supplier<Item> PolymerSheet = registerItem("polymer_sheet", MoneyMod.SPECIAL);
+    public static final Supplier<Item> Plastic = registerItem("plastic", MoneyMod.SPECIAL);
+    public static final Supplier<Item> PlasticCard = MoneyExpectPlatform.registerItem("plastic_card",
+            ()-> new PlasticItem(new Item.Properties().arch$tab(MoneyMod.SPECIAL)));
     public static final Supplier<Item> Key = MoneyExpectPlatform.registerItem("key",
             () -> new KeyItem(new Item.Properties().stacksTo(1).durability(50).arch$tab(MoneyMod.SPECIAL)));
 

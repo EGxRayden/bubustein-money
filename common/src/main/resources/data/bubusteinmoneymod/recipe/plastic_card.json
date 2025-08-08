@@ -1,0 +1,19 @@
+{
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "P": {
+      "item": "bubusteinmoneymod:plastic"
+    },
+    "W": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:plastic_card"
+  }
+}

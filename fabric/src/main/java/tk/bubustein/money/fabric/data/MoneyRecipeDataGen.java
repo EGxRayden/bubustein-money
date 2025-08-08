@@ -23,9 +23,14 @@ package tk.bubustein.money.fabric.data;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
@@ -52,38 +57,71 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
     }
 
     @Override
-    public void buildRecipes(RecipeOutput exporter) {
+    public void buildRecipes(RecipeOutput exporter){
         BankMachineRecipeShapedBuilder.shaped(ModItems.RustyCard.get())
                 .pattern(" D ")
                 .pattern("NCD")
-                .pattern(" D ")
+                .pattern(" W ")
                 .define('D', Items.BROWN_DYE)
-                .define('C', Items.CLAY_BALL)
+                .define('C', ModItems.PlasticCard.get())
                 .define('N', Items.GOLD_NUGGET)
-                .unlockedBy(getHasName(Items.BROWN_DYE), has(Items.BROWN_DYE))
+                .define('W', Items.WHITE_DYE)
+                .unlockedBy(getHasName(ModItems.PlasticCard.get()), has(ModItems.PlasticCard.get()))
                 .save(exporter);
         BankMachineRecipeShapedBuilder.shaped(ModItems.GoldCard.get())
                 .pattern("YDY")
-                .pattern("NCY")
+                .pattern("NCB")
                 .pattern("III")
                 .define('Y', Items.YELLOW_DYE)
                 .define('D', Items.DIAMOND)
                 .define('N', Items.GOLD_NUGGET)
                 .define('C', ModItems.Card.get())
                 .define('I', Items.GOLD_INGOT)
+                .define('B', Items.BLACK_DYE)
                 .unlockedBy(getHasName(ModItems.Card.get()), has(ModItems.Card.get()))
                 .save(exporter);
         BankMachineRecipeShapedBuilder.shaped(ModItems.SteelCard.get())
                 .pattern("GGG")
-                .pattern("NCG")
+                .pattern("NCW")
                 .pattern("DDD")
                 .define('G', Items.GRAY_DYE)
                 .define('D', Items.DIAMOND)
                 .define('N', Items.GOLD_NUGGET)
+                .define('W', Items.WHITE_DYE)
                 .define('C', ModItems.GoldCard.get())
                 .unlockedBy(getHasName(ModItems.GoldCard.get()), has(ModItems.GoldCard.get()))
                 .save(exporter);
-
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Polymer.get(), 3)
+                .pattern("P P")
+                .pattern("BCB")
+                .pattern("GGG")
+                .define('P', Items.BLAZE_POWDER)
+                .define('B', Items.BASALT)
+                .define('C', Items.CLAY_BALL)
+                .define('G', Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.WATER)))
+                .unlockedBy(getHasName(Items.BLAZE_POWDER), has(Items.BLAZE_POWDER))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Plastic.get(), 4)
+                .pattern("PP")
+                .pattern("PP")
+                .define('P', ModItems.Polymer.get())
+                .unlockedBy(getHasName(ModItems.Polymer.get()), has(ModItems.Polymer.get()))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.PolymerSheet.get(), 3)
+                .pattern("PPP")
+                .pattern("LLL")
+                .pattern("PPP")
+                .define('P', ModItems.Plastic.get())
+                .define('L', ModItems.Polymer.get())
+                .unlockedBy(getHasName(ModItems.Plastic.get()), has(ModItems.Plastic.get()))
+                .save(exporter);
+        BankMachineRecipeShapedBuilder.shaped(ModItems.PlasticCard.get())
+                .pattern("PPP")
+                .pattern("WWW")
+                .define('P', ModItems.Plastic.get())
+                .define('W', ItemTags.WOODEN_SLABS)
+                .unlockedBy(getHasName(ModItems.Plastic.get()), has(ModItems.Plastic.get()))
+                .save(exporter);
         /*
         oneToOneConversionRecipe(exporter, ModItems.EGPound100.get(), ModItems.EGPound200.get(), "", 2);
         oneToOneConversionRecipe(exporter, ModItems.EGPound50.get(), ModItems.EGPound100.get(), "", 2);

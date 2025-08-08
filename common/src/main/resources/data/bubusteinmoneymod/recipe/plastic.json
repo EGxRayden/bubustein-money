@@ -1,0 +1,16 @@
+{
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "P": {
+      "item": "bubusteinmoneymod:polymer"
+    }
+  },
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "bubusteinmoneymod:plastic"
+  }
+}
