@@ -185,14 +185,14 @@
   "item.bubusteinmoneymod.twenty_groszy": "20 Groszy",
   "item.bubusteinmoneymod.fifty_groszy": "50 Groszy",
   "item.bubusteinmoneymod.one_zloty": "1 Zloty",
-  "item.bubusteinmoneymod.two_zloty": "2 Zloty",
-  "item.bubusteinmoneymod.five_zloty": "5 Zloty",
-  "item.bubusteinmoneymod.ten_zloty": "10 Zloty",
-  "item.bubusteinmoneymod.twenty_zloty": "20 Zloty",
-  "item.bubusteinmoneymod.fifty_zloty": "50 Zloty",
-  "item.bubusteinmoneymod.hundred_zloty": "100 Zloty",
-  "item.bubusteinmoneymod.two_hundred_zloty": "200 Zloty",
-  "item.bubusteinmoneymod.five_hundred_zloty": "500 Zloty",
+  "item.bubusteinmoneymod.two_zloty": "2 Zlote",
+  "item.bubusteinmoneymod.five_zloty": "5 Zlotych",
+  "item.bubusteinmoneymod.ten_zloty": "10 Zlotych",
+  "item.bubusteinmoneymod.twenty_zloty": "20 Zlotych",
+  "item.bubusteinmoneymod.fifty_zloty": "50 Zlotych",
+  "item.bubusteinmoneymod.hundred_zloty": "100 Zlotych",
+  "item.bubusteinmoneymod.two_hundred_zloty": "200 Zlotych",
+  "item.bubusteinmoneymod.five_hundred_zloty": "500 Zlotych",
 
   "item.bubusteinmoneymod.one_rs_dinar": "1 Serbischer Dinar",
   "item.bubusteinmoneymod.two_rs_dinar": "2 Serbische Dinar",
@@ -353,6 +353,7 @@
   "item.bubusteinmoneymod.card_steel": "Steel Card",
   "item.bubusteinmoneymod.special_paper":"Spezial Papier",
   "item.bubusteinmoneymod.polymer": "Polymer",
+  "item.bubusteinmoneymod.polymer_sheet": "Polymer Sheet",
 
   "block.bubusteinmoneymod.atm": "Geldautomat",
   "block.bubusteinmoneymod.bank_machine": "Bankautomat",
@@ -411,5 +412,8 @@
   "item.bubusteinmoneymod.key": "Key",
   "item.bubusteinmoneymod.card_rusty": "Rusty Card",
   "message.bubusteinmoneymod.missing_key": "Cannot use Bank Machine. Missing Key",
-  "keyItem.bubusteinmoneymod.tooltip": "It opens the Bank Machine"
+  "keyItem.bubusteinmoneymod.tooltip": "It opens the Bank Machine",
+  "item.bubusteinmoneymod.plastic": "Plastic",
+  "item.bubusteinmoneymod.plastic_card": "Plastic Card",
+  "plasticItem.bubusteinmoneymod.tooltip": "Ingredient for Rusty Card"
 }
