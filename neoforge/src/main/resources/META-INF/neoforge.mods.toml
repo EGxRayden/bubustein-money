@@ -25,7 +25,7 @@ config = "bubusteinmoneymod.mixins.json"
 [[dependencies.bubusteinmoneymod]]
 modId = "neoforge"
 type= "required"
-versionRange = "[21.0.143,)"
+versionRange = "[21.0.167,)"
 ordering = "NONE"
 side = "BOTH"
 
