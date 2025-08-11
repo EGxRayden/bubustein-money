@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:jigsaw",
+  "start_pool": "bubusteinmoneymod:abandoned_mansion/start_pool",
+  "size": 2,
+  "max_distance_from_center": 100,
+  "biomes": "#bubusteinmoneymod:has_structure/mansion",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": -3
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "use_expansion_hack": false,
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "full",
+      "spawns": [
+        {
+          "type": "minecraft:spider",
+          "weight": 1,
+          "minCount": 2,
+          "maxCount": 5
+        }
+      ]
+    }
+  }
+}

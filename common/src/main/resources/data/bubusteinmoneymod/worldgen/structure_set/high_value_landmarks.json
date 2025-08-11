@@ -21,7 +21,7 @@
     "salt": 496982851,
     "frequency_reduction_method": "default",
     "exclusion_zone": {
-      "other_set": "minecraft:villages",
+      "other_set": "bubusteinmoneymod:mansions",
       "chunk_count": 4
     }
   }

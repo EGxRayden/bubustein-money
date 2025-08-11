@@ -1,0 +1,23 @@
+{
+  "structures": [
+    {
+      "structure": "bubusteinmoneymod:mansion",
+      "weight": 1
+    },
+    {
+      "structure": "bubusteinmoneymod:abandoned_mansion",
+      "weight": 3
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spread_type": "triangular",
+    "exclusion_zone": {
+      "chunk_count": 8,
+      "other_set": "minecraft:villages"
+    },
+    "salt": 496982001,
+    "spacing": 57,
+    "separation": 24
+  }
+}
