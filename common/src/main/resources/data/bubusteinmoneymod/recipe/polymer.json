@@ -2,25 +2,28 @@
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
     "B": {
-      "item": "minecraft:basalt"
-    },
-    "C": {
       "item": "minecraft:clay_ball"
     },
+    "C": {
+      "tag": "minecraft:coals"
+    },
     "G": {
-      "item": "minecraft:potion"
+      "item": "minecraft:water_bucket"
     },
     "P": {
       "item": "minecraft:blaze_powder"
+    },
+    "S": {
+      "tag": "minecraft:sand"
     }
   },
   "pattern": [
     "P P",
     "BCB",
-    "GGG"
+    "GSG"
   ],
   "result": {
-    "count": 3,
+    "count": 4,
     "id": "bubusteinmoneymod:polymer"
   }
 }

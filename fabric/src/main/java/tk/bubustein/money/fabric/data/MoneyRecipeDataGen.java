@@ -55,7 +55,6 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
     public static @NotNull RecipeBuilder twoItemsBuilder(ItemLike output, Ingredient ingredient) {
         return BankMachineRecipeShapedBuilder.shaped(output).define('#', ingredient).pattern("##");
     }
-
     @Override
     public void buildRecipes(RecipeOutput exporter){
         BankMachineRecipeShapedBuilder.shaped(ModItems.RustyCard.get())
@@ -91,14 +90,15 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('C', ModItems.GoldCard.get())
                 .unlockedBy(getHasName(ModItems.GoldCard.get()), has(ModItems.GoldCard.get()))
                 .save(exporter);
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Polymer.get(), 3)
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Polymer.get(), 4)
                 .pattern("P P")
                 .pattern("BCB")
-                .pattern("GGG")
+                .pattern("GSG")
                 .define('P', Items.BLAZE_POWDER)
-                .define('B', Items.BASALT)
-                .define('C', Items.CLAY_BALL)
-                .define('G', Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.WATER)))
+                .define('B', Items.CLAY_BALL)
+                .define('C', ItemTags.COALS)
+                .define('S', ItemTags.SAND)
+                .define('G', Items.WATER_BUCKET)
                 .unlockedBy(getHasName(Items.BLAZE_POWDER), has(Items.BLAZE_POWDER))
                 .save(exporter);
         BankMachineRecipeShapedBuilder.shaped(ModItems.Plastic.get(), 4)
