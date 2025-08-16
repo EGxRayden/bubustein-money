@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:hundred_in_rupees"
-        }
-    ],
-    "result": {
-        "count": 2,
-        "id": "bubusteinmoneymod:fifty_in_rupees"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:hundred_in_rupees"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "bubusteinmoneymod:fifty_in_rupees"
+  }
 }

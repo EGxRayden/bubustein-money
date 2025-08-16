@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "bubusteinmoneymod:item/500leimd"
+    "layer0": "bubusteinmoneymod:item/cinci_sute_lei_md"
   }
 }

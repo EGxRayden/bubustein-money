@@ -1,28 +1,29 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "R##",
-        "LP#",
-        "I##"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:blue_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "I": {
-            "item": "minecraft:gold_nugget"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:blue_dye"
     },
-    "result": {
-        "id": "bubusteinmoneymod:thousand_kr_won"
+    "I": {
+      "item": "minecraft:gold_nugget"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    "R##",
+    "LP#",
+    "I##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:thousand_kr_won"
+  }
 }

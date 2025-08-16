@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:ten_dollars"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:fifty_dollars"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:ten_dollars"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:fifty_dollars"
+  }
 }

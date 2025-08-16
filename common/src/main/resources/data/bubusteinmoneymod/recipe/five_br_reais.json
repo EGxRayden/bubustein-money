@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_br_real"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_br_reais"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:one_br_real"
     }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:five_br_reais"
+  }
 }

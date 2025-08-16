@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:ten_rs_dinar_from_twenty_rs_dinar"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twenty_rs_dinar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:twenty_rs_dinar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_twenty_rs_dinar"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:ten_rs_dinar_from_twenty_rs_dinar"
+    ]
+  }
+}

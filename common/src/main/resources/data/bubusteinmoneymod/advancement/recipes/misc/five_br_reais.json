@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_one_br_real": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:one_br_real"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_br_reais"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_one_br_real"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_br_reais"
+    ]
+  }
+}

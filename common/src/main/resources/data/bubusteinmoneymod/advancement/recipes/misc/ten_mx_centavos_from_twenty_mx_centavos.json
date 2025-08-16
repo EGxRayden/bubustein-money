@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:ten_mx_centavos_from_twenty_mx_centavos"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twenty_mx_centavos": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:twenty_mx_centavos"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_twenty_mx_centavos"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:ten_mx_centavos_from_twenty_mx_centavos"
+    ]
+  }
+}

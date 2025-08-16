@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_franc"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_francs"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:one_franc"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:five_francs"
+  }
 }

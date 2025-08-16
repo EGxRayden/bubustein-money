@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_one_ph_sentimo": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:one_ph_sentimo"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_ph_sentimo"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_one_ph_sentimo"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_ph_sentimo"
+    ]
+  }
+}

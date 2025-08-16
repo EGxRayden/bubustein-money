@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
+  "category": "misc",
   "key": {
     "#": {
       "item": "bubusteinmoneymod:ten_eg_pound"

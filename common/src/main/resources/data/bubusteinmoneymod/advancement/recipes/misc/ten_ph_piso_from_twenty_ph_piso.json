@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:ten_ph_piso_from_twenty_ph_piso"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twenty_ph_piso": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:twenty_ph_piso"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_twenty_ph_piso"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:ten_ph_piso_from_twenty_ph_piso"
+    ]
+  }
+}

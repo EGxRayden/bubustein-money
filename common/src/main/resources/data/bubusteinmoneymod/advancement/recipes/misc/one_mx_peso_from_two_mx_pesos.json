@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:one_mx_peso_from_two_mx_pesos"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_two_mx_pesos": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:two_mx_pesos"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_two_mx_pesos"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:one_mx_peso_from_two_mx_pesos"
+    ]
+  }
+}

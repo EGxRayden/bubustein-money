@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:cincizeci_bani"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_zece_bani": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:zece_bani"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_zece_bani"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:cincizeci_bani"
+    ]
+  }
+}

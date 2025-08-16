@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_douasprezece_lei_1900": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:douasprezece_lei_1900"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:douazeci_cinci_lei_1900_1"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_douasprezece_lei_1900"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:douazeci_cinci_lei_1900_1"
+    ]
+  }
+}

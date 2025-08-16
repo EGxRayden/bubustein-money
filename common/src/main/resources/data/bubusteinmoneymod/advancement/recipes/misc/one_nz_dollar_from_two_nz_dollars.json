@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:one_nz_dollar_from_two_nz_dollars"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_two_nz_dollars": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:two_nz_dollars"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_two_nz_dollars"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:one_nz_dollar_from_two_nz_dollars"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_one_mx_peso": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:one_mx_peso"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_mx_pesos"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_one_mx_peso"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_mx_pesos"
+    ]
+  }
+}

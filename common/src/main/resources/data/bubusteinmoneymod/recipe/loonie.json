@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:twentyfive_ccents"
-        }
-    },
-    "pattern": [
-        "##",
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:loonie"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:twentyfive_ccents"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:loonie"
+  }
 }

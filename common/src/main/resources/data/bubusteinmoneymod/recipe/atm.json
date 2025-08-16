@@ -1,31 +1,32 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "ION",
-        "WDW",
-        "WCW"
-    ],
-    "key": {
-        "W": {
-            "item": "minecraft:iron_block"
-        },
-        "I": {
-            "item": "minecraft:diamond"
-        },
-        "N": {
-            "item": "minecraft:emerald"
-        },
-        "C": {
-            "item": "minecraft:comparator"
-        },
-        "D": {
-            "item": "minecraft:dispenser"
-        },
-        "O": {
-            "item": "minecraft:compass"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:comparator"
     },
-    "result": {
-        "id": "bubusteinmoneymod:atm"
+    "D": {
+      "item": "minecraft:dispenser"
+    },
+    "I": {
+      "item": "minecraft:diamond"
+    },
+    "N": {
+      "item": "minecraft:emerald"
+    },
+    "O": {
+      "item": "minecraft:compass"
+    },
+    "W": {
+      "item": "minecraft:iron_block"
     }
+  },
+  "pattern": [
+    "ION",
+    "WDW",
+    "WCW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:atm"
+  }
 }

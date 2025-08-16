@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_thousand_yen"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_thousand_yen": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:thousand_yen"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_thousand_yen"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_thousand_yen"
+    ]
+  }
+}

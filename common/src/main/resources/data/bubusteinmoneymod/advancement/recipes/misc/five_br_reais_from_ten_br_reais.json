@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ten_br_reais": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:ten_br_reais"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_br_reais_from_ten_br_reais"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ten_br_reais"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_br_reais_from_ten_br_reais"
+    ]
+  }
+}

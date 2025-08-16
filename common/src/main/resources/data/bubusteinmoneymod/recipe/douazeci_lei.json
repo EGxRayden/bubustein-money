@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:zece_lei"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:douazeci_lei"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:zece_lei"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:douazeci_lei"
+  }
 }

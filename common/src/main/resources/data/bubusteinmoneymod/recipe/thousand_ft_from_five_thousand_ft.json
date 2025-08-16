@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:five_thousand_ft"
-        }
-    ],
-    "result": {
-        "count": 5,
-        "id": "bubusteinmoneymod:thousand_ft"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:five_thousand_ft"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "id": "bubusteinmoneymod:thousand_ft"
+  }
 }

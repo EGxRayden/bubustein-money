@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:five_tr_lira"
-        }
-    ],
-    "result": {
-        "count": 5,
-        "id": "bubusteinmoneymod:one_tr_lira"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:five_tr_lira"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "id": "bubusteinmoneymod:one_tr_lira"
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polymer_sheet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:polymer_sheet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:twentyfive_eg_piastres_1"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_polymer_sheet"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:twentyfive_eg_piastres_1"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:five_hundred_dk_krone_from_thousand_dk_krone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_thousand_dk_krone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:thousand_dk_krone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_thousand_dk_krone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:five_hundred_dk_krone_from_thousand_dk_krone"
+    ]
+  }
+}

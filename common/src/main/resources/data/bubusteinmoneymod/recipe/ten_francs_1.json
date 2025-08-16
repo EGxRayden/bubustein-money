@@ -1,25 +1,26 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        " DD",
-        " ND",
-        " RP"
-    ],
-    "key": {
-        "N": {
-            "item": "minecraft:copper_ingot"
-        },
-        "D": {
-            "item": "minecraft:orange_dye"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:orange_dye"
     },
-    "result": {
-        "id": "bubusteinmoneymod:ten_francs"
+    "N": {
+      "item": "minecraft:copper_ingot"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    " DD",
+    " ND",
+    " RP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:ten_francs"
+  }
 }

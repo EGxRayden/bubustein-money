@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:hundred_mx_pesos"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:two_hundred_mx_pesos"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:hundred_mx_pesos"
     }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:two_hundred_mx_pesos"
+  }
 }

@@ -1,34 +1,35 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "LO#",
-        "RPI",
-        "G#O"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:red_dye"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "I": {
-            "item": "minecraft:iron_ingot"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "O": {
-            "item": "minecraft:orange_dye"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        },
-        "G": {
-            "item": "minecraft:gold_nugget"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:red_dye"
     },
-    "result": {
-        "id": "bubusteinmoneymod:five_hundred_is_krone"
+    "G": {
+      "item": "minecraft:gold_nugget"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "O": {
+      "item": "minecraft:orange_dye"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    "LO#",
+    "RPI",
+    "G#O"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:five_hundred_is_krone"
+  }
 }

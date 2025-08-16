@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:fifty_eg_piastres"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twentyfive_eg_piastres": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:twentyfive_eg_piastres"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_twentyfive_eg_piastres"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:fifty_eg_piastres"
+    ]
+  }
+}

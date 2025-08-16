@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_suta_lei_1900": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:suta_lei_1900"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:cincizeci_lei_1900_from_suta_lei_1900"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_suta_lei_1900"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:cincizeci_lei_1900_from_suta_lei_1900"
+    ]
+  }
+}

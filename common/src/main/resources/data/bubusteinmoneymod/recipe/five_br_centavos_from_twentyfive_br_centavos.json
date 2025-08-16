@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "category": "misc",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:twentyfive_br_centavos"
-        }
-    ],
-    "result": {
-        "count": 5,
-        "id": "bubusteinmoneymod:five_br_centavos"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:twentyfive_br_centavos"
     }
+  ],
+  "result": {
+    "count": 5,
+    "id": "bubusteinmoneymod:five_br_centavos"
+  }
 }

@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:fifty_cn_yuan"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:hundred_cn_yuan"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:fifty_cn_yuan"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:hundred_cn_yuan"
+  }
 }

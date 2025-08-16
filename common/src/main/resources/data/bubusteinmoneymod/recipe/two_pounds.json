@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_pound"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:two_pounds"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:one_pound"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:two_pounds"
+  }
 }

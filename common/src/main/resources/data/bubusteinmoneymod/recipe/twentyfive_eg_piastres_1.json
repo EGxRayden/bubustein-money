@@ -1,0 +1,32 @@
+{
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:light_blue_dye"
+    },
+    "G": {
+      "item": "minecraft:light_gray_dye"
+    },
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:polymer_sheet"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "NGG",
+    "RPB",
+    "IBG"
+  ],
+  "result": {
+    "count": 4,
+    "id": "bubusteinmoneymod:twentyfive_eg_piastres"
+  }
+}

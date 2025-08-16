@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:thousand_rs_dinar"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_thousand_rs_dinar"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:thousand_rs_dinar"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:five_thousand_rs_dinar"
+  }
 }

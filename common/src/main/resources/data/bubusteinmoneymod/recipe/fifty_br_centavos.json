@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:twentyfive_br_centavos"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:fifty_br_centavos"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:twentyfive_br_centavos"
     }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:fifty_br_centavos"
+  }
 }

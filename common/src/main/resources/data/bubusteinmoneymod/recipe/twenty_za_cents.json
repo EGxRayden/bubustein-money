@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:ten_za_cents"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:twenty_za_cents"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:ten_za_cents"
     }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:twenty_za_cents"
+  }
 }

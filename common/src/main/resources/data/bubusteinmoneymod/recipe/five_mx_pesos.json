@@ -1,16 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:one_mx_peso"
-        }
-    },
-    "pattern": [
-        "# #",
-        "###"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:five_mx_pesos"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:one_mx_peso"
     }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:five_mx_pesos"
+  }
 }

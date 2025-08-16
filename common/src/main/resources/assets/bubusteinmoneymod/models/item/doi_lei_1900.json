@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "bubusteinmoneymod:item/2lei"
+    "layer0": "bubusteinmoneymod:item/doi_lei_1900"
   }
 }

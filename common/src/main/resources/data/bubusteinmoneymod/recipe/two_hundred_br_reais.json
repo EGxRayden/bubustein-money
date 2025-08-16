@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:hundred_br_reais"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:two_hundred_br_reais"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:hundred_br_reais"
     }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:two_hundred_br_reais"
+  }
 }

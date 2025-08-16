@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:thousand_francs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_two_hundred_francs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:two_hundred_francs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_two_hundred_francs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:thousand_francs"
+    ]
+  }
+}

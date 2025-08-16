@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:twenty_five_ph_sentimo"
-        }
-    ],
-    "result": {
-        "count": 5,
-        "id": "bubusteinmoneymod:five_ph_sentimo"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:twenty_five_ph_sentimo"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "id": "bubusteinmoneymod:five_ph_sentimo"
+  }
 }

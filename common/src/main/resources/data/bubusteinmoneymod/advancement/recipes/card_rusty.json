@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plastic_card": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:plastic_card"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:card_rusty"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_plastic_card"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:card_rusty"
+    ]
+  }
+}

@@ -1,13 +1,13 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "bubusteinmoneymod:five_groszy"
-        }
-    ],
-    "result": {
-        "count": 5,
-        "id": "bubusteinmoneymod:one_grosz"
-    },
-    "category": "misc"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bubusteinmoneymod:five_groszy"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "id": "bubusteinmoneymod:one_grosz"
+  }
 }

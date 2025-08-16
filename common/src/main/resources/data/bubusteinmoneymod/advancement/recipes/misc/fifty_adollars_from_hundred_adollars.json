@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hundred_adollars": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:hundred_adollars"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:fifty_adollars_from_hundred_adollars"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hundred_adollars"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:fifty_adollars_from_hundred_adollars"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cinci_lei_1900": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:cinci_lei_1900"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:un_leu_1900_from_cinci_lei_1900"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cinci_lei_1900"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:un_leu_1900_from_cinci_lei_1900"
+    ]
+  }
+}

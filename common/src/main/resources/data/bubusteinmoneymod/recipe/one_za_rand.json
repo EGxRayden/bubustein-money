@@ -1,15 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "redstone",
-    "key": {
-        "#": {
-            "item": "bubusteinmoneymod:fifty_za_cents"
-        }
-    },
-    "pattern": [
-        "##"
-    ],
-    "result": {
-        "id": "bubusteinmoneymod:one_za_rand"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "bubusteinmoneymod:fifty_za_cents"
     }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:one_za_rand"
+  }
 }

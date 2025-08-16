@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_one_za_rand": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:one_za_rand"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:fifty_za_cents_from_one_za_rand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_one_za_rand"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:fifty_za_cents_from_one_za_rand"
+    ]
+  }
+}

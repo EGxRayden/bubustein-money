@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "bubusteinmoneymod:item/quarter_cad"
+    "layer0": "bubusteinmoneymod:item/twentyfive_ccents"
   }
 }

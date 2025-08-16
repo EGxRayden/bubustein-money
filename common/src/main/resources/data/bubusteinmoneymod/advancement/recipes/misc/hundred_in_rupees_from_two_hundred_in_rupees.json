@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:hundred_in_rupees_from_two_hundred_in_rupees"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_two_hundred_in_rupees": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:two_hundred_in_rupees"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_two_hundred_in_rupees"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:hundred_in_rupees_from_two_hundred_in_rupees"
+    ]
+  }
+}

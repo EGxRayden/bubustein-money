@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fifty_eg_pound": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:fifty_eg_pound"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:hundred_eg_pound"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_fifty_eg_pound"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:hundred_eg_pound"
+    ]
+  }
+}

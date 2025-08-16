@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bubusteinmoneymod:loonie_from_toonie"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_toonie": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:toonie"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_toonie"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bubusteinmoneymod:loonie_from_toonie"
+    ]
+  }
+}

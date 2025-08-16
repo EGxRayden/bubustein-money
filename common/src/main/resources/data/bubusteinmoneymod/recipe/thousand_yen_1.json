@@ -1,31 +1,32 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "IGL",
-        "RPW",
-        "WWW"
-    ],
-    "key": {
-        "I": {
-            "item": "minecraft:iron_ingot"
-        },
-        "G": {
-            "item": "minecraft:gold_ingot"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "W": {
-            "item": "minecraft:blue_dye"
-        },
-        "L": {
-            "item": "minecraft:lapis_lazuli"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
     },
-    "result": {
-        "id": "bubusteinmoneymod:thousand_yen"
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "minecraft:blue_dye"
     }
+  },
+  "pattern": [
+    "IGL",
+    "RPW",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:thousand_yen"
+  }
 }

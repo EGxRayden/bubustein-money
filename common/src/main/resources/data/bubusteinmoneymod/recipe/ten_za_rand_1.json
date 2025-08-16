@@ -1,31 +1,32 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "DDN",
-        "LPG",
-        "LRN"
-    ],
-    "key": {
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        },
-        "G": {
-            "item": "minecraft:gold_nugget"
-        },
-        "N": {
-            "item": "minecraft:iron_nugget"
-        },
-        "L": {
-            "item": "minecraft:green_dye"
-        },
-        "D": {
-            "item": "minecraft:lime_dye"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:lime_dye"
     },
-    "result": {
-        "id": "bubusteinmoneymod:ten_za_rand"
+    "G": {
+      "item": "minecraft:gold_nugget"
+    },
+    "L": {
+      "item": "minecraft:green_dye"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    "DDN",
+    "LPG",
+    "LRN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:ten_za_rand"
+  }
 }

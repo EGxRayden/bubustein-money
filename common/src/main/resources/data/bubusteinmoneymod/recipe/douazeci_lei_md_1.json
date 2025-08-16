@@ -1,31 +1,32 @@
 {
-    "type": "bubusteinmoneymod:bank_machine_shaped",
-    "pattern": [
-        "G*#",
-        "RPG",
-        "I*#"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:green_dye"
-        },
-        "*": {
-            "item": "minecraft:lime_dye"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "I": {
-            "item": "minecraft:iron_nugget"
-        },
-        "G": {
-            "item": "minecraft:gold_nugget"
-        },
-        "P": {
-            "item": "bubusteinmoneymod:special_paper"
-        }
+  "type": "bubusteinmoneymod:bank_machine_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:green_dye"
     },
-    "result": {
-        "id": "bubusteinmoneymod:douazeci_lei_md"
+    "*": {
+      "item": "minecraft:lime_dye"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    },
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "P": {
+      "item": "bubusteinmoneymod:special_paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    "G*#",
+    "RPG",
+    "I*#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bubusteinmoneymod:douazeci_lei_md"
+  }
 }

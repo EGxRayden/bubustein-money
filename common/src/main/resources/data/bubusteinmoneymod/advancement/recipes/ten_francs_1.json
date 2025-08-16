@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_special_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bubusteinmoneymod:special_paper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:ten_francs_1"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_special_paper"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:ten_francs_1"
+    ]
+  }
+}
