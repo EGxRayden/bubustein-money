@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradleup.shadow' version '9.0.1'
+    id 'com.gradleup.shadow' version '9.0.2'
     id "me.shedaniel.unified-publishing"
 }
 allprojects {
@@ -16,10 +16,6 @@ repositories {
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
     }
     maven {
         name = "Fabric"
