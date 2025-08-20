@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_special_paper": {
+    "has_polymer_sheet": {
       "conditions": {
         "items": [
           {
-            "items": "bubusteinmoneymod:special_paper"
+            "items": "bubusteinmoneymod:polymer_sheet"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_special_paper"
+      "has_polymer_sheet"
     ]
   ],
   "rewards": {

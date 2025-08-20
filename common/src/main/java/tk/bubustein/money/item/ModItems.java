@@ -460,34 +460,34 @@ public class ModItems {
 
     public static final Map<String, Double> EXCHANGE_RATES = new HashMap<>();
     public static void registerExchangeRates() {
-        // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 25th MAY 2025
+        // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 20th AUGUST 2025
         EXCHANGE_RATES.put("EUR", 1.00);
-        EXCHANGE_RATES.put("USD", 1.13);
-        EXCHANGE_RATES.put("GBP", 0.84);
-        EXCHANGE_RATES.put("CAD", 1.56);
+        EXCHANGE_RATES.put("USD", 1.16);
+        EXCHANGE_RATES.put("GBP", 0.86);
+        EXCHANGE_RATES.put("CAD", 1.61);
         EXCHANGE_RATES.put("RON", 5.05);
-        EXCHANGE_RATES.put("MDL", 19.64);
-        EXCHANGE_RATES.put("CHF", 0.93);
-        EXCHANGE_RATES.put("AUD", 1.75);
-        EXCHANGE_RATES.put("JPY", 162.07);
-        EXCHANGE_RATES.put("CZK", 24.84);
-        EXCHANGE_RATES.put("NOK", 11.49);
+        EXCHANGE_RATES.put("MDL", 19.43);
+        EXCHANGE_RATES.put("CHF", 0.94);
+        EXCHANGE_RATES.put("AUD", 1.80);
+        EXCHANGE_RATES.put("JPY", 171.74);
+        EXCHANGE_RATES.put("CZK", 24.48);
+        EXCHANGE_RATES.put("NOK", 11.94);
         EXCHANGE_RATES.put("DKK", 7.46);
-        EXCHANGE_RATES.put("SEK", 10.83);
-        EXCHANGE_RATES.put("HUF", 403.85);
+        EXCHANGE_RATES.put("SEK", 11.17);
+        EXCHANGE_RATES.put("HUF", 394.74);
         EXCHANGE_RATES.put("PLN", 4.25);
-        EXCHANGE_RATES.put("RSD", 117.70);
-        EXCHANGE_RATES.put("ISK", 145.11);
-        EXCHANGE_RATES.put("CNY", 8.16);
-        EXCHANGE_RATES.put("INR",96.71);
-        EXCHANGE_RATES.put("KRW", 1552.62);
-        EXCHANGE_RATES.put("BRL", 6.42);
-        EXCHANGE_RATES.put("MXN", 21.87);
-        EXCHANGE_RATES.put("ZAR", 20.28);
-        EXCHANGE_RATES.put("TRY", 44.36);
-        EXCHANGE_RATES.put("NZD", 1.90);
-        EXCHANGE_RATES.put("PHP", 62.94);
-        EXCHANGE_RATES.put("EGP", 57.69); // 24th JULY 2025
+        EXCHANGE_RATES.put("RSD", 117.16);
+        EXCHANGE_RATES.put("ISK", 143.4);
+        EXCHANGE_RATES.put("CNY", 8.35);
+        EXCHANGE_RATES.put("INR",101.27);
+        EXCHANGE_RATES.put("KRW", 1627.91);
+        EXCHANGE_RATES.put("BRL", 6.40);
+        EXCHANGE_RATES.put("MXN", 21.86);
+        EXCHANGE_RATES.put("ZAR", 20.59);
+        EXCHANGE_RATES.put("TRY", 47.61);
+        EXCHANGE_RATES.put("NZD", 1.99);
+        EXCHANGE_RATES.put("PHP", 66.30);
+        EXCHANGE_RATES.put("EGP", 56.63);
     }
     public static final Map<String, TreeMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
     public static void registerCurrencyItems(){

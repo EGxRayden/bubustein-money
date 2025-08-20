@@ -2,7 +2,7 @@
   "type": "bubusteinmoneymod:bank_machine_shaped",
   "key": {
     "B": {
-      "item": "bubusteinmoneymod:special_paper"
+      "item": "bubusteinmoneymod:polymer_sheet"
     },
     "C": {
       "item": "minecraft:gold_nugget"
