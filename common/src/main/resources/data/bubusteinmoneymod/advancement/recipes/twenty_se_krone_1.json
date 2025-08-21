@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:twenty_se_krone_1"
+        "recipe": "bubusteinmoneymod:twenty_se_krone_1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:twenty_se_krone_1"
+      "bubusteinmoneymod:twenty_se_krone_1"
     ]
   }
 }

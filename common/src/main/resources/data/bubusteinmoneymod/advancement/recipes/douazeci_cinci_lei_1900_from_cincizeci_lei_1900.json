@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:douazeci_cinci_lei_1900_from_cincizeci_lei_1900"
+        "recipe": "bubusteinmoneymod:douazeci_cinci_lei_1900_from_cincizeci_lei_1900"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:douazeci_cinci_lei_1900_from_cincizeci_lei_1900"
+      "bubusteinmoneymod:douazeci_cinci_lei_1900_from_cincizeci_lei_1900"
     ]
   }
 }

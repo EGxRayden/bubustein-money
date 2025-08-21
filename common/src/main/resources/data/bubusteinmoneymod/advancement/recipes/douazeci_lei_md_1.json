@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:douazeci_lei_md_1"
+        "recipe": "bubusteinmoneymod:douazeci_lei_md_1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:douazeci_lei_md_1"
+      "bubusteinmoneymod:douazeci_lei_md_1"
     ]
   }
 }

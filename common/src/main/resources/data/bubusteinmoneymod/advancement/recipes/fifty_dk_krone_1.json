@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:fifty_dk_krone_1"
+        "recipe": "bubusteinmoneymod:fifty_dk_krone_1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:fifty_dk_krone_1"
+      "bubusteinmoneymod:fifty_dk_krone_1"
     ]
   }
 }

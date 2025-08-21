@@ -24,9 +24,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.BankMachineRecipeShapedBuilder;
@@ -95,7 +97,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .requires(input)
                 .group(group)
                 .unlockedBy(getHasName(input), has(input))
-                .save(recipeOutput, getConversionRecipeName(output, input));
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID,getConversionRecipeName(output, input)));
     }
     @Override
     public void buildRecipes(RecipeOutput exporter){
@@ -724,7 +726,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('D', Items.DIAMOND)
                 .save(exporter);
         // BANK MACHINE RECIPES
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Euro5.get())
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Euro5.get(), 6)
                 .pattern("L##")
                 .pattern("RPA")
                 .pattern("IGD")
@@ -737,8 +739,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.GRAY_DYE)
                 .define('A', Items.GLASS_PANE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Euro5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Pound5.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Euro5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Pound5.get(), 6)
                 .pattern("L##")
                 .pattern("RPA")
                 .pattern("IGD")
@@ -751,8 +753,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.CYAN_DYE)
                 .define('A', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.Pound5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Dollar1.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Pound5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Dollar1.get(), 6)
                 .pattern("RPG")
                 .pattern("GEG")
                 .pattern("GPG")
@@ -761,8 +763,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.GREEN_DYE)
                 .define('E', ModItems.SpecialPaper.get())
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Dollar1.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.DollarC5.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Dollar1.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.DollarC5.get(), 6)
                 .pattern("NOB")
                 .pattern("RDG")
                 .pattern("NCC")
@@ -774,8 +776,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.RED_STAINED_GLASS_PANE)
                 .define('B', Items.BLUE_DYE)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.DollarC5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Leu1.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.DollarC5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Leu1.get(), 6)
                 .pattern("#GG")
                 .pattern("SPR")
                 .pattern("*GG")
@@ -786,8 +788,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.PolymerSheet.get())
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.Leu1.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.LeiMD20.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Leu1.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.LeiMD20.get(), 6)
                 .pattern("G*#")
                 .pattern("RPG")
                 .pattern("I*#")
@@ -798,8 +800,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.GOLD_NUGGET)
                 .define('P', ModItems.SpecialPaper.get())
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.LeiMD20.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Franc10.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.LeiMD20.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Franc10.get(), 6)
                 .pattern(" DD")
                 .pattern(" ND")
                 .pattern(" RP")
@@ -808,8 +810,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('P', ModItems.SpecialPaper.get())
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Franc10.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.DollarA5.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Franc10.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.DollarA5.get(), 6)
                 .pattern("LDD")
                 .pattern("GBR")
                 .pattern("OCC")
@@ -821,8 +823,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('O', Items.ORANGE_DYE)
                 .define('C', Items.GOLD_NUGGET)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.DollarA5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Yen1000.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.DollarA5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Yen1000.get(), 6)
                 .pattern("IGL")
                 .pattern("RPW")
                 .pattern("WWW")
@@ -833,8 +835,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('L', Items.LAPIS_LAZULI)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Yen1000.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.CZkr100.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Yen1000.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.CZkr100.get(), 6)
                 .pattern("RGG")
                 .pattern("RP#")
                 .pattern("RDD")
@@ -844,8 +846,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.SpecialPaper.get())
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.CZkr100.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.DKkr50.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.CZkr100.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.DKkr50.get(), 6)
                 .pattern("ABC")
                 .pattern("DPE")
                 .pattern("FCC")
@@ -857,8 +859,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('E', Items.PURPLE_DYE)
                 .define('F', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.DKkr50.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Ft500.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.DKkr50.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Ft500.get(), 6)
                 .pattern("CBC")
                 .pattern("RPI")
                 .pattern("CBC")
@@ -868,8 +870,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.SpecialPaper.get())
                 .define('I', Items.IRON_NUGGET)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Ft500.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.NOkr50.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Ft500.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.NOkr50.get(), 6)
                 .pattern("R#E")
                 .pattern("IPG")
                 .pattern("LE#")
@@ -881,8 +883,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.GOLD_NUGGET)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.NOkr50.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Zloty10.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.NOkr50.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Zloty10.get(), 6)
                 .pattern("R#E")
                 .pattern("IPG")
                 .pattern("LE#")
@@ -894,8 +896,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.WHITE_DYE)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Zloty10.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.RSD10.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Zloty10.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.RSD10.get(), 6)
                 .pattern("R##")
                 .pattern("IP#")
                 .pattern("LEG")
@@ -907,8 +909,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.WHITE_DYE)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.RSD10.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.SEkr20.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.RSD10.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.SEkr20.get(), 6)
                 .pattern("R##")
                 .pattern("IP#")
                 .pattern("LEG")
@@ -920,8 +922,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('G', Items.WHITE_DYE)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.SEkr20.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.ISkr500.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.SEkr20.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.ISkr500.get(), 6)
                 .pattern("LO#")
                 .pattern("RPI")
                 .pattern("G#O")
@@ -933,8 +935,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('L', Items.LAPIS_LAZULI)
                 .define('G', Items.GOLD_NUGGET)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.ISkr500.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.INr50.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.ISkr500.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.INr50.get(), 6)
                 .pattern("L##")
                 .pattern("RP#")
                 .pattern("I##")
@@ -944,8 +946,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.INr50.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.Won1000.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.INr50.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.Won1000.get(), 6)
                 .pattern("R##")
                 .pattern("LP#")
                 .pattern("I##")
@@ -955,8 +957,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('L', Items.LAPIS_LAZULI)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.Won1000.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.CNYuan1.get(), 2)
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.Won1000.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.CNYuan1.get(), 6)
                 .pattern("#O#")
                 .pattern("RPI")
                 .pattern("O#O")
@@ -966,8 +968,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('O', Items.YELLOW_DYE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.CNYuan1.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.BRReal2.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.CNYuan1.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.BRReal2.get(), 6)
                 .pattern("DDN")
                 .pattern("DPG")
                 .pattern("LRN")
@@ -978,8 +980,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('D', Items.LIGHT_BLUE_DYE)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.BRReal2.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.MXPeso20.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.BRReal2.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.MXPeso20.get(), 6)
                 .pattern("NGD")
                 .pattern("LPL")
                 .pattern("GRD")
@@ -990,8 +992,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('D', Items.LIME_DYE)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.MXPeso20.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.ZARand10.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.MXPeso20.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.ZARand10.get(), 6)
                 .pattern("DDN")
                 .pattern("LPG")
                 .pattern("LRN")
@@ -1002,8 +1004,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('D', Items.LIME_DYE)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.ZARand10.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.TRl5.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.ZARand10.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.TRl5.get(), 6)
                 .pattern("LGG")
                 .pattern("OPR")
                 .pattern("NDG")
@@ -1015,8 +1017,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.SpecialPaper.get())
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.TRl5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.NZD5.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.TRl5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.NZD5.get(), 6)
                 .pattern("OCO")
                 .pattern("OPR")
                 .pattern("LGO")
@@ -1027,8 +1029,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.PolymerSheet.get())
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.NZD5.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.PHP20.get())
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.NZD5.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.PHP20.get(), 6)
                 .pattern("RLC")
                 .pattern("CPC")
                 .pattern("NGC")
@@ -1039,8 +1041,8 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('P', ModItems.SpecialPaper.get())
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ModItems.SpecialPaper.get()), has(ModItems.SpecialPaper.get()))
-                .save(exporter, getItemName(ModItems.PHP20.get()) + "_1");
-        BankMachineRecipeShapedBuilder.shaped(ModItems.EGPiastre25.get(), 4)
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.PHP20.get()) + "_1"));
+        BankMachineRecipeShapedBuilder.shaped(ModItems.EGPiastre25.get(), 6)
                 .pattern("NGG")
                 .pattern("RPB")
                 .pattern("IBG")
@@ -1051,7 +1053,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .define('B', Items.LIGHT_BLUE_DYE)
                 .define('I', Items.IRON_NUGGET)
                 .unlockedBy(getHasName(ModItems.PolymerSheet.get()), has(ModItems.PolymerSheet.get()))
-                .save(exporter, getItemName(ModItems.EGPiastre25.get()) + "_1");
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.EGPiastre25.get()) + "_1"));
 
         BankMachineRecipeShapedBuilder.shaped(ModItems.RustyCard.get())
                 .pattern(" D ")
@@ -1201,7 +1203,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .pattern("##")
                 .define('#', ModItems.L12.get())
                 .unlockedBy(getHasName(ModItems.L12.get()), has(ModItems.L12.get()))
-                .save(exporter, getItemName(ModItems.L25.get()) + "_1");
+.save(exporter, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, getItemName(ModItems.L25.get()) + "_1"));
         twoItems1(exporter, ModItems.L50.get(), ModItems.L25.get());
         twoItems1(exporter, ModItems.L100.get(), ModItems.L50.get());
     }

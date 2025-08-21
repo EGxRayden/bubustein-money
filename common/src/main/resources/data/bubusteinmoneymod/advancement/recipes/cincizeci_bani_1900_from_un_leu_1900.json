@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:cincizeci_bani_1900_from_un_leu_1900"
+        "recipe": "bubusteinmoneymod:cincizeci_bani_1900_from_un_leu_1900"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:cincizeci_bani_1900_from_un_leu_1900"
+      "bubusteinmoneymod:cincizeci_bani_1900_from_un_leu_1900"
     ]
   }
 }

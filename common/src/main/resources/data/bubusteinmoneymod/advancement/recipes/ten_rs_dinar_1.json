@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ten_rs_dinar_1"
+        "recipe": "bubusteinmoneymod:ten_rs_dinar_1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ten_rs_dinar_1"
+      "bubusteinmoneymod:ten_rs_dinar_1"
     ]
   }
 }

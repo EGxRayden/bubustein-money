@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:zece_bani_1900_from_douazeci_bani_1900"
+        "recipe": "bubusteinmoneymod:zece_bani_1900_from_douazeci_bani_1900"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:zece_bani_1900_from_douazeci_bani_1900"
+      "bubusteinmoneymod:zece_bani_1900_from_douazeci_bani_1900"
     ]
   }
 }
