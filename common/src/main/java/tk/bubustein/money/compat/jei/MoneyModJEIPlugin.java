@@ -22,18 +22,25 @@ package tk.bubustein.money.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.MoneyMod;
+import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.BankMachineRecipe;
 import tk.bubustein.money.recipe.ModRecipes;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import static tk.bubustein.money.MoneyMod.LOGGER;
 
@@ -41,6 +48,7 @@ import static tk.bubustein.money.MoneyMod.LOGGER;
 @Environment(EnvType.CLIENT)
 public class MoneyModJEIPlugin implements IModPlugin {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "jei_plugin");
+
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return ID;
@@ -58,7 +66,41 @@ public class MoneyModJEIPlugin implements IModPlugin {
         List<BankMachineRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipes.BANK_MACHINE_RECIPE.get()).stream()
                 .map(RecipeHolder::value)
                 .toList();
-        LOGGER.info( "[" + MoneyMod.MOD_ID +"] Loaded {} Bank Machine recipes", recipes.size());
+        LOGGER.info("[" + MoneyMod.MOD_ID +"] Loaded {} Bank Machine recipes", recipes.size());
         registration.addRecipes(BankMachineCategory.RECIPE_TYPE, recipes);
+        List<IJeiAnvilRecipe> keyRepairRecipes = createKeyRepairRecipes();
+        registration.addRecipes(RecipeTypes.ANVIL, keyRepairRecipes);
+        LOGGER.info("[" + MoneyMod.MOD_ID +"] Registered {} Key repair recipes", keyRepairRecipes.size());
+    }
+
+    private List<IJeiAnvilRecipe> createKeyRepairRecipes() {
+        List<IJeiAnvilRecipe> recipes = new ArrayList<>();
+        recipes.add(createKeyRepairRecipe(12, 1));
+        recipes.add(createKeyRepairRecipe(24, 2));
+        recipes.add(createKeyRepairRecipe(36, 3));
+        recipes.add(createKeyRepairRecipe(48, 4));
+        return recipes;
+    }
+    private IJeiAnvilRecipe createKeyRepairRecipe(int damageValue, int diamondCount) {
+        return new IJeiAnvilRecipe() {
+            @Override
+            public @NotNull List<ItemStack> getLeftInputs() {
+                ItemStack damagedKey = new ItemStack(ModItems.Key.get());
+                damagedKey.setDamageValue(damageValue);
+                return Collections.singletonList(damagedKey);
+            }
+            @Override
+            public @NotNull List<ItemStack> getRightInputs() {
+                return Collections.singletonList(new ItemStack(Items.DIAMOND, diamondCount));
+            }
+            @Override
+            public @NotNull List<ItemStack> getOutputs() {
+                return Collections.singletonList(new ItemStack(ModItems.Key.get()));
+            }
+            @Override
+            public @NotNull ResourceLocation getUid() {
+                return ID;
+            }
+        };
     }
 }

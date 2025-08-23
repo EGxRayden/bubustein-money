@@ -26,14 +26,18 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.plugin.common.displays.anvil.DefaultAnvilDisplay;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.block.ModBlocks;
+import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.BankMachineRecipe;
 import tk.bubustein.money.recipe.ModRecipes;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import static tk.bubustein.money.MoneyMod.LOGGER;
 
 @Environment(EnvType.CLIENT)
@@ -51,6 +55,27 @@ public class MoneyModREIPlugin implements REIClientPlugin {
             List<EntryIngredient> outputs = List.of(EntryIngredients.of(recipe.value().getResultItem(null)));
             return new BankMachineDisplay(inputs, outputs, Optional.of(recipe));
         });
+        addKeyRepairDisplay(registry, 12, 1, 1);
+        addKeyRepairDisplay(registry, 24, 2, 2);
+        addKeyRepairDisplay(registry, 36, 3, 3);
+        addKeyRepairDisplay(registry, 48, 4, 4);
         LOGGER.info("[" + MoneyMod.MOD_ID + "] Bank Machine Display has been registered successfully.");
+    }
+    private void addKeyRepairDisplay(DisplayRegistry registry, int damageValue, int diamondCount, int xpCost) {
+        ItemStack damagedKey = new ItemStack(ModItems.Key.get());
+        damagedKey.setDamageValue(damageValue);
+        ItemStack repairMaterial = new ItemStack(Items.DIAMOND, diamondCount);
+        ItemStack repairedKey = new ItemStack(ModItems.Key.get());
+        EntryIngredient leftInput = EntryIngredients.of(damagedKey);
+        EntryIngredient rightInput = EntryIngredients.of(repairMaterial);
+        EntryIngredient output = EntryIngredients.of(repairedKey);
+        int remainingDurability = 50 - damageValue;
+        DefaultAnvilDisplay display = new DefaultAnvilDisplay(
+                Arrays.asList(leftInput, rightInput),
+                Collections.singletonList(output),
+                Optional.of(ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "key_repair_" + remainingDurability + "_" + diamondCount)),
+                OptionalInt.of(xpCost)
+        );
+        registry.add(display);
     }
 }
