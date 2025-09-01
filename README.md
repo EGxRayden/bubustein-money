@@ -94,15 +94,15 @@
         <td>1.21.4</td>
         <td>9.x.y</td>
         <td>⛔</td>
-        <td>✅</td>
-        <td>✅</td>
+        <td>⭕</td>
+        <td>⭕</td>
     </tr>
     <tr>
         <td>1.21.5</td>
         <td>10.x.y</td>
         <td>⛔</td>
-        <td>✅</td>
-        <td>✅</td>
+        <td>⭕</td>
+        <td>⭕</td>
     </tr>
     <tr>
         <td>1.21.8</td>
@@ -110,6 +110,13 @@
         <td>⛔</td>
         <td>✅</td>
         <td>✅</td>
+    </tr>
+    <tr>
+        <td>1.21.9</td>
+        <td>12.x.y</td>
+        <td>⛔</td>
+        <td>📅</td>
+        <td>📅</td>
     </tr>
 </table>
 
@@ -202,6 +209,36 @@ Now you can craft for example from 5 Euro to 10 Euro using Crafting Table, <br> 
     <b>You need to backup your worlds before installing x.0.11!</b>
 </td>
     <td>x.0.11</td>
+</tr>
+<tr>
+    <td><p>September 2025</p></td>
+    <td>Fixed when upgrading from a card to another (if you have money in it the money stays). <br>
+Fixed SetdefaultCurrency command (the command itself will only change in the config file, so only the new cards will have the new currency set). <br>
+If you have `[currency]` in your command help description it will appear the currency abbreviation (e.g. HUF, EUR).<br>
+Set the max balance per card to 1 B.<br>
+Translation Update (RO 🇷🇴, DE 🇩🇪, PL 🇵🇱, AR 🇸🇦, WS 🏴󠁧󠁢󠁥󠁮󠁧󠁿, NL 🇳🇱, CZ 🇨🇿).<br>
+Changed the village houses (different houses for every village with custom loot, regional currencies).<br>
+Removed BGN (Bulgarian Leva).<br>
+Changed the recipes for getting smaller banknotes or bigger ones (you have to go to Crafting Table).<br>
+Added the KEY (you need it to have access to the Bank Machine, has 50 durability, enchantable with UNBREAKING, MENDING).<br>
+Added EGP (Egyptian Pound).<br>
+Added new custom landmarks (Cottage, Hotel, Snowy Mansion - high value landmarks, Desert Castle, Gong, Jungle Hut, Mangrove Witch Hut, Swamp Witch Hut - small landmarks).<br>
+Changed the Recipes for ATM, Cards.<br>
+Added Rusty Card and Supreme Card (10% tax, 0% tax).<br>
+Change the tax of Steel Card to 1%.<br>
+Updated the Exchange Rates.<br>
+Fix setCurrency Command.<br>
+Added Polymer, Polymer Sheet, Plastic, Plastic Card.<br>
+Changed the textures of every card (removed the transparency corners).<br>
+Fix withdraw command.<br>
+Added recipes for Polymer, Polymer Sheet, Plastic, Plastic Card.<br>
+Changed the Villager profession textures (Banker & Exchanger).<br>
+Added Abandoned Mansion.<br>
+Fix broken textures.<br>
+Updated Recipes.<br>
+Advancement Recipe Unlocker.
+    </td>
+    <td>x.0.12</td>
 </tr>
 </table>
 
