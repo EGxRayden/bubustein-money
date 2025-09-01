@@ -67,7 +67,7 @@ public class MoneyRecipeDataGen extends FabricRecipeProvider {
                 .requires(input)
                 .group(group)
                 .unlockedBy(getHasName(input), has(input))
-                .save(recipeOutput, getConversionRecipeName(output, input));
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID,getConversionRecipeName(output, input)));
     }
     public static void fiveItems1(RecipeOutput recipeOutput, ItemLike output, ItemLike input) {
         BankMachineRecipeShapedBuilder.shaped(output)
