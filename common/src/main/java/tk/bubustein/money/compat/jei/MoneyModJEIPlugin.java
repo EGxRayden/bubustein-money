@@ -72,7 +72,6 @@ public class MoneyModJEIPlugin implements IModPlugin {
         registration.addRecipes(RecipeTypes.ANVIL, keyRepairRecipes);
         LOGGER.info("[" + MoneyMod.MOD_ID +"] Registered {} Key repair recipes", keyRepairRecipes.size());
     }
-
     private List<IJeiAnvilRecipe> createKeyRepairRecipes() {
         List<IJeiAnvilRecipe> recipes = new ArrayList<>();
         recipes.add(createKeyRepairRecipe(12, 1));
