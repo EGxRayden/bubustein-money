@@ -25,6 +25,8 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,14 +35,38 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.TooltipFlag;
 import tk.bubustein.money.MoneyMod;
+import tk.bubustein.money.bank.AccountKind;
+import tk.bubustein.money.bank.BankAccount;
+import tk.bubustein.money.bank.BankAccountManager;
+import tk.bubustein.money.bank.IbanGenerator;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.config.ModConfig;
+
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 public class CardItem extends Item {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(MoneyMod.MOD_ID, Registries.DATA_COMPONENT_TYPE);
+    public static final Supplier<DataComponentType<String>> IBAN_COMPONENT =
+            COMPONENTS.register("iban", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build());
+
+    public static final Supplier<DataComponentType<String>> OWNER_COMPONENT =
+            COMPONENTS.register("owner", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build());
+
+    public static final Supplier<DataComponentType<String>> ACCOUNT_KIND_COMPONENT =
+            COMPONENTS.register("account_kind", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build());
     public static final Supplier<DataComponentType<Double>> MONEY_COMPONENT = COMPONENTS.register("money", () -> DataComponentType.<Double>builder()
             .persistent(Codec.DOUBLE)
             .networkSynchronized(ByteBufCodecs.DOUBLE)
@@ -55,17 +81,49 @@ public class CardItem extends Item {
     }
     @Override
     public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        if(!stack.has(MONEY_COMPONENT.get())) {
-            stack.set(MONEY_COMPONENT.get(), 0.0);
-            stack.set(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
+        if (level.isClientSide) return;
+        // dacă deja are IBAN, nu recrea cont
+        if (stack.has(IBAN_COMPONENT.get())) return;
+        UUID owner = player.getUUID();
+        String defaultCurrency = MoneyMod.getDefaultCurrency();
+        if (!ModItems.EXCHANGE_RATES.containsKey(defaultCurrency)) {
+            defaultCurrency = "EUR";
         }
+        // alegi banca și tipul în funcție de item
+        String bankPrefix = "BSTN"; // deocamdată hardcod, ulterior din BankManager
+        AccountKind kind = AccountKind.DEBIT; // pentru cardurile tale actuale
+
+        MinecraftServer server = ((ServerLevel) level).getServer();
+        BankAccountManager mgr = BankAccountManager.get();
+
+        int accountId = mgr.nextAccountId(server);
+        String countryCode = ModConfig.getInstance().getServerCountryCode();
+        String iban = IbanGenerator.generateIban(
+                countryCode,
+                player.getName().getString(),
+                bankPrefix,
+                kind,
+                accountId
+        );
+
+        BankAccount acc = mgr.createAccount(owner, kind, defaultCurrency, bankPrefix, accountId, iban);
+        mgr.saveToConfig(server);
+
+        setIban(stack, iban);
+        setOwner(stack, owner);
+        setAccountKind(stack, kind);
+
+        // opțional: la început mai poți lăsa MONEY/CURRENCY ca „legacy”, dar nu le mai folosi
     }
+
     @Override
     public boolean isFoil(ItemStack stack) {
         double money = getMoney(stack);
         String currency = getCurrency(stack);
         if(!currency.equals("EUR")) {
-            money = ModCommands.convertCurrency(money, currency, "EUR");
+            Double rate = ModItems.EXCHANGE_RATES.get(currency);
+            if (rate == null) return false;
+            money = money / rate;
         }
         return money >= GLOW_THRESHOLD_EUR;
     }
@@ -129,13 +187,40 @@ public class CardItem extends Item {
             return df.format(Math.round(amount * 100) / 100.0);
         }
     }
+    public static void setIban(ItemStack stack, String iban) {
+        stack.set(IBAN_COMPONENT.get(), iban);
+    }
+    public static String getIban(ItemStack stack) {
+        return stack.getOrDefault(IBAN_COMPONENT.get(), null);
+    }
+
+    public static void setOwner(ItemStack stack, UUID owner) {
+        stack.set(OWNER_COMPONENT.get(), owner.toString());
+    }
+    public static UUID getOwner(ItemStack stack) {
+        String s = stack.getOrDefault(OWNER_COMPONENT.get(), null);
+        return UUID.fromString(s);
+    }
+    public static void setAccountKind(ItemStack stack, AccountKind kind) {
+        stack.set(ACCOUNT_KIND_COMPONENT.get(), kind.name());
+    }
+    public static AccountKind getAccountKind(ItemStack stack) {
+        String s = stack.getOrDefault(ACCOUNT_KIND_COMPONENT.get(), AccountKind.DEBIT.name());
+        return AccountKind.valueOf(s);
+    }
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        double money = getMoney(stack);
-        String currency = getCurrency(stack);
-        String formattedMoney = formatMoney(money);
-        tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.balance", formattedMoney, currency)
-                .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
+    public void appendHoverText(ItemStack stack, TooltipContext context,
+                                List<Component> tooltip, TooltipFlag flag) {
+        String iban = getIban(stack);
+        BankAccountManager mgr = BankAccountManager.get();
+        mgr.getByIban(iban).ifPresent(acc -> {
+            String formattedMoney = formatMoney(acc.getBalance());
+            tooltip.add(Component.translatable(
+                            "cardItem.bubusteinmoneymod.balance",
+                            formattedMoney,
+                            acc.getCurrency())
+                    .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
+        });
         if (stack.getItem() == ModItems.Card.get())
             tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "3%")
                     .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));

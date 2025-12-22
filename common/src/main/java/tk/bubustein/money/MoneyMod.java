@@ -17,7 +17,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-
 package tk.bubustein.money;
 
 import com.mojang.logging.LogUtils;
@@ -48,6 +47,7 @@ import tk.bubustein.money.villager.ModVillagers;
 public class MoneyMod {
     public static final String MOD_ID = "bubusteinmoneymod";
     public static final Logger LOGGER = LogUtils.getLogger();
+
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
     public static final RegistrySupplier<CreativeModeTab> BANKNOTES = TABS.register("banknotes", () ->
             CreativeTabRegistry.create(Component.translatable("itemGroup.bubusteinmoneymod.banknotes"),
@@ -58,6 +58,7 @@ public class MoneyMod {
     public static final RegistrySupplier<CreativeModeTab> SPECIAL = TABS.register("special", () ->
             CreativeTabRegistry.create(Component.translatable("itemGroup.bubusteinmoneymod.special"),
                     () -> new ItemStack(ModBlocks.ATM.get())));
+
     public static final ResourceKey<LootTable> BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/banker_house_chest"));
     public static final ResourceKey<LootTable> TAIGA_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/taiga_banker_house_chest"));
     public static final ResourceKey<LootTable> SNOWY_BANKER_HOUSE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/snowy_banker_house_chest"));
@@ -67,52 +68,98 @@ public class MoneyMod {
     public static final ResourceKey<LootTable> MANSION_DOUBLE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/mansion_double_chest"));
     public static final ResourceKey<LootTable> HOTEL_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/hotel_chest"));
     public static final ResourceKey<LootTable> MANSION_CHEST = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MoneyMod.MOD_ID, "chests/mansion_chest"));
+
     private static ModConfig config;
+    private static volatile String cachedDefaultCurrency = "EUR";
+
     public static void init() {
-        LOGGER.info("[" + MOD_ID + "] Printing money. . . ;)");
-        ModItems.init();
         config = ModConfig.getInstance();
-        LOGGER.info("[" + MOD_ID + "] Crafting ATM. . .");
-        ModBlocks.init();
-        LOGGER.info("[" + MOD_ID + "] Registering Bank Machine GUI. . .");
-        ModMenuTypes.init();
-        LOGGER.info("[" + MOD_ID + "] Registering Bank Machine Recipes. . .");
-        ModRecipes.init();
-        LOGGER.info("[" + MOD_ID + "] Making new jobs. . .");
-        ModVillagers.init();
-        LOGGER.info("[" + MOD_ID + "] Creating Tabs. . .");
-        TABS.register();
-        LOGGER.info("[" + MOD_ID + "] Registering Cards. . .");
+
+        LOGGER.info("[{}] Registering Data Components...", MOD_ID);
         CardItem.COMPONENTS.register();
-        LOGGER.info("[" + MOD_ID + "] The Mod has been loaded successfully");
+
+        LOGGER.info("[{}] Printing money. . . ;)", MOD_ID);
+        ModItems.init();
+
+        LOGGER.info("[{}] Crafting ATM. . .", MOD_ID);
+        ModBlocks.init();
+
+        LOGGER.info("[{}] Registering Bank Machine GUI. . .", MOD_ID);
+        ModMenuTypes.init();
+
+        LOGGER.info("[{}] Registering Bank Machine Recipes. . .", MOD_ID);
+        ModRecipes.init();
+
+        LOGGER.info("[{}] Making new jobs. . .", MOD_ID);
+        ModVillagers.init();
+
+        LOGGER.info("[{}] Creating Tabs. . .", MOD_ID);
+        TABS.register();
+
+        LOGGER.info("[{}] The Mod has been loaded successfully", MOD_ID);
     }
+
     public static void registerJigsaws(MinecraftServer server){
         Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().registry(Registries.TEMPLATE_POOL).orElseThrow();
         Registry<StructureProcessorList> processorListRegistry = server.registryAccess().registry(Registries.PROCESSOR_LIST).orElseThrow();
-
-        ResourceLocation plainsPoolLocation = ResourceLocation.parse("minecraft:village/plains/houses");
-        ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");
-        ResourceLocation savannaPoolLocation = ResourceLocation.parse("minecraft:village/savanna/houses");
-        ResourceLocation snowyPoolLocation = ResourceLocation.parse("minecraft:village/snowy/houses");
-        ResourceLocation taigaPoolLocation = ResourceLocation.parse("minecraft:village/taiga/houses");
-
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsPoolLocation, "bubusteinmoneymod:plains_banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, desertPoolLocation, "bubusteinmoneymod:desert_banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaPoolLocation, "bubusteinmoneymod:savanna_banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaPoolLocation, "bubusteinmoneymod:taiga_banker_house", 20);
-        JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyPoolLocation, "bubusteinmoneymod:snowy_banker_house", 20);
+        try {
+            JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, ResourceLocation.parse("minecraft:village/plains/houses"), "bubusteinmoneymod:plains_banker_house", 20);
+        } catch (Exception e) {
+            LOGGER.warn("[{}] Jigsaw plains pool error: {}", MOD_ID, e.toString());
+        }
+        try {
+            JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, ResourceLocation.parse("minecraft:village/desert/houses"), "bubusteinmoneymod:desert_banker_house", 20);
+        } catch (Exception e) {
+            LOGGER.warn("[{}] Jigsaw desert pool error: {}", MOD_ID, e.toString());
+        }
+        try {
+            JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, ResourceLocation.parse("minecraft:village/savanna/houses"), "bubusteinmoneymod:savanna_banker_house", 20);
+        } catch (Exception e) {
+            LOGGER.warn("[{}] Jigsaw savanna pool error: {}", MOD_ID, e.toString());
+        }
+        try {
+            JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, ResourceLocation.parse("minecraft:village/taiga/houses"), "bubusteinmoneymod:taiga_banker_house", 20);
+        } catch (Exception e) {
+            LOGGER.warn("[{}] Jigsaw taiga pool error: {}", MOD_ID, e.toString());
+        }
+        try {
+            JigsawHelper.addBuildingToPool(templatePoolRegistry, processorListRegistry, ResourceLocation.parse("minecraft:village/snowy/houses"), "bubusteinmoneymod:snowy_banker_house", 20);
+        } catch (Exception e) {
+            LOGGER.warn("[{}] Jigsaw snowy pool error: {}", MOD_ID, e.toString());
+        }
     }
     public static void onServerStarting(MinecraftServer server) {
-        config.load(server);
-        setDefaultCurrency(config.getDefaultCurrency());
+        config.loadWithMigration(server);
+        ModItems.initializeExchangeRates(server);
+        String loadedCurrency = config.getDefaultCurrency();
+        if (loadedCurrency == null || !ModItems.EXCHANGE_RATES.containsKey(loadedCurrency)) {
+            LOGGER.warn("[{}] Invalid default currency '{}' in config. Resetting to EUR.", MOD_ID, loadedCurrency);
+            loadedCurrency = "EUR";
+            config.setDefaultCurrency(loadedCurrency);
+        }
+        setDefaultCurrency(loadedCurrency);
+        LOGGER.info("[{}] Default currency set to: {}", MOD_ID, loadedCurrency);
     }
     public static void setDefaultCurrency(String currency) {
+        if (currency == null || !ModItems.EXCHANGE_RATES.containsKey(currency)) {
+            LOGGER.error("[{}] Attempted to set invalid default currency: {}", MOD_ID, currency);
+            config.setDefaultCurrency("EUR");
+            cachedDefaultCurrency = "EUR";
+            return;
+        }
         config.setDefaultCurrency(currency);
+        cachedDefaultCurrency = currency;
+        LOGGER.info("[{}] Default currency changed to: {}", MOD_ID, currency);
     }
     public static String getDefaultCurrency() {
-        return config.getDefaultCurrency();
+        if (config == null) {
+            LOGGER.warn("[{}] Config not initialized, using fallback EUR", MOD_ID);
+            return "EUR";
+        }
+        return cachedDefaultCurrency;
     }
     public static void saveConfig(MinecraftServer server) {
-        config.save(server);
+        if (config != null) config.save(server);
+        else LOGGER.error("[{}] Tried to save config but config is null!", MOD_ID);
     }
 }

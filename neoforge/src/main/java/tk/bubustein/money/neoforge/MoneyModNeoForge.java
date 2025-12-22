@@ -59,8 +59,8 @@ public class MoneyModNeoForge {
     public static class ModEvents {
         @SubscribeEvent
         public static void onCommonSetup(FMLCommonSetupEvent event) {
-            ModItems.registerExchangeRates();
             ModItems.registerCurrencyItems();
+            ModItems.finalizeCurrencyItems();
         }
     }
     @SubscribeEvent

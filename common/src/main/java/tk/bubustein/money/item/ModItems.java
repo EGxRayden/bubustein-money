@@ -22,15 +22,18 @@ package tk.bubustein.money.item;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import tk.bubustein.money.MoneyExpectPlatform;
 import tk.bubustein.money.MoneyMod;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import tk.bubustein.money.config.ModConfig;
+import tk.bubustein.money.util.ExchangeRateFetcher;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 @SuppressWarnings("UnstableApiUsage")
 public class ModItems {
@@ -458,41 +461,93 @@ public class ModItems {
     public static final Supplier<Item> Key = MoneyExpectPlatform.registerItem("key",
             () -> new KeyItem(new Item.Properties().stacksTo(1).durability(50).arch$tab(MoneyMod.SPECIAL)));
 
-    public static final Map<String, Double> EXCHANGE_RATES = new HashMap<>();
-    public static void registerExchangeRates() {
-        // EXCHANGE RATES FROM EUR TO OTHER - LAST UPDATED ON 20th AUGUST 2025
-        EXCHANGE_RATES.put("EUR", 1.00);
-        EXCHANGE_RATES.put("USD", 1.16);
-        EXCHANGE_RATES.put("GBP", 0.86);
-        EXCHANGE_RATES.put("CAD", 1.61);
-        EXCHANGE_RATES.put("RON", 5.05);
-        EXCHANGE_RATES.put("MDL", 19.43);
-        EXCHANGE_RATES.put("CHF", 0.94);
-        EXCHANGE_RATES.put("AUD", 1.80);
-        EXCHANGE_RATES.put("JPY", 171.74);
-        EXCHANGE_RATES.put("CZK", 24.48);
-        EXCHANGE_RATES.put("NOK", 11.94);
-        EXCHANGE_RATES.put("DKK", 7.46);
-        EXCHANGE_RATES.put("SEK", 11.17);
-        EXCHANGE_RATES.put("HUF", 394.74);
-        EXCHANGE_RATES.put("PLN", 4.25);
-        EXCHANGE_RATES.put("RSD", 117.16);
-        EXCHANGE_RATES.put("ISK", 143.4);
-        EXCHANGE_RATES.put("CNY", 8.35);
-        EXCHANGE_RATES.put("INR",101.27);
-        EXCHANGE_RATES.put("KRW", 1627.91);
-        EXCHANGE_RATES.put("BRL", 6.40);
-        EXCHANGE_RATES.put("MXN", 21.86);
-        EXCHANGE_RATES.put("ZAR", 20.59);
-        EXCHANGE_RATES.put("TRY", 47.61);
-        EXCHANGE_RATES.put("NZD", 1.99);
-        EXCHANGE_RATES.put("PHP", 66.30);
-        EXCHANGE_RATES.put("EGP", 56.63);
+
+    public static final Map<String, Double> EXCHANGE_RATES = new ConcurrentHashMap<>();
+    private static final AtomicBoolean updateInProgress = new AtomicBoolean(false);
+    public static void initializeExchangeRates(MinecraftServer server) {
+        ModConfig config = ModConfig.getInstance();
+        Map<String, Double> cachedRates = config.getExchangeRates();
+        if (!cachedRates.isEmpty()) {
+            Map<String, Double> filteredCached = new HashMap<>();
+            for (Map.Entry<String, Double> entry : cachedRates.entrySet()) {
+                if (CURRENCY_ITEMS.containsKey(entry.getKey())) {
+                    filteredCached.put(entry.getKey(), entry.getValue());
+                }
+            }
+            EXCHANGE_RATES.clear();
+            EXCHANGE_RATES.putAll(filteredCached);
+            MoneyMod.LOGGER.info("[{}] Loaded {} exchange rates from config",
+                    MoneyMod.MOD_ID, filteredCached.size());
+        } else {
+            Map<String, Double> fallback = ExchangeRateFetcher.getFallbackRates();
+            Map<String, Double> filteredFallback = new HashMap<>();
+            for (Map.Entry<String, Double> entry : fallback.entrySet()) {
+                if (CURRENCY_ITEMS.containsKey(entry.getKey())) {
+                    filteredFallback.put(entry.getKey(), entry.getValue());
+                }
+            }
+            EXCHANGE_RATES.putAll(filteredFallback);
+        }
+        long lastUpdate = config.getLastRatesUpdateEpoch();
+        long now = java.time.Instant.now().getEpochSecond();
+        long daysSinceUpdate = lastUpdate > 0 ? (now - lastUpdate) / (24 * 3600) : 999;
+
+        if (lastUpdate == 0 || daysSinceUpdate >= 7) {
+            MoneyMod.LOGGER.info("[{}] Exchange rates are {} days old, fetching fresh data...",
+                    MoneyMod.MOD_ID, lastUpdate == 0 ? "never updated" : daysSinceUpdate + "");
+            updateExchangeRatesAsync(server, true);
+        } else {
+            MoneyMod.LOGGER.info("[{}] Exchange rates are fresh ({} days old, next update in {} days)",
+                    MoneyMod.MOD_ID, daysSinceUpdate, 7 - daysSinceUpdate);
+        }
     }
-    public static final Map<String, TreeMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
+    public static CompletableFuture<Void> updateExchangeRatesAsync(MinecraftServer server, boolean isAutoUpdate) {
+        if (!updateInProgress.compareAndSet(false, true)) {
+            MoneyMod.LOGGER.warn("[{}] Exchange rate update already in progress, skipping", MoneyMod.MOD_ID);
+            return CompletableFuture.completedFuture(null);
+        }
+        CompletableFuture<Map<String, Double>> future = ExchangeRateFetcher.fetchRatesAsync(
+                new HashMap<>(EXCHANGE_RATES)
+        );
+        return future.thenAccept(rates -> server.execute(() -> {
+            try {
+                Map<String, Double> filteredRates = new HashMap<>();
+                for (Map.Entry<String, Double> entry : rates.entrySet()) {
+                    if (CURRENCY_ITEMS.containsKey(entry.getKey())) {
+                        filteredRates.put(entry.getKey(), entry.getValue());
+                    }
+                }
+                EXCHANGE_RATES.clear();
+                EXCHANGE_RATES.putAll(filteredRates);
+                ModConfig config = ModConfig.getInstance();
+                config.setExchangeRates(filteredRates);
+                config.save(server);
+                if (isAutoUpdate) {
+                    MoneyMod.LOGGER.info("[{}] Auto-update: Exchange rates refreshed (7-day check)",
+                            MoneyMod.MOD_ID);
+                } else {
+                    MoneyMod.LOGGER.info("[{}] Exchange rates updated successfully", MoneyMod.MOD_ID);
+                }
+            } catch (Exception e) {
+                MoneyMod.LOGGER.error("[{}] Failed to save updated exchange rates", MoneyMod.MOD_ID, e);
+            } finally {
+                updateInProgress.set(false);
+            }
+        })).exceptionally(ex -> {
+            MoneyMod.LOGGER.error("[{}] Exchange rate update failed", MoneyMod.MOD_ID, ex);
+            updateInProgress.set(false);
+            return null;
+        });
+    }
+    private static volatile Map<String, NavigableMap<Double, Item>> CURRENCY_ITEMS = new HashMap<>();
+    private static final AtomicBoolean finalized = new AtomicBoolean(false);
+    public static Map<String, NavigableMap<Double, Item>> getCurrencyItems() {
+        return CURRENCY_ITEMS;
+    }
     public static void registerCurrencyItems(){
+        CURRENCY_ITEMS.clear();
         // Euro
-        TreeMap<Double, Item> euroItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> euroItems = new TreeMap<>(Comparator.naturalOrder());
         euroItems.put(500.0, Euro500.get());
         euroItems.put(200.0, Euro200.get());
         euroItems.put(100.0, Euro100.get());
@@ -510,7 +565,7 @@ public class ModItems {
         euroItems.put(0.01, Ecent1.get());
         CURRENCY_ITEMS.put("EUR", euroItems);
         // USD
-        TreeMap<Double, Item> usdItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> usdItems = new TreeMap<>(Comparator.naturalOrder());
         usdItems.put(100.0, Dollar100.get());
         usdItems.put(50.0, Dollar50.get());
         usdItems.put(20.0, Dollar20.get());
@@ -524,7 +579,7 @@ public class ModItems {
         usdItems.put(0.01, Cent1.get());
         CURRENCY_ITEMS.put("USD", usdItems);
         // RON
-        TreeMap<Double, Item> ronItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> ronItems = new TreeMap<>(Comparator.naturalOrder());
         ronItems.put(500.0, Lei500.get());
         ronItems.put(200.0, Lei200.get());
         ronItems.put(100.0, Lei100.get());
@@ -539,7 +594,7 @@ public class ModItems {
         ronItems.put(0.01, Ban1.get());
         CURRENCY_ITEMS.put("RON", ronItems);
         // GBP
-        TreeMap<Double, Item> gbpItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> gbpItems = new TreeMap<>(Comparator.naturalOrder());
         gbpItems.put(50.0, Pound50.get());
         gbpItems.put(20.0, Pound20.get());
         gbpItems.put(10.0, Pound10.get());
@@ -554,7 +609,7 @@ public class ModItems {
         gbpItems.put(0.01, Pence1.get());
         CURRENCY_ITEMS.put("GBP", gbpItems);
         // CAD
-        TreeMap<Double, Item> cadItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> cadItems = new TreeMap<>(Comparator.naturalOrder());
         cadItems.put(100.0, DollarC100.get());
         cadItems.put(50.0, DollarC50.get());
         cadItems.put(20.0, DollarC20.get());
@@ -567,7 +622,7 @@ public class ModItems {
         cadItems.put(0.05, CCent5.get());
         CURRENCY_ITEMS.put("CAD", cadItems);
         // MDL
-        TreeMap<Double, Item> mdlItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> mdlItems = new TreeMap<>(Comparator.naturalOrder());
         mdlItems.put(1000.0, LeiMD1000.get());
         mdlItems.put(500.0, LeiMD500.get());
         mdlItems.put(200.0, LeiMD200.get());
@@ -584,7 +639,7 @@ public class ModItems {
         mdlItems.put(0.05, BanMD5.get());
         CURRENCY_ITEMS.put("MDL", mdlItems);
         // CHF
-        TreeMap<Double, Item> chfItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> chfItems = new TreeMap<>(Comparator.naturalOrder());
         chfItems.put(1000.0, Franc1000.get());
         chfItems.put(200.0, Franc200.get());
         chfItems.put(100.0, Franc100.get());
@@ -600,7 +655,7 @@ public class ModItems {
         chfItems.put(0.05, Centimes5.get());
         CURRENCY_ITEMS.put("CHF", chfItems);
         // AUD
-        TreeMap<Double, Item> audItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> audItems = new TreeMap<>(Comparator.naturalOrder());
         audItems.put(100.0, DollarA100.get());
         audItems.put(50.0, DollarA50.get());
         audItems.put(20.0, DollarA20.get());
@@ -614,7 +669,7 @@ public class ModItems {
         audItems.put(0.05, ACent5.get());
         CURRENCY_ITEMS.put("AUD", audItems);
         // JPY
-        TreeMap<Double, Item> jpyItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> jpyItems = new TreeMap<>(Comparator.naturalOrder());
         jpyItems.put(10000.0, Yen10000.get());
         jpyItems.put(5000.0, Yen5000.get());
         jpyItems.put(1000.0, Yen1000.get());
@@ -626,7 +681,7 @@ public class ModItems {
         jpyItems.put(1.0, Yen1.get());
         CURRENCY_ITEMS.put("JPY", jpyItems);
         // CZK
-        TreeMap<Double, Item> czkItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> czkItems = new TreeMap<>(Comparator.naturalOrder());
         czkItems.put(5000.0, CZkr5000.get());
         czkItems.put(2000.0, CZkr2000.get());
         czkItems.put(1000.0, CZkr1000.get());
@@ -641,7 +696,7 @@ public class ModItems {
         czkItems.put(1.0, CZkr1.get());
         CURRENCY_ITEMS.put("CZK", czkItems);
         // NOK
-        TreeMap<Double, Item> nokItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> nokItems = new TreeMap<>(Comparator.naturalOrder());
         nokItems.put(1000.0, NOkr1000.get());
         nokItems.put(500.0, NOkr500.get());
         nokItems.put(200.0, NOkr200.get());
@@ -653,7 +708,7 @@ public class ModItems {
         nokItems.put(1.0, NOkr1.get());
         CURRENCY_ITEMS.put("NOK", nokItems);
         // DKK
-        TreeMap<Double, Item> dkkItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> dkkItems = new TreeMap<>(Comparator.naturalOrder());
         dkkItems.put(1000.0, DKkr1000.get());
         dkkItems.put(500.0, DKkr500.get());
         dkkItems.put(200.0, DKkr200.get());
@@ -667,7 +722,7 @@ public class ModItems {
         dkkItems.put(0.5, DKAere50.get());
         CURRENCY_ITEMS.put("DKK", dkkItems);
         // HUF
-        TreeMap<Double, Item> hufItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> hufItems = new TreeMap<>(Comparator.naturalOrder());
         hufItems.put(20000.0, Ft20000.get());
         hufItems.put(10000.0, Ft10000.get());
         hufItems.put(5000.0, Ft5000.get());
@@ -682,7 +737,7 @@ public class ModItems {
         hufItems.put(5.0, Ft5.get());
         CURRENCY_ITEMS.put("HUF", hufItems);
         // PLN
-        TreeMap<Double, Item> plnItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> plnItems = new TreeMap<>(Comparator.naturalOrder());
         plnItems.put(500.0, Zloty500.get());
         plnItems.put(200.0, Zloty200.get());
         plnItems.put(100.0, Zloty100.get());
@@ -700,7 +755,7 @@ public class ModItems {
         plnItems.put(0.01, Grosz1.get());
         CURRENCY_ITEMS.put("PLN", plnItems);
         // RSD
-        TreeMap<Double, Item> rsdItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> rsdItems = new TreeMap<>(Comparator.naturalOrder());
         rsdItems.put(5000.0, RSD5000.get());
         rsdItems.put(2000.0, RSD2000.get());
         rsdItems.put(1000.0, RSD1000.get());
@@ -715,7 +770,7 @@ public class ModItems {
         rsdItems.put(1.0, RSD1.get());
         CURRENCY_ITEMS.put("RSD", rsdItems);
         // SEK
-        TreeMap<Double, Item> sekItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> sekItems = new TreeMap<>(Comparator.naturalOrder());
         sekItems.put(1000.0, SEkr1000.get());
         sekItems.put(500.0, SEkr500.get());
         sekItems.put(200.0, SEkr200.get());
@@ -728,7 +783,7 @@ public class ModItems {
         sekItems.put(1.0, SEkr1.get());
         CURRENCY_ITEMS.put("SEK", sekItems);
         // ISK
-        TreeMap<Double, Item> iskItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> iskItems = new TreeMap<>(Comparator.naturalOrder());
         iskItems.put(10000.0, ISkr10000.get());
         iskItems.put(5000.0, ISkr5000.get());
         iskItems.put(2000.0, ISkr2000.get());
@@ -741,7 +796,7 @@ public class ModItems {
         iskItems.put(1.0, ISkr1.get());
         CURRENCY_ITEMS.put("ISK", iskItems);
         // INR
-        TreeMap<Double, Item> inrItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> inrItems = new TreeMap<>(Comparator.naturalOrder());
         inrItems.put(500.0, INr500.get());
         inrItems.put(200.0, INr200.get());
         inrItems.put(100.0, INr100.get());
@@ -753,7 +808,7 @@ public class ModItems {
         inrItems.put(1.0, INr1.get());
         CURRENCY_ITEMS.put("INR", inrItems);
         // KRW
-        TreeMap<Double, Item> krwItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> krwItems = new TreeMap<>(Comparator.naturalOrder());
         krwItems.put(50000.0, Won50000.get());
         krwItems.put(10000.0, Won10000.get());
         krwItems.put(5000.0, Won5000.get());
@@ -764,7 +819,7 @@ public class ModItems {
         krwItems.put(10.0, Won10.get());
         CURRENCY_ITEMS.put("KRW", krwItems);
         // CNY
-        TreeMap<Double, Item> cnyItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> cnyItems = new TreeMap<>(Comparator.naturalOrder());
         cnyItems.put(100.0, CNYuan100.get());
         cnyItems.put(50.0, CNYuan50.get());
         cnyItems.put(20.0, CNYuan20.get());
@@ -775,7 +830,7 @@ public class ModItems {
         cnyItems.put(0.1, CNJiao1.get());
         CURRENCY_ITEMS.put("CNY", cnyItems);
         // BRL
-        TreeMap<Double, Item> brlItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> brlItems = new TreeMap<>(Comparator.naturalOrder());
         brlItems.put(200.0, BRReal200.get());
         brlItems.put(100.0, BRReal100.get());
         brlItems.put(50.0, BRReal50.get());
@@ -790,7 +845,7 @@ public class ModItems {
         brlItems.put(0.05, BRCentavo5.get());
         CURRENCY_ITEMS.put("BRL", brlItems);
         // MXN
-        TreeMap<Double, Item> mxnItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> mxnItems = new TreeMap<>(Comparator.naturalOrder());
         mxnItems.put(1000.0, MXPeso1000.get());
         mxnItems.put(500.0, MXPeso500.get());
         mxnItems.put(200.0, MXPeso200.get());
@@ -807,7 +862,7 @@ public class ModItems {
         mxnItems.put(0.05, MXCentavo5.get());
         CURRENCY_ITEMS.put("MXN", mxnItems);
         // ZAR
-        TreeMap<Double, Item> zarItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> zarItems = new TreeMap<>(Comparator.naturalOrder());
         zarItems.put(200.0, ZARand200.get());
         zarItems.put(100.0, ZARand100.get());
         zarItems.put(50.0, ZARand50.get());
@@ -821,7 +876,7 @@ public class ModItems {
         zarItems.put(0.1, ZACent10.get());
         CURRENCY_ITEMS.put("ZAR", zarItems);
         // TRY
-        TreeMap<Double, Item> tryItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> tryItems = new TreeMap<>(Comparator.naturalOrder());
         tryItems.put(200.0, TRl200.get());
         tryItems.put(100.0, TRl100.get());
         tryItems.put(50.0, TRl50.get());
@@ -836,7 +891,7 @@ public class ModItems {
         tryItems.put(0.01, TRk1.get());
         CURRENCY_ITEMS.put("TRY", tryItems);
         // NZD
-        TreeMap<Double, Item> nzdItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> nzdItems = new TreeMap<>(Comparator.naturalOrder());
         nzdItems.put(100.0, NZD100.get());
         nzdItems.put(50.0, NZD50.get());
         nzdItems.put(20.0, NZD20.get());
@@ -849,7 +904,7 @@ public class ModItems {
         nzdItems.put(0.1, NZCent10.get());
         CURRENCY_ITEMS.put("NZD", nzdItems);
         // PHP
-        TreeMap<Double, Item> phpItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> phpItems = new TreeMap<>(Comparator.naturalOrder());
         phpItems.put(1000.0, PHP1000.get());
         phpItems.put(500.0, PHP500.get());
         phpItems.put(200.0, PHP200.get());
@@ -864,7 +919,7 @@ public class ModItems {
         phpItems.put(0.01, PHS1.get());
         CURRENCY_ITEMS.put("PHP", phpItems);
         // EGP
-        TreeMap<Double, Item> egpItems = new TreeMap<>(Comparator.naturalOrder());
+        NavigableMap<Double, Item> egpItems = new TreeMap<>(Comparator.naturalOrder());
         egpItems.put(200.0, EGPound200.get());
         egpItems.put(100.0, EGPound100.get());
         egpItems.put(50.0, EGPound50.get());
@@ -875,5 +930,14 @@ public class ModItems {
         egpItems.put(0.5, EGPiastre50.get());
         egpItems.put(0.25, EGPiastre25.get());
         CURRENCY_ITEMS.put("EGP", egpItems);
+    }
+    public static void finalizeCurrencyItems() {
+        if (finalized.compareAndSet(false, true)) {
+            Map<String, NavigableMap<Double, Item>> newMap = new HashMap<>();
+            for (var entry : CURRENCY_ITEMS.entrySet()) {
+                newMap.put(entry.getKey(), Collections.unmodifiableNavigableMap(new TreeMap<>(entry.getValue())));
+            }
+            CURRENCY_ITEMS = Collections.unmodifiableMap(newMap);
+        }
     }
 }

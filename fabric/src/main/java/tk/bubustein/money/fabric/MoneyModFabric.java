@@ -32,8 +32,8 @@ public class MoneyModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         MoneyMod.init();
-        ModItems.registerExchangeRates();
         ModItems.registerCurrencyItems();
+        ModItems.finalizeCurrencyItems();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             ModVillagers.fillTradeData(server);
             MoneyMod.registerJigsaws(server);

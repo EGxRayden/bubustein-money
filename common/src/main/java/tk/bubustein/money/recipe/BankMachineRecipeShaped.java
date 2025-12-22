@@ -31,7 +31,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import tk.bubustein.money.bank.AccountKind;
 import tk.bubustein.money.item.CardItem;
+
+import java.util.UUID;
 
 public class BankMachineRecipeShaped implements BankMachineRecipe {
     final ShapedRecipePattern pattern;
@@ -69,15 +72,17 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
         return this.pattern.matches(craftingInput);
     }
     @Override
-    public @NotNull ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(CraftingInput input, HolderLookup.Provider provider) {
         ItemStack result = this.getResultItem(provider).copy();
-        if (result.getItem() instanceof CardItem resultCardItem) {
-            ItemStack sourceCard = craftingInput.getItem(4);
-            if (sourceCard.getItem() instanceof CardItem sourceCardItem) {
-                double money = sourceCardItem.getMoney(sourceCard);
-                String currency = sourceCardItem.getCurrency(sourceCard);
-                resultCardItem.setMoney(result, money);
-                resultCardItem.setCurrency(result, currency);
+        if (result.getItem() instanceof CardItem) {
+            ItemStack sourceCard = input.getItem(4);
+            if (sourceCard.getItem() instanceof CardItem) {
+                String iban = CardItem.getIban(sourceCard);
+                UUID owner = CardItem.getOwner(sourceCard);
+                AccountKind kind = CardItem.getAccountKind(sourceCard);
+                CardItem.setIban(result, iban);
+                CardItem.setOwner(result, owner);
+                CardItem.setAccountKind(result, kind);
             }
         }
         return result;

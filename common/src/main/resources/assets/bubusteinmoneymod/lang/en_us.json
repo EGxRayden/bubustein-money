@@ -417,5 +417,22 @@
   "cardItem.bubusteinmoneymod.withdraw_fee": "Withdrawal Fee: %s",
   "message.bubusteinmoneymod.missing_key": "Cannot use Bank Machine. Missing Key",
   "keyItem.bubusteinmoneymod.tooltip": "It opens the Bank Machine",
-  "plasticItem.bubusteinmoneymod.tooltip": "Ingredient for Rusty Card"
+  "plasticItem.bubusteinmoneymod.tooltip": "Ingredient for Rusty Card",
+  "message.bubusteinmoneymod.rates": "Display exchange rates (all or specific currency)",
+  "message.bubusteinmoneymod.updateRates": "Force update exchange rates from ECB",
+  "commands.bubusteinmoneymod.rates.currency_not_found": "Currency '%s' not found!",
+  "commands.bubusteinmoneymod.rates.title_single": "Exchange Rate: EUR → %s",
+  "commands.bubusteinmoneymod.rates.title_all": "All Exchange Rates (EUR)",
+  "commands.bubusteinmoneymod.rates.line_eur_to_currency": "1 EUR = %1$.4f %2$s",
+  "commands.bubusteinmoneymod.rates.line_currency_to_eur": "1 %1$s = %2$.4f EUR",
+  "commands.bubusteinmoneymod.rates.last_updated": "Last Updated: %s",
+  "commands.bubusteinmoneymod.rates.total": "Total: %s currencies",
+  "commands.bubusteinmoneymod.update.start": "Updating exchange rates from ECB...",
+  "commands.bubusteinmoneymod.update.title": "Exchange Rates Updated!",
+  "commands.bubusteinmoneymod.update.updated": "Updated: %s currencies",
+  "commands.bubusteinmoneymod.update.unchanged": "Unchanged: %s currencies",
+  "commands.bubusteinmoneymod.update.total": "Total: %s currencies",
+  "commands.bubusteinmoneymod.update.last_update": "Last update: %s",
+  "commands.bubusteinmoneymod.update.failed": "Failed to update rates: %s"
+
 }
