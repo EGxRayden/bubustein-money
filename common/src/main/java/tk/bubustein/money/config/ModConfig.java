@@ -38,11 +38,8 @@ public class ModConfig {
     private static final String CONFIG_BAK_SUFFIX = ".bak";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final int CURRENT_CONFIG_VERSION = 1;
-    private Map<String, BankAccountData> accounts = new HashMap<>();
-    private Map<String, BankData> banks = new HashMap<>();
     private String serverCountryCode = "RO";
     private String adminResetPassword = "";
-    private int nextAccountId = 1;
 
     private int configVersion = CURRENT_CONFIG_VERSION;
     private String defaultCurrency = "EUR";
@@ -64,7 +61,6 @@ public class ModConfig {
         }
         return instance;
     }
-
     public synchronized void load(MinecraftServer server) {
         Path configPath = getConfigPath(server);
         File configFile = configPath.toFile();
@@ -188,27 +184,10 @@ public class ModConfig {
         }
         load(server);
     }
-
     private static Path getLegacyConfigPath(MinecraftServer server) {
         return server.getWorldPath(new net.minecraft.world.level.storage.LevelResource("data"))
                 .resolve(CONFIG_FILE_NAME);
     }
-    public synchronized Map<String, BankAccountData> getAccounts() {
-        return accounts;
-    }
-
-    public synchronized void setAccounts(Map<String, BankAccountData> accounts) {
-        this.accounts = accounts != null ? accounts : new HashMap<>();
-    }
-
-    public synchronized Map<String, BankData> getBanks() {
-        return banks;
-    }
-
-    public synchronized void setBanks(Map<String, BankData> banks) {
-        this.banks = banks != null ? banks : new HashMap<>();
-    }
-
     public synchronized String getServerCountryCode() {
         return serverCountryCode;
     }
@@ -216,35 +195,11 @@ public class ModConfig {
     public synchronized void setServerCountryCode(String serverCountryCode) {
         this.serverCountryCode = serverCountryCode;
     }
-
     public synchronized String getAdminResetPassword() {
         return adminResetPassword;
     }
 
     public synchronized void setAdminResetPassword(String adminResetPassword) {
         this.adminResetPassword = adminResetPassword;
-    }
-    public synchronized int getNextAccountId() {
-        return nextAccountId;
-    }
-    public synchronized int consumeNextAccountId() {
-        return nextAccountId++;
-    }
-
-    public static class BankAccountData {
-        public String ownerUuid;
-        public String iban;
-        public String currency;
-        public String kind;       // "DEBIT", "SAVINGS", "CREDIT"
-        public double balance;
-        public String bankPrefix;
-        public int accountId;
-        public boolean active;
-    }
-    public static class BankData {
-        public String ownerUuid;
-        public String prefix;     // 4 litere
-        public String name;
-        public boolean active;
     }
 }

@@ -25,6 +25,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +33,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.bank.AccountKind;
+import tk.bubustein.money.bank.BankAccountManager;
 import tk.bubustein.money.item.CardItem;
 
 import java.util.UUID;
@@ -75,13 +77,15 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
     public @NotNull ItemStack assemble(CraftingInput input, HolderLookup.Provider provider) {
         ItemStack result = this.getResultItem(provider).copy();
         if (result.getItem() instanceof CardItem) {
-            ItemStack sourceCard = input.getItem(4);
-            if (sourceCard.getItem() instanceof CardItem) {
-                String iban = CardItem.getIban(sourceCard);
-                UUID owner = CardItem.getOwner(sourceCard);
-                AccountKind kind = CardItem.getAccountKind(sourceCard);
+            ItemStack source = input.getItem(4);
+            if (source.getItem() instanceof CardItem) {
+                String iban = CardItem.getIban(source);
+                UUID owner = CardItem.getOwner(source);
+                String ownerName = CardItem.getOwnerName(source);
+                AccountKind kind = CardItem.getAccountKind(source);
                 CardItem.setIban(result, iban);
                 CardItem.setOwner(result, owner);
+                CardItem.setOwnerName(result, ownerName);
                 CardItem.setAccountKind(result, kind);
             }
         }

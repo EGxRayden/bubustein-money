@@ -11,6 +11,11 @@ public class BankAccount {
     private String bankPrefix;
     private int accountId;
     private boolean active = true;
+    private String cardTier;
+
+
+    public String getCardTier() { return cardTier; }
+    public void setCardTier(String cardTier) { this.cardTier = cardTier; }
 
     public UUID getOwnerUuid() { return ownerUuid; }
     public void setOwnerUuid(UUID ownerUuid) { this.ownerUuid = ownerUuid; }

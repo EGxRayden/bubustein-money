@@ -11,10 +11,11 @@ credits="Special Thanks to Hdgr_1940 and Anthony Michalek"
 displayName = "BUBUSTEIN's Money Mod"
 authors = "BUBUSTEIN"
 description='''
-Ever wish Minecraft had a money mod? Search no further!
+Ever dreamed of a realistic economy in Minecraft?
 
-You now have Bubustein's Money Mod, which contains US Dollars, Euros, Pound sterling, Canadian dollars, and more.
-Even an ATM is available.
+Your search ends here!
+
+Bubustein's Money Mod brings 28 real-world currencies, advanced banking systems, and immersive economic gameplay to your world.
 '''
 logoFile = "icon.png"
 [[mixins]]

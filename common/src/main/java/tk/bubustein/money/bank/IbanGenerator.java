@@ -11,7 +11,7 @@ public class IbanGenerator {
         String cc = countryCode.toUpperCase(Locale.ROOT);
 
         int len = playerName.length();
-        int lenDigit = len > 9 ? 0 : len;
+        int lenDigit = len % 10;
 
         String prefix = bankPrefix.toUpperCase(Locale.ROOT);
         if (prefix.length() != 4) {
