@@ -32,7 +32,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -42,9 +41,10 @@ import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.bank.*;
-import tk.bubustein.money.config.ModConfig;
+
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -85,144 +85,42 @@ public class CardItem extends Item {
         super(properties);
     }
     @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        if (level.isClientSide) return;
-        if (stack.has(IBAN_COMPONENT.get())) return;
-        UUID owner = player.getUUID();
-        String defaultCurrency = MoneyMod.getDefaultCurrency();
-        if (!ModItems.EXCHANGE_RATES.containsKey(defaultCurrency)) {
-            defaultCurrency = "EUR";
-        }
-        String bankPrefix = "BSTN";
-        AccountKind kind = AccountKind.DEBIT;
-
-        MinecraftServer server = ((ServerLevel) level).getServer();
-        BankAccountManager mgr = BankAccountManager.get();
-
-        int accountId = mgr.nextAccountId(server);
-        String countryCode = ModConfig.getInstance().getServerCountryCode();
-        String iban = IbanGenerator.generateIban(
-                countryCode,
-                player.getName().getString(),
-                bankPrefix,
-                kind,
-                accountId
-        );
-        BankAccount acc = mgr.createAccount(server, owner, kind, defaultCurrency, bankPrefix, accountId, iban);
-        CardTier tier = CardItem.getTierFromItem(stack);
-        acc.setCardTier(tier.name());
-
-        stack.set(MONEY_COMPONENT.get(), acc.getBalance());
-        stack.set(CURRENCY_COMPONENT.get(), acc.getCurrency());
-
-        setIban(stack, iban);
-        setOwner(stack, owner);
-        setAccountKind(stack, kind);
-        setOwnerName(stack, player.getName().getString());
-
-    }
-    @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
 
-        if (level.isClientSide) return;
-        if (!(entity instanceof ServerPlayer player)) return;
+        if (level.isClientSide()) return;
+        if (!(entity instanceof ServerPlayer)) return;
 
         ServerLevel serverLevel = (ServerLevel) level;
         MinecraftServer server = serverLevel.getServer();
-        if (!stack.has(IBAN_COMPONENT.get())) {
-            boolean hasLegacyMoney = stack.has(MONEY_COMPONENT.get()) || stack.has(CURRENCY_COMPONENT.get());
-            if (hasLegacyMoney) {
-                migrateLegacyCardWithBalance(stack, player, serverLevel);
-            } else {
-                migrateNewEmptyCard(stack, player, serverLevel);
-            }
-        }
+        if (!stack.has(IBAN_COMPONENT.get())) return;
         String iban = getIban(stack);
         BankAccountManager mgr = BankAccountManager.get();
-        mgr.getByIban(server, iban).ifPresent(acc -> {
-            String newTier = getTierFromItem(stack).name();
-            if (!newTier.equals(acc.getCardTier())) {
-                acc.setCardTier(newTier);
-            }
-        });
+        Optional<BankAccount> optAcc = mgr.getByIban(server, iban);
 
-    }
-
-    private void migrateNewEmptyCard(ItemStack stack, ServerPlayer player, ServerLevel level) {
-        UUID owner = player.getUUID();
-        String defaultCurrency = MoneyMod.getDefaultCurrency();
-        if (!ModItems.EXCHANGE_RATES.containsKey(defaultCurrency)) {
-            defaultCurrency = "EUR";
+        if (optAcc.isEmpty() || !optAcc.get().isActive()) {
+            stack.remove(IBAN_COMPONENT.get());
+            stack.remove(OWNER_COMPONENT.get());
+            stack.remove(OWNER_NAME_COMPONENT.get());
+            stack.remove(ACCOUNT_KIND_COMPONENT.get());
+            stack.set(MONEY_COMPONENT.get(), 0.0);
+            stack.set(CURRENCY_COMPONENT.get(), "EUR");
+            stack.remove(DataComponents.CUSTOM_NAME);
+            return;
         }
-
-        String bankPrefix = "BSTN";
-        AccountKind kind = AccountKind.DEBIT;
-        MinecraftServer server = level.getServer();
-        BankAccountManager mgr = BankAccountManager.get();
-
-        int accountId = mgr.nextAccountId(server);
-        String countryCode = ModConfig.getInstance().getServerCountryCode();
-        String iban = IbanGenerator.generateIban(
-                countryCode,
-                player.getName().getString(),
-                bankPrefix,
-                kind,
-                accountId
-        );
-        BankAccount acc = mgr.createAccount(server, owner, kind, defaultCurrency, bankPrefix, accountId, iban);
-        acc.setCardTier(getTierFromItem(stack).name());
-
+        BankAccount acc = optAcc.get();
+        String newTier = getTierFromItem(stack).name();
+        if (!newTier.equals(acc.getCardTier())) {
+            acc.setCardTier(newTier);
+        }
         stack.set(MONEY_COMPONENT.get(), acc.getBalance());
         stack.set(CURRENCY_COMPONENT.get(), acc.getCurrency());
-
-        setIban(stack, iban);
-        setOwner(stack, owner);
-        setOwnerName(stack, player.getName().getString());
-        setAccountKind(stack, kind);
     }
 
-    private void migrateLegacyCardWithBalance(ItemStack stack, ServerPlayer player, ServerLevel level) {
-        UUID owner = player.getUUID();
 
-        double legacyBalance = stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
-        String legacyCurrency = stack.getOrDefault(CURRENCY_COMPONENT.get(), MoneyMod.getDefaultCurrency());
-        if (!ModItems.EXCHANGE_RATES.containsKey(legacyCurrency)) {
-            legacyCurrency = MoneyMod.getDefaultCurrency();
-        }
-
-        String bankPrefix = "BSTN";
-        AccountKind kind = AccountKind.DEBIT;
-        MinecraftServer server = level.getServer();
-        BankAccountManager mgr = BankAccountManager.get();
-
-        int accountId = mgr.nextAccountId(server);
-        String countryCode = ModConfig.getInstance().getServerCountryCode();
-        String iban = IbanGenerator.generateIban(
-                countryCode,
-                player.getName().getString(),
-                bankPrefix,
-                kind,
-                accountId
-        );
-
-        BankAccount acc = mgr.createAccount(server, owner, kind, legacyCurrency, bankPrefix, accountId, iban);
-        acc.setBalance(legacyBalance);
-        acc.setCardTier(getTierFromItem(stack).name());
-
-        stack.set(MONEY_COMPONENT.get(), acc.getBalance());
-        stack.set(CURRENCY_COMPONENT.get(), acc.getCurrency());
-
-        setIban(stack, iban);
-        setOwner(stack, owner);
-        setOwnerName(stack, player.getName().getString());
-        setAccountKind(stack, kind);
-
-    }
     public static void setOwnerName(ItemStack stack, String name) {
         stack.set(OWNER_NAME_COMPONENT.get(), name);
     }
-
     public static String getOwnerName(ItemStack stack) {
         return stack.getOrDefault(OWNER_NAME_COMPONENT.get(), null);
     }
@@ -320,7 +218,15 @@ public class CardItem extends Item {
     }
     public static UUID getOwner(ItemStack stack) {
         String s = stack.getOrDefault(OWNER_COMPONENT.get(), null);
-        return UUID.fromString(s);
+        if (s == null || s.isEmpty()) {
+            return null;
+        }
+        try {
+            return UUID.fromString(s);
+        } catch (IllegalArgumentException e) {
+            MoneyMod.LOGGER.error("Invalid UUID format for card owner: {}", s);
+            return null;
+        }
     }
     public static void setAccountKind(ItemStack stack, AccountKind kind) {
         stack.set(ACCOUNT_KIND_COMPONENT.get(), kind.name());
@@ -342,10 +248,11 @@ public class CardItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context,
                                 List<Component> tooltip, TooltipFlag flag) {
         String iban = getIban(stack);
-        if (iban == null) {
+        if (iban == null || iban.isEmpty()) {
+            tooltip.add(Component.literal("Empty Card")
+                    .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
             return;
         }
-
         tooltip.add(Component.literal("IBAN: " + iban)
                 .withStyle(style -> style.withColor(ChatFormatting.GRAY)));
 
@@ -367,8 +274,6 @@ public class CardItem extends Item {
                             formattedMoney,
                             currency)
                     .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
-
-            // Fee-uri
             if (stack.getItem() == ModItems.RustyCard.get()) {
                 tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "10%")
                         .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));

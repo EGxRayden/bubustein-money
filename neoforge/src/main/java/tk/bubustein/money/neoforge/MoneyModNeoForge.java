@@ -41,6 +41,7 @@ import tk.bubustein.money.screen.BankMachineScreen;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.villager.ModVillagers;
 import java.util.HashMap;
+
 @SuppressWarnings("UnstableApiUsage")
 @Mod(MoneyMod.MOD_ID)
 public class MoneyModNeoForge {
