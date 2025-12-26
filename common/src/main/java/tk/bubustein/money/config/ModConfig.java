@@ -54,9 +54,20 @@ public class ModConfig {
     private static volatile ModConfig instance;
     private static final Object INSTANCE_LOCK = new Object();
 
-    private final ReadWriteLock configLock = new ReentrantReadWriteLock();
+    private transient volatile ReadWriteLock configLock;
 
-    private ModConfig() {}
+    private ModConfig() {
+        ensureLockInitialized();
+    }
+    private void ensureLockInitialized() {
+        if (configLock == null) {
+            synchronized (this) {
+                if (configLock == null) {
+                    configLock = new ReentrantReadWriteLock();
+                }
+            }
+        }
+    }
     public static ModConfig getInstance() {
         if (instance == null) {
             synchronized (INSTANCE_LOCK) {
@@ -72,10 +83,12 @@ public class ModConfig {
             MoneyMod.LOGGER.warn("[{}] Tried to load config with null server, skipping", MoneyMod.MOD_ID);
             return;
         }
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             Path configPath = getConfigPath(server);
             File configFile = configPath.toFile();
+
             if (configFile.exists()) {
                 try (FileReader reader = new FileReader(configFile)) {
                     ModConfig loadedConfig = GSON.fromJson(reader, ModConfig.class);
@@ -88,11 +101,14 @@ public class ModConfig {
                         this.lastRatesUpdateReadable = loadedConfig.lastRatesUpdateReadable;
                         this.serverCountryCode = loadedConfig.serverCountryCode;
                         this.adminResetPassword = loadedConfig.adminResetPassword;
+
+                        MoneyMod.LOGGER.info("[{}] Config loaded successfully", MoneyMod.MOD_ID);
                     }
                 } catch (Exception e) {
                     MoneyMod.LOGGER.error("[{}] Failed to load config file; using defaults", MoneyMod.MOD_ID, e);
                 }
             } else {
+                MoneyMod.LOGGER.info("[{}] Config file not found, creating with defaults", MoneyMod.MOD_ID);
                 this.configVersion = CURRENT_CONFIG_VERSION;
                 save(server);
             }
@@ -117,10 +133,12 @@ public class ModConfig {
             MoneyMod.LOGGER.warn("[{}] Tried to save config with null server, skipping", MoneyMod.MOD_ID);
             return;
         }
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             Path configPath = getConfigPath(server);
             File configFile = configPath.toFile();
+
             if (configFile.exists()) {
                 File bakFile = new File(configFile.getAbsolutePath() + CONFIG_BAK_SUFFIX);
                 try {
@@ -160,11 +178,14 @@ public class ModConfig {
             configLock.readLock().unlock();
         }
     }
+
     private static Path getConfigPath(MinecraftServer server) {
         Path dir = server.getServerDirectory().toAbsolutePath().resolve("config");
         return dir.resolve(CONFIG_FILE_NAME);
     }
+
     public String getDefaultCurrency() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return defaultCurrency;
@@ -172,7 +193,9 @@ public class ModConfig {
             configLock.readLock().unlock();
         }
     }
+
     public void setDefaultCurrency(String defaultCurrency) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             this.defaultCurrency = defaultCurrency;
@@ -180,7 +203,9 @@ public class ModConfig {
             configLock.writeLock().unlock();
         }
     }
+
     public int getConfigVersion() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return configVersion;
@@ -188,7 +213,9 @@ public class ModConfig {
             configLock.readLock().unlock();
         }
     }
+
     public void setConfigVersion(int version) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             this.configVersion = version;
@@ -196,7 +223,9 @@ public class ModConfig {
             configLock.writeLock().unlock();
         }
     }
+
     public Map<String, Double> getExchangeRates() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return new HashMap<>(exchangeRates);
@@ -204,7 +233,9 @@ public class ModConfig {
             configLock.readLock().unlock();
         }
     }
+
     public void setExchangeRates(Map<String, Double> rates) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             Map<String, Double> filteredRates = new HashMap<>();
@@ -223,7 +254,9 @@ public class ModConfig {
             configLock.writeLock().unlock();
         }
     }
+
     public long getLastRatesUpdateEpoch() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return lastRatesUpdateEpoch;
@@ -231,7 +264,9 @@ public class ModConfig {
             configLock.readLock().unlock();
         }
     }
+
     public String getLastRatesUpdateReadable() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return lastRatesUpdateReadable;
@@ -240,14 +275,15 @@ public class ModConfig {
         }
     }
     public void loadWithMigration(MinecraftServer server) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             Path newPath = getConfigPath(server);
             File newFile = newPath.toFile();
+
             if (!newFile.exists()) {
                 Path legacyPath = getLegacyConfigPath(server);
                 File legacyFile = legacyPath.toFile();
-
                 if (legacyFile.exists()) {
                     try (FileReader reader = new FileReader(legacyFile)) {
                         ModConfig legacyConfig = GSON.fromJson(reader, ModConfig.class);
@@ -272,6 +308,7 @@ public class ModConfig {
                 .resolve(CONFIG_FILE_NAME);
     }
     public String getServerCountryCode() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return serverCountryCode;
@@ -280,6 +317,7 @@ public class ModConfig {
         }
     }
     public void setServerCountryCode(String serverCountryCode) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             this.serverCountryCode = serverCountryCode;
@@ -288,6 +326,7 @@ public class ModConfig {
         }
     }
     public String getAdminResetPassword() {
+        ensureLockInitialized();
         configLock.readLock().lock();
         try {
             return adminResetPassword;
@@ -296,6 +335,7 @@ public class ModConfig {
         }
     }
     public void setAdminResetPassword(String adminResetPassword) {
+        ensureLockInitialized();
         configLock.writeLock().lock();
         try {
             this.adminResetPassword = adminResetPassword;
