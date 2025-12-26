@@ -637,31 +637,29 @@ public class ModCommands {
         ServerPlayer player = source.getPlayerOrException();
         MinecraftServer server = source.getServer();
         BankAccountSavedData data = BankAccountSavedData.get(server);
-
         Map<String, BankAccount> accounts = data.getAccountsForPlayer(player.getUUID());
         BankAccount acc = accounts.get(iban);
-
         if (acc == null) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_not_found", iban)
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
-
-        if (!acc.isActive()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_already_inactive", iban)
-                    .withStyle(ChatFormatting.RED));
-            return 0;
+        synchronized (acc) {
+            if (!acc.isActive()) {
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_already_inactive", iban)
+                        .withStyle(ChatFormatting.RED));
+                return 0;
+            }
+            acc.setActive(false);
         }
-
-        acc.setActive(false);
         data.setDirty();
-
         MoneyMod.LOGGER.warn("[CARD INVALIDATED] Player '{}' invalidated account '{}' remotely (balance: {} {})",
                 player.getName().getString(), iban, acc.getBalance(), acc.getCurrency());
 
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_invalidated_remote",
-                        iban, formatMoney(acc.getBalance()), acc.getCurrency())
+                        iban, CardItem.formatMoney(acc.getBalance()), acc.getCurrency())
                 .withStyle(ChatFormatting.YELLOW));
+
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_invalidated_hint")
                 .withStyle(ChatFormatting.GRAY));
 
@@ -765,74 +763,86 @@ public class ModCommands {
 
         return linkCardToAccount(player, stack, targetAccount, data);
     }
-    private static int linkCardToAccount(ServerPlayer player, ItemStack stack, BankAccount account, BankAccountSavedData data) {
-        boolean hasLegacyData = stack.has(CardItem.MONEY_COMPONENT.get()) ||
-                stack.has(CardItem.CURRENCY_COMPONENT.get());
-
-        if (hasLegacyData) {
-            double legacyBalance = stack.getOrDefault(CardItem.MONEY_COMPONENT.get(), 0.0);
-            String legacyCurrency = stack.getOrDefault(CardItem.CURRENCY_COMPONENT.get(), null);
-
-            if (legacyBalance > 0) {
-                if (legacyCurrency == null || legacyCurrency.isEmpty()) {
-                    legacyCurrency = account.getCurrency();
-                }
-
-                if (!ModItems.EXCHANGE_RATES.containsKey(legacyCurrency)) {
-                    MoneyMod.LOGGER.warn("[LEGACY MIGRATION] Player {} has invalid legacy currency {} on card, assuming {}",
-                            player.getName().getString(), legacyCurrency, account.getCurrency());
-                    legacyCurrency = account.getCurrency();
-                }
-
-                if (!legacyCurrency.equals(account.getCurrency())) {
-                    double converted = convertCurrency(legacyBalance, legacyCurrency, account.getCurrency());
-                    account.setBalance(converted);
-                    MoneyMod.LOGGER.info("[LEGACY MIGRATION] Player {} migrated {} {} (converted to {} {}) from legacy card to account {}",
-                            player.getName().getString(),
-                            legacyBalance, legacyCurrency,
-                            converted, account.getCurrency(),
-                            account.getIban());
-                } else {
-                    account.setBalance(legacyBalance);
-                    MoneyMod.LOGGER.info("[LEGACY MIGRATION] Player {} migrated {} {} from legacy card to account {}",
-                            player.getName().getString(), legacyBalance, legacyCurrency, account.getIban());
-                }
-
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.legacy_balance_migrated",
-                                formatMoney(legacyBalance), legacyCurrency)
-                        .withStyle(ChatFormatting.GOLD));
+    private static int linkCardToAccount(ServerPlayer player, ItemStack stack,
+                                         BankAccount account, BankAccountSavedData data) {
+        synchronized (stack) {
+            if (!(stack.getItem() instanceof CardItem)) {
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_blank_card")
+                        .withStyle(ChatFormatting.RED));
+                return 0;
             }
+            String existingIban = CardItem.getIban(stack);
+            if (existingIban != null && !existingIban.isEmpty()) {
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_already_linked")
+                        .withStyle(ChatFormatting.RED));
+                return 0;
+            }
+            boolean hasLegacyData = stack.has(CardItem.MONEY_COMPONENT.get()) ||
+                    stack.has(CardItem.CURRENCY_COMPONENT.get());
+            if (hasLegacyData) {
+                double legacyBalance = stack.getOrDefault(CardItem.MONEY_COMPONENT.get(), 0.0);
+                String legacyCurrency = stack.getOrDefault(CardItem.CURRENCY_COMPONENT.get(), null);
+                if (legacyBalance > 0) {
+                    if (legacyCurrency == null || legacyCurrency.isEmpty()) {
+                        legacyCurrency = account.getCurrency();
+                    }
+
+                    if (!ModItems.EXCHANGE_RATES.containsKey(legacyCurrency)) {
+                        MoneyMod.LOGGER.warn("[LEGACY MIGRATION] Player {} has invalid legacy currency {} on card, assuming {}",
+                                player.getName().getString(), legacyCurrency, account.getCurrency());
+                        legacyCurrency = account.getCurrency();
+                    }
+                    try {
+                        if (!legacyCurrency.equals(account.getCurrency())) {
+                            double converted = convertCurrency(legacyBalance, legacyCurrency, account.getCurrency());
+                            account.setBalance(converted);
+                            MoneyMod.LOGGER.info("[LEGACY MIGRATION] Player {} migrated {} {} (converted to {} {}) from legacy card to account {}",
+                                    player.getName().getString(),
+                                    legacyBalance, legacyCurrency,
+                                    converted, account.getCurrency(),
+                                    account.getIban());
+                        } else {
+                            account.setBalance(legacyBalance);
+                            MoneyMod.LOGGER.info("[LEGACY MIGRATION] Player {} migrated {} {} from legacy card to account {}",
+                                    player.getName().getString(), legacyBalance, legacyCurrency, account.getIban());
+                        }
+                        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.legacy_balance_migrated",
+                                        formatMoney(legacyBalance), legacyCurrency)
+                                .withStyle(ChatFormatting.GOLD));
+                    } catch (IllegalArgumentException e) {
+                        MoneyMod.LOGGER.error("[LEGACY MIGRATION] Failed to convert currency: {}", e.getMessage());
+                        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.migration_failed")
+                                .withStyle(ChatFormatting.RED));
+                        return 0;
+                    }
+                }
+            }
+            String physicalTier = CardItem.getTierFromItem(stack).name();
+            if (!account.getCardTier().equals(physicalTier)) {
+                MoneyMod.LOGGER.info("[CARD LINK] Updating account {} tier from {} to {} (physical card tier)",
+                        account.getIban(), account.getCardTier(), physicalTier);
+                account.setCardTier(physicalTier);
+            }
+            account.setActive(true);
+            CardItem.setIban(stack, account.getIban());
+            CardItem.setOwner(stack, player.getUUID());
+            CardItem.setOwnerName(stack, player.getName().getString());
+            stack.set(CardItem.MONEY_COMPONENT.get(), account.getBalance());
+            stack.set(CardItem.CURRENCY_COMPONENT.get(), account.getCurrency());
+
+            String cardNameKey = "item.bubusteinmoneymod." + physicalTier.toLowerCase() + "_card.named";
+            stack.set(DataComponents.CUSTOM_NAME, Component.translatable(cardNameKey, player.getName().getString()));
+            data.setDirty();
+            MoneyMod.LOGGER.info("[CARD LINKED] Player {} linked {} card to account {} (balance: {} {})",
+                    player.getName().getString(), physicalTier, account.getIban(),
+                    account.getBalance(), account.getCurrency());
+
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_linked",
+                            account.getIban(), formatMoney(account.getBalance()), account.getCurrency())
+                    .withStyle(ChatFormatting.GREEN));
+
+            return Command.SINGLE_SUCCESS;
         }
-
-        String physicalTier = CardItem.getTierFromItem(stack).name();
-
-        if (!account.getCardTier().equals(physicalTier)) {
-            MoneyMod.LOGGER.info("[CARD LINK] Updating account {} tier from {} to {} (physical card tier)",
-                    account.getIban(), account.getCardTier(), physicalTier);
-            account.setCardTier(physicalTier);
-        }
-
-        account.setActive(true);
-        CardItem.setIban(stack, account.getIban());
-        CardItem.setOwner(stack, player.getUUID());
-        CardItem.setOwnerName(stack, player.getName().getString());
-        stack.set(CardItem.MONEY_COMPONENT.get(), account.getBalance());
-        stack.set(CardItem.CURRENCY_COMPONENT.get(), account.getCurrency());
-
-        String cardNameKey = "item.bubusteinmoneymod." + physicalTier.toLowerCase() + "_card.named";
-        stack.set(DataComponents.CUSTOM_NAME, Component.translatable(cardNameKey, player.getName().getString()));
-
-        data.setDirty();
-
-        MoneyMod.LOGGER.info("[CARD LINKED] Player {} linked {} card to account {} (balance: {} {})",
-                player.getName().getString(), physicalTier, account.getIban(),
-                account.getBalance(), account.getCurrency());
-
-        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_linked",
-                        account.getIban(), formatMoney(account.getBalance()), account.getCurrency())
-                .withStyle(ChatFormatting.GREEN));
-
-        return Command.SINGLE_SUCCESS;
     }
     private static int createAccount(CommandSourceStack source, String typeStr, String bankPrefix) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
@@ -891,15 +901,13 @@ public class ModCommands {
 
         return Command.SINGLE_SUCCESS;
     }
-
     private static int showDeleteMenu(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         MinecraftServer server = source.getServer();
         BankAccountSavedData data = BankAccountSavedData.get(server);
-
         Map<String, BankAccount> accounts = data.getAccountsForPlayer(player.getUUID());
         List<BankAccount> zeroBalanceAccounts = accounts.values().stream()
-                .filter(acc -> acc.getBalance() == 0.0)
+                .filter(BankAccount::isBalanceZero)
                 .toList();
 
         if (zeroBalanceAccounts.isEmpty()) {
@@ -907,19 +915,16 @@ public class ModCommands {
                     .withStyle(ChatFormatting.YELLOW));
             return 0;
         }
-
         player.sendSystemMessage(Component.literal("═══════════════════════════════════════")
                 .withStyle(ChatFormatting.RED));
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.delete_menu_title")
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD));
         player.sendSystemMessage(Component.literal("═══════════════════════════════════════")
                 .withStyle(ChatFormatting.RED));
-
         int index = 1;
         for (BankAccount acc : zeroBalanceAccounts) {
             String status = acc.isActive() ? "✓ Active" : "✗ Inactive";
             ChatFormatting statusColor = acc.isActive() ? ChatFormatting.GREEN : ChatFormatting.GRAY;
-
             player.sendSystemMessage(Component.literal("\n[" + index + "] ")
                     .withStyle(ChatFormatting.WHITE)
                     .append(Component.literal(acc.getIban())
@@ -945,38 +950,40 @@ public class ModCommands {
         ServerPlayer player = source.getPlayerOrException();
         MinecraftServer server = source.getServer();
         BankAccountSavedData data = BankAccountSavedData.get(server);
-
         Map<String, BankAccount> accounts = data.getAccountsForPlayer(player.getUUID());
         BankAccount acc = accounts.get(iban);
-
         if (acc == null) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_not_found", iban)
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (acc.getBalance() != 0.0) {
+        if (!acc.isBalanceZero()) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_has_balance",
-                            formatMoney(acc.getBalance()), acc.getCurrency())
+                            CardItem.formatMoney(acc.getBalance()), acc.getCurrency())
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
+        if (!acc.getOwnerUuid().equals(player.getUUID())) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_your_account")
+                    .withStyle(ChatFormatting.RED));
+            MoneyMod.LOGGER.warn("[{}] Player {} attempted to delete account {} owned by {}",
+                    MoneyMod.MOD_ID, player.getName().getString(), iban, acc.getOwnerUuid());
+            return 0;
+        }
         data.deleteAccount(iban);
-        data.setDirty();
-        MoneyMod.LOGGER.info("[ACCOUNT DELETED] Player {} deleted account {} (tier: {})",
-                player.getName().getString(), iban, acc.getCardTier());
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_deleted", iban)
                 .withStyle(ChatFormatting.GREEN));
+        MoneyMod.LOGGER.info("[{}] Player {} deleted account {}",
+                MoneyMod.MOD_ID, player.getName().getString(), iban);
 
         return Command.SINGLE_SUCCESS;
     }
-
     private static int ecoAddMoney(CommandSourceStack source, double amount, String specifiedCurrency) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ItemStack stack = player.getMainHandItem();
 
         Optional<BankAccount> optAcc = getAccountFromCard(stack, player, true);
         if (optAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
         BankAccount acc = optAcc.get();
@@ -1048,7 +1055,6 @@ public class ModCommands {
 
         Optional<BankAccount> optAcc = getAccountFromCard(stack, player, true);
         if (optAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
         BankAccount acc = optAcc.get();
@@ -1118,7 +1124,6 @@ public class ModCommands {
 
         Optional<BankAccount> optAcc = getAccountFromCard(stack, player, true);
         if (optAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
         BankAccount acc = optAcc.get();
@@ -1154,101 +1159,148 @@ public class ModCommands {
 
         return Command.SINGLE_SUCCESS;
     }
-
     private static int pay(CommandSourceStack source, String targetPlayerName, double amount) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ServerPlayer targetPlayer = source.getServer().getPlayerList().getPlayerByName(targetPlayerName);
 
         if (targetPlayer == null) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.player_not_online", targetPlayerName).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.player_not_online", targetPlayerName)
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         if (targetPlayerName.equalsIgnoreCase(player.getName().getString())) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.cannot_pay_self").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.cannot_pay_self")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
-        if (amount <= 0 || hasMoreThanTwoDecimals(amount)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive").withStyle(ChatFormatting.RED));
+
+        if (amount <= 0.0 || hasMoreThanTwoDecimals(amount)) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         ItemStack playerStackInitial = player.getMainHandItem();
         ItemStack targetStackInitial = targetPlayer.getMainHandItem();
 
         if (!(playerStackInitial.getItem() instanceof CardItem)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         if (!(targetStackInitial.getItem() instanceof CardItem)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName)
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         Optional<BankAccount> optSourceAcc = getAccountFromCard(playerStackInitial, player);
         Optional<BankAccount> optTargetAcc = getAccountFromCard(targetStackInitial, targetPlayer);
 
         if (optSourceAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         if (optTargetAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName)
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
 
         BankAccount sourceAcc = optSourceAcc.get();
         BankAccount targetAcc = optTargetAcc.get();
+
+        if (!sourceAcc.getOwnerUuid().equals(player.getUUID())) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_card_owner")
+                    .withStyle(ChatFormatting.RED));
+            MoneyMod.LOGGER.warn("[SECURITY] Player {} attempted to pay from card {} owned by {}",
+                    player.getName().getString(), sourceAcc.getIban(), sourceAcc.getOwnerUuid());
+            return 0;
+        }
+
         if (!sourceAcc.isActive()) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_not_active")
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         if (!targetAcc.isActive()) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_card_not_active", targetPlayerName)
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         double playerBalance = sourceAcc.getBalance();
         if (playerBalance < amount) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         ItemStack playerStackFinal = player.getMainHandItem();
         ItemStack targetStackFinal = targetPlayer.getMainHandItem();
+
         if (playerStackFinal != playerStackInitial || !(playerStackFinal.getItem() instanceof CardItem)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         if (targetStackFinal != targetStackInitial || !(targetStackFinal.getItem() instanceof CardItem)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName).withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.target_no_card", targetPlayerName)
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
         String playerCurrency = sourceAcc.getCurrency();
         String targetCurrency = targetAcc.getCurrency();
 
-        if (!ModItems.EXCHANGE_RATES.containsKey(playerCurrency) || !ModItems.EXCHANGE_RATES.containsKey(targetCurrency)) {
+        if (!ModItems.EXCHANGE_RATES.containsKey(playerCurrency) ||
+                !ModItems.EXCHANGE_RATES.containsKey(targetCurrency)) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.invalid_currency",
-                    String.join(", ", ModItems.EXCHANGE_RATES.keySet())).withStyle(ChatFormatting.RED));
+                            String.join(", ", ModItems.EXCHANGE_RATES.keySet()))
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
-        double amountInTargetCurrency = playerCurrency.equals(targetCurrency)
-                ? amount
-                : convertCurrency(amount, playerCurrency, targetCurrency);
-
+        double amountInTargetCurrency;
+        try {
+            amountInTargetCurrency = convertCurrency(amount, playerCurrency, targetCurrency);
+        } catch (IllegalArgumentException e) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.conversion_failed")
+                    .withStyle(ChatFormatting.RED));
+            MoneyMod.LOGGER.error("[PAY] Currency conversion failed: {}", e.getMessage());
+            return 0;
+        }
         BigDecimal targetNewBalance = BigDecimal.valueOf(targetAcc.getBalance())
                 .add(BigDecimal.valueOf(amountInTargetCurrency));
         if (targetNewBalance.compareTo(MAX_AMOUNT) > 0) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large",
-                    CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
+                            CardItem.formatMoney(MAX_AMOUNT.doubleValue()))
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
-        sourceAcc.setBalance(playerBalance - amount);
-        syncCardWithAccount(playerStackFinal, sourceAcc);
-        targetAcc.setBalance(targetNewBalance.doubleValue());
-        syncCardWithAccount(targetStackFinal, targetAcc);
+        synchronized (sourceAcc) {
+            synchronized (targetAcc) {
+                sourceAcc.setBalance(playerBalance - amount);
+                targetAcc.setBalance(targetNewBalance.doubleValue());
 
+                syncCardWithAccount(playerStackFinal, sourceAcc);
+                syncCardWithAccount(targetStackFinal, targetAcc);
+            }
+        }
         player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.transfer_success",
-                formatMoney(amount), playerCurrency, targetPlayerName).withStyle(ChatFormatting.GREEN));
+                        formatMoney(amount), playerCurrency, targetPlayerName)
+                .withStyle(ChatFormatting.GREEN));
         targetPlayer.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.receive_success",
-                formatMoney(amountInTargetCurrency), targetCurrency, player.getName().getString()).withStyle(ChatFormatting.GREEN));
+                        formatMoney(amountInTargetCurrency), targetCurrency, player.getName().getString())
+                .withStyle(ChatFormatting.GREEN));
+        MoneyMod.LOGGER.info("[TRANSFER] {} sent {} {} to {} (converted to {} {})",
+                player.getName().getString(), formatMoney(amount), playerCurrency,
+                targetPlayerName, formatMoney(amountInTargetCurrency), targetCurrency);
 
         return Command.SINGLE_SUCCESS;
     }
@@ -1264,7 +1316,6 @@ public class ModCommands {
 
         Optional<BankAccount> optAcc = getAccountFromCard(stack, player);
         if (optAcc.isEmpty()) {
-            source.sendFailure(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
         BankAccount acc = optAcc.get();
@@ -1313,106 +1364,164 @@ public class ModCommands {
         source.sendSuccess(() -> Component.translatable("message.bubusteinmoneymod.default_currency_show", MoneyMod.getDefaultCurrency()).withStyle(ChatFormatting.GREEN), false);
         return Command.SINGLE_SUCCESS;
     }
-    private static int deposit(CommandSourceStack source, double amount, String specifiedCurrency) throws CommandSyntaxException {
+    private static int deposit(CommandSourceStack source, double amount, String currencyArg) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
-        ItemStack stack = player.getMainHandItem();
-
-        Optional<BankAccount> optAcc = getAccountFromCard(stack, player);
-        if (optAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
+        if (hasMoreThanTwoDecimals(amount)) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals")
+                    .withStyle(ChatFormatting.RED));
             return 0;
         }
+
+        if (amount <= 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_positive")
+                    .withStyle(ChatFormatting.RED));
+            return 0;
+        }
+
+        if (amount > MAX_AMOUNT.doubleValue()) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large")
+                    .withStyle(ChatFormatting.RED));
+            return 0;
+        }
+
+        ItemStack cardStack = player.getMainHandItem();
+        Optional<BankAccount> optAcc = getAccountFromCard(cardStack, player);
+
+        if (optAcc.isEmpty()) {
+            return 0;
+        }
+
         BankAccount acc = optAcc.get();
+
         if (!acc.isActive()) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_not_active")
                     .withStyle(ChatFormatting.RED));
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.card_not_active_hint")
-                    .withStyle(ChatFormatting.GRAY));
             return 0;
         }
-        String accountCurrency = acc.getCurrency();
-        String depositCurrency = (specifiedCurrency != null) ? specifiedCurrency : accountCurrency;
-
+        String depositCurrency = currencyArg != null ? currencyArg.toUpperCase() : acc.getCurrency();
         if (!ModItems.EXCHANGE_RATES.containsKey(depositCurrency)) {
             player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.invalid_currency",
-                    String.join(", ", ModItems.EXCHANGE_RATES.keySet())).withStyle(ChatFormatting.RED));
-            return 0;
-        }
-        if (hasMoreThanTwoDecimals(amount)) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.two_decimals").withStyle(ChatFormatting.RED));
-            return 0;
-        }
-
-        NavigableMap<Double, Item> items = ModItems.getCurrencyItems().get(depositCurrency);
-        if (items == null) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.no_physical_currency", depositCurrency).withStyle(ChatFormatting.RED));
-            return 0;
-        }
-
-        BigDecimal currentBalance = BigDecimal.valueOf(acc.getBalance());
-        BigDecimal addAmount = BigDecimal.valueOf(amount);
-        if (currentBalance.add(addAmount).compareTo(MAX_AMOUNT) > 0) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.amount_too_large",
-                    CardItem.formatMoney(MAX_AMOUNT.doubleValue())).withStyle(ChatFormatting.RED));
-            return 0;
-        }
-
-        Map<Item, Integer> availableItems = new HashMap<>();
-        for (Item item : items.values()) {
-            availableItems.put(item, player.getInventory().countItem(item));
-        }
-
-        double totalAvailable = 0;
-        for (Map.Entry<Double, Item> entry : items.entrySet()) {
-            totalAvailable += entry.getKey() * availableItems.get(entry.getValue());
-        }
-
-        if (totalAvailable < amount) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds")
-                    .append(" ")
-                    .append(Component.translatable("message.bubusteinmoneymod.available",
-                            formatMoney(totalAvailable), depositCurrency))
+                            depositCurrency)
                     .withStyle(ChatFormatting.RED));
             return 0;
         }
+        NavigableMap<Double, Item> currencyItems = ModItems.getCurrencyItems().get(depositCurrency);
+        if (currencyItems == null) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.no_physical_currency",
+                            depositCurrency)
+                    .withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        Map<Item, Integer> itemsNeeded = calculateItemsForDeposit(amount, currencyItems);
+        if (itemsNeeded == null) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.invalid_denomination")
+                    .withStyle(ChatFormatting.YELLOW));
+            return 0;
+        }
+        Map<Item, Integer> removedItems = new HashMap<>();
+        boolean hasAll = true;
 
-        double totalDeposited = 0;
-        double remainingAmount = amount;
-
-        for (Map.Entry<Double, Item> entry : items.descendingMap().entrySet()) {
-            double denomination = entry.getKey();
-            Item item = entry.getValue();
-            int countAvailable = availableItems.get(item);
-            int countNeeded = (int) Math.min(remainingAmount / denomination, countAvailable);
-            if (countNeeded > 0) {
-                int actuallyRemoved = removeItemsFromInventory(player, item, countNeeded);
-                double depositedAmount = denomination * actuallyRemoved;
-                totalDeposited += depositedAmount;
-                remainingAmount -= depositedAmount;
+        for (Map.Entry<Item, Integer> entry : itemsNeeded.entrySet()) {
+            Item item = entry.getKey();
+            int needed = entry.getValue();
+            int removed = removeItemsFromInventory(player, item, needed);
+            if (removed < needed) {
+                hasAll = false;
+                removedItems.put(item, removed);
+                break;
             }
-            if (remainingAmount < 0.01) break;
+            removedItems.put(item, removed);
+        }
+        if (!hasAll) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_items")
+                    .withStyle(ChatFormatting.RED));
+            for (Map.Entry<Item, Integer> entry : removedItems.entrySet()) {
+                if (entry.getValue() > 0) {
+                    giveItemsToPlayer(player, entry.getKey(), entry.getValue());
+                }
+            }
+
+            return 0;
+        }
+        double convertedAmount = amount;
+        if (!depositCurrency.equals(acc.getCurrency())) {
+            try {
+                convertedAmount = convertCurrency(amount, depositCurrency, acc.getCurrency());
+            } catch (IllegalArgumentException e) {
+                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.conversion_failed")
+                        .withStyle(ChatFormatting.RED));
+                for (Map.Entry<Item, Integer> entry : removedItems.entrySet()) {
+                    giveItemsToPlayer(player, entry.getKey(), entry.getValue());
+                }
+
+                return 0;
+            }
+        }
+        BigDecimal newBalance = BigDecimal.valueOf(acc.getBalance())
+                .add(BigDecimal.valueOf(convertedAmount));
+
+        if (newBalance.compareTo(MAX_AMOUNT) > 0) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.deposit_exceeds_limit")
+                    .withStyle(ChatFormatting.RED));
+            for (Map.Entry<Item, Integer> entry : removedItems.entrySet()) {
+                giveItemsToPlayer(player, entry.getKey(), entry.getValue());
+            }
+            return 0;
+        }
+        synchronized (acc) {
+            acc.setBalance(newBalance.doubleValue());
         }
 
-        if (totalDeposited > 0) {
-            double amountInAccountCurrency = convertCurrency(totalDeposited, depositCurrency, accountCurrency);
-            acc.setBalance(acc.getBalance() + amountInAccountCurrency);
-            syncCardWithAccount(stack, acc);
+        MinecraftServer server = source.getServer();
+        BankAccountSavedData.get(server).setDirty();
+        syncCardWithAccount(cardStack, acc);
+        player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.deposit_success",
+                        formatMoney(amount), depositCurrency,
+                        formatMoney(acc.getBalance()), acc.getCurrency())
+                .withStyle(ChatFormatting.GREEN));
 
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.deposit_success",
-                    formatMoney(totalDeposited), depositCurrency,
-                    formatMoney(amountInAccountCurrency), accountCurrency,
-                    formatMoney(acc.getBalance()), accountCurrency).withStyle(ChatFormatting.GREEN));
+        MoneyMod.LOGGER.info("[DEPOSIT] Player {} deposited {} {} to account {} (new balance: {} {})",
+                player.getName().getString(), amount, depositCurrency,
+                acc.getIban(), acc.getBalance(), acc.getCurrency());
 
-            if (remainingAmount > 0.01) {
-                player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.deposit_partial",
-                        formatMoney(remainingAmount), depositCurrency).withStyle(ChatFormatting.YELLOW));
-            }
-        } else {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_enough_funds").withStyle(ChatFormatting.RED));
-        }
-
-        player.inventoryMenu.broadcastChanges();
         return Command.SINGLE_SUCCESS;
+    }
+    private static Map<Item, Integer> calculateItemsForDeposit(double amount,
+                                                               NavigableMap<Double, Item> currencyItems) {
+        Map<Item, Integer> result = new HashMap<>();
+        BigDecimal remaining = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_EVEN);
+
+        for (Map.Entry<Double, Item> entry : currencyItems.descendingMap().entrySet()) {
+            BigDecimal denomination = BigDecimal.valueOf(entry.getKey()).setScale(2, RoundingMode.HALF_EVEN);
+
+            if (denomination.compareTo(BigDecimal.ZERO) > 0 &&
+                    remaining.compareTo(denomination) >= 0) {
+
+                int count = remaining.divide(denomination, 0, RoundingMode.DOWN).intValue();
+
+                if (count > 0) {
+                    result.put(entry.getValue(), count);
+                    remaining = remaining.subtract(denomination.multiply(BigDecimal.valueOf(count)));
+                }
+            }
+        }
+        if (remaining.abs().compareTo(BigDecimal.valueOf(0.01)) >= 0) {
+            return null;
+        }
+
+        return result;
+    }
+    private static void giveItemsToPlayer(Player player, Item item, int count) {
+        while (count > 0) {
+            int stackSize = Math.min(count, item.getDefaultMaxStackSize());
+            ItemStack stack = new ItemStack(item, stackSize);
+
+            if (!player.getInventory().add(stack)) {
+                dropItemNearPlayer(player, stack);
+            }
+
+            count -= stackSize;
+        }
     }
     private static int removeItemsFromInventory(Player player, Item item, int count) {
         int removed = 0;
@@ -1435,7 +1544,6 @@ public class ModCommands {
         Optional<BankAccount> optAcc = getAccountFromCard(stack, player, true);
 
         if (optAcc.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return 0;
         }
 
@@ -1582,9 +1690,11 @@ public class ModCommands {
         if (fromCurrency.equals(toCurrency)) {
             return amount;
         }
-        if (!ModItems.EXCHANGE_RATES.containsKey(fromCurrency) || !ModItems.EXCHANGE_RATES.containsKey(toCurrency)) {
-            MoneyMod.LOGGER.error("Attempted to convert using invalid currency");
-            return 0;
+        if (!ModItems.EXCHANGE_RATES.containsKey(fromCurrency)) {
+            throw new IllegalArgumentException("Invalid source currency: " + fromCurrency);
+        }
+        if (!ModItems.EXCHANGE_RATES.containsKey(toCurrency)) {
+            throw new IllegalArgumentException("Invalid target currency: " + toCurrency);
         }
         BigDecimal amountBD = BigDecimal.valueOf(amount);
         BigDecimal fromRate = BigDecimal.valueOf(ModItems.EXCHANGE_RATES.get(fromCurrency));
@@ -1599,6 +1709,7 @@ public class ModCommands {
     }
     private static Optional<BankAccount> getAccountFromCard(ItemStack stack, ServerPlayer player, boolean allowAdminBypass) {
         if (!(stack.getItem() instanceof CardItem)) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.hold_card").withStyle(ChatFormatting.RED));
             return Optional.empty();
         }
         String iban = CardItem.getIban(stack);
@@ -1610,19 +1721,28 @@ public class ModCommands {
             return Optional.empty();}
 
         MinecraftServer server = player.getServer();
-        if (server == null) return Optional.empty();
-
+        if (server == null) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.internal_error_server")
+                    .withStyle(ChatFormatting.RED));
+            return Optional.empty();
+        }
         BankAccountManager mgr = BankAccountManager.get();
         Optional<BankAccount> opt = mgr.getByIban(server, iban);
-        if (opt.isEmpty()) return Optional.empty();
+        if (opt.isEmpty()){
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.account_not_found_from_card", iban)
+                    .withStyle(ChatFormatting.RED));
+            return Optional.empty();}
 
         BankAccount acc = opt.get();
         boolean isOwner = acc.getOwnerUuid().equals(player.getUUID());
         boolean isAdmin = allowAdminBypass && player.hasPermissions(2);
 
         if (!isOwner && !isAdmin) {
+            player.sendSystemMessage(Component.translatable("message.bubusteinmoneymod.not_card_owner")
+                    .withStyle(ChatFormatting.RED));
             return Optional.empty();
         }
+
         return opt;
     }
     private static ServerPlayer getCardOwner(MinecraftServer server, BankAccount account) {
@@ -1635,7 +1755,7 @@ public class ModCommands {
         }
     }
     private static String formatMoney(double amount) {
-        return String.format("%.2f", Math.round(amount * 100) / 100.0);
+        return CardItem.formatMoney(amount);
     }
     private static boolean hasMoreThanTwoDecimals(double value) {
         BigDecimal bd = BigDecimal.valueOf(value);

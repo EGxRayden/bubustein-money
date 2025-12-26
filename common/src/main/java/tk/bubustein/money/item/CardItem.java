@@ -46,41 +46,52 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class CardItem extends Item {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(MoneyMod.MOD_ID, Registries.DATA_COMPONENT_TYPE);
+
     public static final Supplier<DataComponentType<String>> IBAN_COMPONENT =
             COMPONENTS.register("iban", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build());
+
     public static final Supplier<DataComponentType<String>> OWNER_COMPONENT =
             COMPONENTS.register("owner", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build());
+
     public static final Supplier<DataComponentType<String>> ACCOUNT_KIND_COMPONENT =
             COMPONENTS.register("account_kind", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build());
+
     public static final Supplier<DataComponentType<Double>> MONEY_COMPONENT =
             COMPONENTS.register("money", () -> DataComponentType.<Double>builder()
-            .persistent(Codec.DOUBLE)
-            .networkSynchronized(ByteBufCodecs.DOUBLE)
-            .build());
+                    .persistent(Codec.DOUBLE)
+                    .networkSynchronized(ByteBufCodecs.DOUBLE)
+                    .build());
+
     public static final Supplier<DataComponentType<String>> CURRENCY_COMPONENT =
             COMPONENTS.register("currency", () -> DataComponentType.<String>builder()
-            .persistent(Codec.STRING)
-            .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-            .build());
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build());
+
     public static final Supplier<DataComponentType<String>> OWNER_NAME_COMPONENT =
             COMPONENTS.register("owner_name", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build());
+
+    private static final ConcurrentHashMap<ItemStack, CachedCardData> cardCache = new ConcurrentHashMap<>();
+    private static final int CACHE_DURATION_TICKS = 20;
     private static final double GLOW_THRESHOLD_EUR = 20000.0;
+
     public CardItem(Properties properties) {
         super(properties);
     }
@@ -89,37 +100,77 @@ public class CardItem extends Item {
         super.inventoryTick(stack, level, entity, slot, selected);
 
         if (level.isClientSide()) return;
-        if (!(entity instanceof ServerPlayer)) return;
+        if (!(entity instanceof ServerPlayer player)) return;
+        if (stack.isEmpty() || !stack.has(IBAN_COMPONENT.get())) return;
 
         ServerLevel serverLevel = (ServerLevel) level;
         MinecraftServer server = serverLevel.getServer();
-        if (!stack.has(IBAN_COMPONENT.get())) return;
+        CachedCardData cached = cardCache.get(stack);
+        if (cached != null && cached.isValid(level.getGameTime())) {
+            return;
+        }
+
         String iban = getIban(stack);
+        if (iban == null || iban.isEmpty()) return;
         BankAccountManager mgr = BankAccountManager.get();
         Optional<BankAccount> optAcc = mgr.getByIban(server, iban);
-
-        if (optAcc.isEmpty() || !optAcc.get().isActive()) {
-            stack.remove(IBAN_COMPONENT.get());
-            stack.remove(OWNER_COMPONENT.get());
-            stack.remove(OWNER_NAME_COMPONENT.get());
-            stack.remove(ACCOUNT_KIND_COMPONENT.get());
-            stack.set(MONEY_COMPONENT.get(), 0.0);
-            stack.set(CURRENCY_COMPONENT.get(), "EUR");
-            stack.remove(DataComponents.CUSTOM_NAME);
+        if (optAcc.isEmpty()) {
+            MoneyMod.LOGGER.warn("[{}] Card with IBAN {} has no associated account (player: {})",
+                    MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
+            invalidateCard(stack);
+            cardCache.remove(stack);
             return;
         }
         BankAccount acc = optAcc.get();
-        String newTier = getTierFromItem(stack).name();
+        if (!acc.isActive()) {
+            MoneyMod.LOGGER.info("[{}] Card with IBAN {} is inactive, clearing data (player: {})",
+                    MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
+            invalidateCard(stack);
+            cardCache.remove(stack);
+            return;
+        }
+        UUID cardOwner = getOwner(stack);
+        if (cardOwner != null && !cardOwner.equals(player.getUUID())) {
+            MoneyMod.LOGGER.warn("[{}] Card owner mismatch: card owner={}, holder={}",
+                    MoneyMod.MOD_ID, cardOwner, player.getUUID());
+            return;
+        }
+        CardTier currentTier = getTierFromItem(stack);
+        String newTier = currentTier.name();
         if (!newTier.equals(acc.getCardTier())) {
             acc.setCardTier(newTier);
         }
-        stack.set(MONEY_COMPONENT.get(), acc.getBalance());
-        stack.set(CURRENCY_COMPONENT.get(), acc.getCurrency());
+        double newBalance = acc.getBalance();
+        String newCurrency = acc.getCurrency();
+        if (Double.isFinite(newBalance) && newBalance >= 0) {
+            stack.set(MONEY_COMPONENT.get(), newBalance);
+        } else {
+            MoneyMod.LOGGER.error("[{}] Invalid balance detected for IBAN {}: {}",
+                    MoneyMod.MOD_ID, iban, newBalance);
+            stack.set(MONEY_COMPONENT.get(), 0.0);
+        }
+        if (newCurrency != null && !newCurrency.isEmpty() && ModItems.EXCHANGE_RATES.containsKey(newCurrency)) {
+            stack.set(CURRENCY_COMPONENT.get(), newCurrency);
+        } else {
+            MoneyMod.LOGGER.warn("[{}] Invalid currency for IBAN {}: {}, using EUR",
+                    MoneyMod.MOD_ID, iban, newCurrency);
+            stack.set(CURRENCY_COMPONENT.get(), "EUR");
+        }
+        cardCache.put(stack, new CachedCardData(level.getGameTime(), newBalance, newCurrency));
     }
-
-
+    private void invalidateCard(ItemStack stack) {
+        stack.remove(IBAN_COMPONENT.get());
+        stack.remove(OWNER_COMPONENT.get());
+        stack.remove(OWNER_NAME_COMPONENT.get());
+        stack.remove(ACCOUNT_KIND_COMPONENT.get());
+        stack.set(MONEY_COMPONENT.get(), 0.0);
+        stack.set(CURRENCY_COMPONENT.get(), "EUR");
+        stack.remove(DataComponents.CUSTOM_NAME);
+    }
     public static void setOwnerName(ItemStack stack, String name) {
-        stack.set(OWNER_NAME_COMPONENT.get(), name);
+        if (name != null && !name.trim().isEmpty()) {
+            stack.set(OWNER_NAME_COMPONENT.get(), name.trim());
+        }
     }
     public static String getOwnerName(ItemStack stack) {
         return stack.getOrDefault(OWNER_NAME_COMPONENT.get(), null);
@@ -127,56 +178,61 @@ public class CardItem extends Item {
     @Override
     public boolean isFoil(ItemStack stack) {
         double money = stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
+        if (!Double.isFinite(money) || money < 0) {
+            return false;
+        }
         String currency = stack.getOrDefault(CURRENCY_COMPONENT.get(), "EUR");
-
         if (!"EUR".equals(currency)) {
             Double rate = ModItems.EXCHANGE_RATES.get(currency);
-            if (rate == null) return false;
+            if (rate == null || rate <= 0) {
+                return false;
+            }
             money = money / rate;
         }
         return money >= GLOW_THRESHOLD_EUR;
     }
     public static String formatMoney(double amount) {
-        if(amount >= 1000000000){
-            if(amount == 1000000000) {
-                return "1B";
-            } else {
-                DecimalFormat df = new DecimalFormat("#.##");
-                return df.format(amount / 1000000000.0) + "B";
-            }
-        } else if(amount >= 1000000){
+        if (!Double.isFinite(amount)) {
+            MoneyMod.LOGGER.error("[{}] Invalid money amount: {}", MoneyMod.MOD_ID, amount);
+            return "ERROR";
+        }
+        if (amount < 0) {
+            return "-" + formatMoney(Math.abs(amount));
+        }
+        amount = Math.round(amount * 100.0) / 100.0;
+
+        if (amount >= 1000000000) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            return df.format(amount / 1000000000.0) + "B";
+        } else if (amount >= 1000000) {
             DecimalFormat df = new DecimalFormat("#.##");
             return df.format(amount / 1000000.0) + "M";
-        } else if(amount >= 100000){
+        } else if (amount >= 100000) {
             DecimalFormat df = new DecimalFormat("#.##");
             return df.format(amount / 1000.0) + "K";
-        } else if(amount >= 10000){
+        } else if (amount >= 10000) {
+            // Formatare specială pentru valori între 10,000 și 99,999
             DecimalFormat df = new DecimalFormat("#.##");
-            String formatted = df.format(Math.round(amount * 100) / 100.0);
-            if(formatted.contains(".")) {
+            String formatted = df.format(amount);
+
+            if (formatted.contains(".")) {
                 String[] parts = formatted.split("\\.");
-                String integerPart = parts[0];
-                String decimalPart = parts[1];
-                if(integerPart.length() >= 4) {
-                    String thousands = integerPart.substring(0, integerPart.length() - 3);
-                    String hundreds = integerPart.substring(integerPart.length() - 3);
-                    return thousands + " " + hundreds + "." + decimalPart;
-                } else {
-                    return formatted;
-                }
+                return formatThousandsSeparator(parts[0]) + "." + parts[1];
             } else {
-                if(formatted.length() >= 4) {
-                    String thousands = formatted.substring(0, formatted.length() - 3);
-                    String hundreds = formatted.substring(formatted.length() - 3);
-                    return thousands + " " + hundreds;
-                } else {
-                    return formatted;
-                }
+                return formatThousandsSeparator(formatted);
             }
         } else {
             DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(Math.round(amount * 100) / 100.0);
+            return df.format(amount);
         }
+    }
+    private static String formatThousandsSeparator(String number) {
+        if (number.length() >= 4) {
+            String thousands = number.substring(0, number.length() - 3);
+            String hundreds = number.substring(number.length() - 3);
+            return thousands + " " + hundreds;
+        }
+        return number;
     }
     @Override
     public @NotNull Component getName(ItemStack stack) {
@@ -185,55 +241,73 @@ public class CardItem extends Item {
             return custom;
         }
         String ownerName = getOwnerName(stack);
-        if (ownerName == null || ownerName.isEmpty()) {
+        if (ownerName == null || ownerName.trim().isEmpty()) {
             return super.getName(stack);
         }
         Item item = stack.getItem();
-        String key;
-        if (item == ModItems.RustyCard.get()) {
-            key = "item.bubusteinmoneymod.rusty_card.named";
-        } else if (item == ModItems.Card.get()) {
-            key = "item.bubusteinmoneymod.classic_card.named";
-        } else if (item == ModItems.GoldCard.get()) {
-            key = "item.bubusteinmoneymod.gold_card.named";
-        } else if (item == ModItems.SteelCard.get()) {
-            key = "item.bubusteinmoneymod.steel_card.named";
-        } else if (item == ModItems.SupremeCard.get()) {
-            key = "item.bubusteinmoneymod.supreme_card.named";
-        } else {
+        String key = getTranslationKey(item);
+
+        if (key == null) {
+            MoneyMod.LOGGER.warn("[{}] Unknown card type: {}", MoneyMod.MOD_ID, item);
             return super.getName(stack);
         }
-
         return Component.translatable(key, ownerName);
     }
+    private String getTranslationKey(Item item) {
+        if (item == ModItems.RustyCard.get()) {
+            return "item.bubusteinmoneymod.rusty_card.named";
+        } else if (item == ModItems.Card.get()) {
+            return "item.bubusteinmoneymod.classic_card.named";
+        } else if (item == ModItems.GoldCard.get()) {
+            return "item.bubusteinmoneymod.gold_card.named";
+        } else if (item == ModItems.SteelCard.get()) {
+            return "item.bubusteinmoneymod.steel_card.named";
+        } else if (item == ModItems.SupremeCard.get()) {
+            return "item.bubusteinmoneymod.supreme_card.named";
+        }
+        return null;
+    }
     public static void setIban(ItemStack stack, String iban) {
-        stack.set(IBAN_COMPONENT.get(), iban);
+        if (iban != null && !iban.trim().isEmpty()) {
+            stack.set(IBAN_COMPONENT.get(), iban.trim());
+        }
     }
     public static String getIban(ItemStack stack) {
         return stack.getOrDefault(IBAN_COMPONENT.get(), null);
     }
-
     public static void setOwner(ItemStack stack, UUID owner) {
-        stack.set(OWNER_COMPONENT.get(), owner.toString());
+        if (owner != null) {
+            stack.set(OWNER_COMPONENT.get(), owner.toString());
+        }
     }
     public static UUID getOwner(ItemStack stack) {
         String s = stack.getOrDefault(OWNER_COMPONENT.get(), null);
-        if (s == null || s.isEmpty()) {
+        if (s == null || s.trim().isEmpty()) {
             return null;
         }
         try {
             return UUID.fromString(s);
         } catch (IllegalArgumentException e) {
-            MoneyMod.LOGGER.error("Invalid UUID format for card owner: {}", s);
+            MoneyMod.LOGGER.error("[{}] Invalid UUID format for card owner: {}", MoneyMod.MOD_ID, s);
             return null;
         }
     }
     public static void setAccountKind(ItemStack stack, AccountKind kind) {
-        stack.set(ACCOUNT_KIND_COMPONENT.get(), kind.name());
+        if (kind != null) {
+            stack.set(ACCOUNT_KIND_COMPONENT.get(), kind.name());
+        }
     }
     public static AccountKind getAccountKind(ItemStack stack) {
-        String s = stack.getOrDefault(ACCOUNT_KIND_COMPONENT.get(), AccountKind.DEBIT.name());
-        return AccountKind.valueOf(s);
+        String s = stack.getOrDefault(ACCOUNT_KIND_COMPONENT.get(), null);
+        if (s == null) {
+            return AccountKind.DEBIT;
+        }
+        try {
+            return AccountKind.valueOf(s);
+        } catch (IllegalArgumentException e) {
+            MoneyMod.LOGGER.error("[{}] Invalid AccountKind: {}", MoneyMod.MOD_ID, s);
+            return AccountKind.DEBIT;
+        }
     }
     public static CardTier getTierFromItem(ItemStack stack) {
         Item item = stack.getItem();
@@ -255,7 +329,6 @@ public class CardItem extends Item {
         }
         tooltip.add(Component.literal("IBAN: " + iban)
                 .withStyle(style -> style.withColor(ChatFormatting.GRAY)));
-
         boolean shiftDown = Screen.hasShiftDown();
         if (!shiftDown) {
             tooltip.add(Component.literal("Press ")
@@ -267,29 +340,40 @@ public class CardItem extends Item {
         } else {
             double balance = stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
             String currency = stack.getOrDefault(CURRENCY_COMPONENT.get(), "EUR");
-
-            String formattedMoney = formatMoney(balance);
+            String formattedMoney = Double.isFinite(balance) && balance >= 0
+                    ? formatMoney(balance)
+                    : "ERROR";
             tooltip.add(Component.translatable(
                             "cardItem.bubusteinmoneymod.balance",
                             formattedMoney,
                             currency)
                     .withStyle(style -> style.withColor(TextColor.fromRgb(0xFFD700))));
-            if (stack.getItem() == ModItems.RustyCard.get()) {
-                tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "10%")
-                        .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-            } else if (stack.getItem() == ModItems.Card.get()) {
-                tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "3%")
-                        .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-            } else if (stack.getItem() == ModItems.GoldCard.get()) {
-                tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "2%")
-                        .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-            } else if (stack.getItem() == ModItems.SteelCard.get()) {
-                tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "1%")
-                        .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-            } else if (stack.getItem() == ModItems.SupremeCard.get()) {
-                tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", "0%")
-                        .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
-            }
+            addWithdrawFeeTooltip(stack, tooltip);
+        }
+    }
+    private void addWithdrawFeeTooltip(ItemStack stack, List<Component> tooltip) {
+        Item item = stack.getItem();
+        String feePercentage;
+
+        if (item == ModItems.RustyCard.get()) {
+            feePercentage = "10%";
+        } else if (item == ModItems.Card.get()) {
+            feePercentage = "3%";
+        } else if (item == ModItems.GoldCard.get()) {
+            feePercentage = "2%";
+        } else if (item == ModItems.SteelCard.get()) {
+            feePercentage = "1%";
+        } else if (item == ModItems.SupremeCard.get()) {
+            feePercentage = "0%";
+        } else {
+            return;
+        }
+        tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", feePercentage)
+                .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
+    }
+    private record CachedCardData(long timestamp, double balance, String currency) {
+        public boolean isValid(long currentTime) {
+                return (currentTime - timestamp) < CACHE_DURATION_TICKS;
         }
     }
 }

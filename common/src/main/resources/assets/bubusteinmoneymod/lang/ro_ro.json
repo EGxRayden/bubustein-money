@@ -491,5 +491,14 @@
   "message.bubusteinmoneymod.no": "Nu",
   "message.bubusteinmoneymod.card_not_active": "Acest card a fost dezactivat de la distanță!",
   "message.bubusteinmoneymod.card_not_active_hint": "Dacă acesta este cardul tău, folosește comanda /bubustein link pentru a reactiva contul cu cardul tău.",
-  "message.bubusteinmoneymod.target_card_not_active": "Cardul lui %s nu este activ."
+  "message.bubusteinmoneymod.target_card_not_active": "Cardul lui %s nu este activ.",
+  "message.bubusteinmoneymod.internal_error_server": "Eroare internă: Nu s-a putut accesa serverul. Te rog încearcă mai târziu.",
+  "message.bubusteinmoneymod.account_not_found_from_card": "Niciun cont bancar nu a fost găsit pentru acest card. IBAN: %s",
+  "message.bubusteinmoneymod.not_card_owner": "Tu nu ești proprietarul cardului sau tu nu ai permisiunea să-l gestionezi.",
+  "message.bubusteinmoneymod.migration_failed": "Migrarea soldului vechi a eșuat. Te rugăm să contactezi un administrator.",
+  "message.bubusteinmoneymod.not_your_account": "Nu ești proprietarul acestui cont.",
+  "message.bubusteinmoneymod.conversion_failed": "Conversia valutară a eșuat. Încearcă din nou mai târziu.",
+  "message.bubusteinmoneymod.invalid_denomination": "Nu se poate forma suma exactă cu bancnotele/monedele disponibile.",
+  "message.bubusteinmoneymod.not_enough_items": "Nu ai suficiente bancnote/monede pentru această operațiune.",
+  "message.bubusteinmoneymod.deposit_exceeds_limit": "Depozitul depășește suma maximă permisă."
 }

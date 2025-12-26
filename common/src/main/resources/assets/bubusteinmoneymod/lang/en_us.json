@@ -396,7 +396,7 @@
   "message.bubusteinmoneymod.cannot_pay_self": "You cannot send money to yourself!",
   "message.bubusteinmoneymod.not_enough_funds_with_fee": "Not enough funds! Maximum withdrawal amount: %s %s (including fee: %s %s)",
   "message.bubusteinmoneymod.amount_too_large": "Amount too large! Maximum allowed is %s",
-  "message.bubusteinmoneymod.deposit_success": "You deposited %s %s into the card (%s %s). New balance: %s %s",
+  "message.bubusteinmoneymod.deposit_success": "You deposited %s %s into the card. New balance: %s %s",
   "message.bubusteinmoneymod.deposit_partial": "The exact amount couldn't be deposited. Uncovered difference: %s %s",
   "message.bubusteinmoneymod.withdraw_success": "You withdrew %s %s. Withdrawal fee: %s %s. New balance: %s %s",
   "message.bubusteinmoneymod.withdraw_partial": "The exact amount couldn't be withdrawn. %s %s has been returned to your card due to missing denominations.",
@@ -496,6 +496,14 @@
   "message.bubusteinmoneymod.no": "No",
   "message.bubusteinmoneymod.card_not_active": "This card has been invalidated remotely!",
   "message.bubusteinmoneymod.card_not_active_hint": "If this is your card, use /bubustein link to reactivate with a new card.",
-  "message.bubusteinmoneymod.target_card_not_active": "%s's card is not active."
-
+  "message.bubusteinmoneymod.target_card_not_active": "%s's card is not active.",
+  "message.bubusteinmoneymod.internal_error_server": "Internal error: could not access the server. Please try again later.",
+  "message.bubusteinmoneymod.account_not_found_from_card": "No bank account was found for this card. IBAN: %s",
+  "message.bubusteinmoneymod.not_card_owner": "You are not the owner of this card or you do not have permission to manage it.",
+  "message.bubusteinmoneymod.migration_failed": "Legacy balance migration failed. Please contact an admin.",
+  "message.bubusteinmoneymod.not_your_account": "You are not the owner of this account.",
+  "message.bubusteinmoneymod.conversion_failed": "Currency conversion failed. Please try again later.",
+  "message.bubusteinmoneymod.invalid_denomination": "Cannot match the exact amount with available banknotes/coins.",
+  "message.bubusteinmoneymod.not_enough_items": "You don't have enough banknotes/coins for this operation.",
+  "message.bubusteinmoneymod.deposit_exceeds_limit": "Deposit exceeds the maximum allowed balance."
 }
