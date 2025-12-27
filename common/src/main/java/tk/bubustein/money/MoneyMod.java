@@ -42,6 +42,7 @@ import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.ModRecipes;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.util.JigsawHelper;
+import tk.bubustein.money.util.PlayerJoinHandler;
 import tk.bubustein.money.villager.ModVillagers;
 
 public class MoneyMod {
@@ -95,7 +96,8 @@ public class MoneyMod {
 
         LOGGER.info("[{}] Creating Tabs. . .", MOD_ID);
         TABS.register();
-
+        LOGGER.info("[{}] Registering player join handler...", MOD_ID);
+        PlayerJoinHandler.register();
         LOGGER.info("[{}] The Mod has been loaded successfully", MOD_ID);
     }
 

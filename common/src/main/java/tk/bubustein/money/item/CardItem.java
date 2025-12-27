@@ -44,9 +44,13 @@ import tk.bubustein.money.bank.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 public class CardItem extends Item {
@@ -88,60 +92,138 @@ public class CardItem extends Item {
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build());
 
-    private static final ConcurrentHashMap<ItemStack, CachedCardData> cardCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<CardCacheKey, CachedCardData> cardCache = new ConcurrentHashMap<>();
     private static final int CACHE_DURATION_TICKS = 20;
+    private static final int CACHE_CLEANUP_INTERVAL_SECONDS = 60;
+    private static ScheduledExecutorService cacheCleanupExecutor;
+    private static volatile boolean cleanupScheduled = false;
     private static final double GLOW_THRESHOLD_EUR = 20000.0;
 
     public CardItem(Properties properties) {
         super(properties);
+        initializeCacheCleanup();
+    }
+    private static void initializeCacheCleanup() {
+        if (!cleanupScheduled) {
+            synchronized (CardItem.class) {
+                if (!cleanupScheduled) {
+                    cacheCleanupExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
+                        Thread t = new Thread(r, "CardCacheCleanup");
+                        t.setDaemon(true);
+                        return t;
+                    });
+
+                    cacheCleanupExecutor.scheduleAtFixedRate(
+                            CardItem::cleanupOldCacheEntries,
+                            CACHE_CLEANUP_INTERVAL_SECONDS,
+                            CACHE_CLEANUP_INTERVAL_SECONDS,
+                            TimeUnit.SECONDS
+                    );
+
+                    cleanupScheduled = true;
+                    MoneyMod.LOGGER.info("[{}] Card cache cleanup scheduled every {}s",
+                            MoneyMod.MOD_ID, CACHE_CLEANUP_INTERVAL_SECONDS);
+                }
+            }
+        }
+    }
+    private static void cleanupOldCacheEntries() {
+        try {
+            int sizeBefore = cardCache.size();
+            long currentTimeApprox = System.currentTimeMillis() / 50; // Aproximare pentru game ticks
+
+            cardCache.entrySet().removeIf(entry ->
+                    !entry.getValue().isValid(currentTimeApprox)
+            );
+
+            int sizeAfter = cardCache.size();
+            int removed = sizeBefore - sizeAfter;
+
+            if (removed > 0) {
+                MoneyMod.LOGGER.debug("[{}] Cleaned {} old entries from card cache ({} remaining)",
+                        MoneyMod.MOD_ID, removed, sizeAfter);
+            }
+        } catch (Exception e) {
+            MoneyMod.LOGGER.error("[{}] Error during card cache cleanup", MoneyMod.MOD_ID, e);
+        }
+    }
+    public static void clearCache() {
+        int size = cardCache.size();
+        cardCache.clear();
+        MoneyMod.LOGGER.info("[{}] Cleared entire card cache ({} entries removed)",
+                MoneyMod.MOD_ID, size);
+    }
+    public static void shutdown() {
+        if (cacheCleanupExecutor != null) {
+            cacheCleanupExecutor.shutdown();
+            try {
+                if (!cacheCleanupExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                    cacheCleanupExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                cacheCleanupExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+            MoneyMod.LOGGER.info("[{}] Card cache cleanup executor shut down", MoneyMod.MOD_ID);
+        }
     }
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-
         if (level.isClientSide()) return;
         if (!(entity instanceof ServerPlayer player)) return;
         if (stack.isEmpty() || !stack.has(IBAN_COMPONENT.get())) return;
 
         ServerLevel serverLevel = (ServerLevel) level;
         MinecraftServer server = serverLevel.getServer();
-        CachedCardData cached = cardCache.get(stack);
+
+        String iban = getIban(stack);
+        if (iban == null || iban.isEmpty()) return;
+
+        CardCacheKey cacheKey = new CardCacheKey(iban, player.getUUID(), slot);
+        CachedCardData cached = cardCache.get(cacheKey);
+
         if (cached != null && cached.isValid(level.getGameTime())) {
             return;
         }
 
-        String iban = getIban(stack);
-        if (iban == null || iban.isEmpty()) return;
         BankAccountManager mgr = BankAccountManager.get();
         Optional<BankAccount> optAcc = mgr.getByIban(server, iban);
+
         if (optAcc.isEmpty()) {
             MoneyMod.LOGGER.warn("[{}] Card with IBAN {} has no associated account (player: {})",
                     MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
             invalidateCard(stack);
-            cardCache.remove(stack);
+            cardCache.remove(cacheKey);
             return;
         }
+
         BankAccount acc = optAcc.get();
+
         if (!acc.isActive()) {
             MoneyMod.LOGGER.info("[{}] Card with IBAN {} is inactive, clearing data (player: {})",
                     MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
             invalidateCard(stack);
-            cardCache.remove(stack);
+            cardCache.remove(cacheKey);
             return;
         }
+
         UUID cardOwner = getOwner(stack);
         if (cardOwner != null && !cardOwner.equals(player.getUUID())) {
             MoneyMod.LOGGER.warn("[{}] Card owner mismatch: card owner={}, holder={}",
                     MoneyMod.MOD_ID, cardOwner, player.getUUID());
             return;
         }
+
         CardTier currentTier = getTierFromItem(stack);
         String newTier = currentTier.name();
         if (!newTier.equals(acc.getCardTier())) {
             acc.setCardTier(newTier);
         }
+
         double newBalance = acc.getBalance();
         String newCurrency = acc.getCurrency();
+
         if (Double.isFinite(newBalance) && newBalance >= 0) {
             stack.set(MONEY_COMPONENT.get(), newBalance);
         } else {
@@ -149,6 +231,7 @@ public class CardItem extends Item {
                     MoneyMod.MOD_ID, iban, newBalance);
             stack.set(MONEY_COMPONENT.get(), 0.0);
         }
+
         if (newCurrency != null && !newCurrency.isEmpty() && ModItems.EXCHANGE_RATES.containsKey(newCurrency)) {
             stack.set(CURRENCY_COMPONENT.get(), newCurrency);
         } else {
@@ -156,7 +239,8 @@ public class CardItem extends Item {
                     MoneyMod.MOD_ID, iban, newCurrency);
             stack.set(CURRENCY_COMPONENT.get(), "EUR");
         }
-        cardCache.put(stack, new CachedCardData(level.getGameTime(), newBalance, newCurrency));
+
+        cardCache.put(cacheKey, new CachedCardData(level.getGameTime(), newBalance, newCurrency));
     }
     private void invalidateCard(ItemStack stack) {
         stack.remove(IBAN_COMPONENT.get());
@@ -371,9 +455,34 @@ public class CardItem extends Item {
         tooltip.add(Component.translatable("cardItem.bubusteinmoneymod.withdraw_fee", feePercentage)
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
+
+    private static class CardCacheKey {
+        private final String iban;
+        private final UUID playerUuid;
+        private final int slot;
+
+        public CardCacheKey(String iban, UUID playerUuid, int slot) {
+            this.iban = iban;
+            this.playerUuid = playerUuid;
+            this.slot = slot;
+        }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CardCacheKey that = (CardCacheKey) o;
+            return slot == that.slot &&
+                    Objects.equals(iban, that.iban) &&
+                    Objects.equals(playerUuid, that.playerUuid);
+        }
+        @Override
+        public int hashCode() {
+            return Objects.hash(iban, playerUuid, slot);
+        }
+    }
     private record CachedCardData(long timestamp, double balance, String currency) {
         public boolean isValid(long currentTime) {
-                return (currentTime - timestamp) < CACHE_DURATION_TICKS;
+            return (currentTime - timestamp) < CACHE_DURATION_TICKS;
         }
     }
 }

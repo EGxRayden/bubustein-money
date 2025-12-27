@@ -36,6 +36,7 @@ import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import tk.bubustein.money.MoneyMod;
 import net.neoforged.bus.api.IEventBus;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.item.CardItem;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.screen.BankMachineScreen;
 import tk.bubustein.money.screen.ModMenuTypes;
@@ -66,7 +67,10 @@ public class MoneyModNeoForge {
     }
     @SubscribeEvent
     public void ServerStopping(ServerStoppingEvent event){
+        MoneyMod.LOGGER.info("[{}] Server stopping, cleaning up...", MoneyMod.MOD_ID);
+        CardItem.shutdown();
         MoneyMod.saveConfig(event.getServer());
+        MoneyMod.LOGGER.info("[{}] Cleanup complete", MoneyMod.MOD_ID);
     }
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {

@@ -500,5 +500,11 @@
   "message.bubusteinmoneymod.conversion_failed": "Conversia valutară a eșuat. Încearcă din nou mai târziu.",
   "message.bubusteinmoneymod.invalid_denomination": "Nu se poate forma suma exactă cu bancnotele/monedele disponibile.",
   "message.bubusteinmoneymod.not_enough_items": "Nu ai suficiente bancnote/monede pentru această operațiune.",
-  "message.bubusteinmoneymod.deposit_exceeds_limit": "Depozitul depășește suma maximă permisă."
+  "message.bubusteinmoneymod.deposit_exceeds_limit": "Depozitul depășește suma maximă permisă.",
+  "commands.bubusteinmoneymod.createAccount.invalid_type": "Invalid account type '%s'. Valid types: %s",
+  "commands.bubusteinmoneymod.createAccount.invalid_prefix_length": "Bank prefix '%s' must be exactly 4 letters",
+  "commands.bubusteinmoneymod.createAccount.invalid_prefix_chars": "Bank prefix '%s' must contain only letters A-Z",
+  "commands.bubusteinmoneymod.createAccount.iban_generation_failed": "Failed to generate IBAN: %s",
+  "commands.bubusteinmoneymod.createAccount.failed": "Failed to create account. See server logs for details.",
+  "commands.bubusteinmoneymod.createAccount.success": "Account created successfully!\nType: %s\nIBAN: %s\nCurrency: %s"
 }

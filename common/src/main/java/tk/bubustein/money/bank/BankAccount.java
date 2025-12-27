@@ -1,250 +1,185 @@
 package tk.bubustein.money.bank;
 
+import com.google.gson.annotations.SerializedName;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.item.ModItems;
 
 import java.util.UUID;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class BankAccount {
+    @SerializedName("owner_uuid")
     private UUID ownerUuid;
-    private String iban;
-    private String currency;
-    private AccountKind kind;
-    private double balance;
-    private String bankPrefix;
-    private int accountId;
-    private boolean active = true;
-    private String cardTier;
 
-    private transient ReadWriteLock lock = new ReentrantReadWriteLock();
+    @SerializedName("iban")
+    private String iban;
+
+    @SerializedName("currency")
+    private String currency;
+
+    @SerializedName("kind")
+    private AccountKind kind;
+
+    @SerializedName("balance")
+    private volatile double balance;
+
+    @SerializedName("bank_prefix")
+    private String bankPrefix;
+
+    @SerializedName("account_id")
+    private int accountId;
+
+    @SerializedName("active")
+    private volatile boolean active = true;
+
+    @SerializedName("card_tier")
+    private String cardTier = "CLASSIC";
 
     private static final double EPSILON = 0.01;
     private static final double MAX_BALANCE = 1_000_000_000_000.0;
 
     public BankAccount() {
-        if (lock == null) {
-            lock = new ReentrantReadWriteLock();
-        }
+    }
+    public UUID getOwnerUuid() {
+        return ownerUuid;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public AccountKind getKind() {
+        return kind;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getBankPrefix() {
+        return bankPrefix;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public String getCardTier() {
-        lock.readLock().lock();
-        try {
-            return cardTier;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return cardTier != null ? cardTier : "CLASSIC";
     }
-    public void setCardTier(String cardTier) {
-        lock.writeLock().lock();
-        try {
-            this.cardTier = cardTier;
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
-    public UUID getOwnerUuid() {
-        lock.readLock().lock();
-        try {
-            return ownerUuid;
-        } finally {
-            lock.readLock().unlock();
-        }
+
+    public boolean isBalanceZero() {
+        return Math.abs(this.balance) < EPSILON;
     }
     public void setOwnerUuid(UUID ownerUuid) {
-        lock.writeLock().lock();
-        try {
-            this.ownerUuid = ownerUuid;
-        } finally {
-            lock.writeLock().unlock();
-        }
+        this.ownerUuid = ownerUuid;
     }
-    public String getIban() {
-        lock.readLock().lock();
-        try {
-            return iban;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
+
     public void setIban(String iban) {
-        lock.writeLock().lock();
-        try {
-            this.iban = iban;
-        } finally {
-            lock.writeLock().unlock();
-        }
+        this.iban = iban;
     }
-    public String getCurrency() {
-        lock.readLock().lock();
-        try {
-            return currency;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
+
     public void setCurrency(String currency) {
-        lock.writeLock().lock();
-        try {
-            if (currency == null || currency.trim().isEmpty()) {
-                MoneyMod.LOGGER.warn("[{}] Attempted to set null/empty currency, using EUR", MoneyMod.MOD_ID);
-                this.currency = "EUR";
-                return;
-            }
-            if (!ModItems.EXCHANGE_RATES.containsKey(currency.toUpperCase())) {
-                MoneyMod.LOGGER.warn("[{}] Invalid currency '{}', using EUR", MoneyMod.MOD_ID, currency);
-                this.currency = "EUR";
-                return;
-            }
-            this.currency = currency.toUpperCase();
-        } finally {
-            lock.writeLock().unlock();
+        if (currency == null || currency.trim().isEmpty()) {
+            MoneyMod.LOGGER.warn("[{}] Attempted to set null/empty currency, using EUR",
+                    MoneyMod.MOD_ID);
+            this.currency = "EUR";
+            return;
         }
-    }
-    public AccountKind getKind() {
-        lock.readLock().lock();
-        try {
-            return kind;
-        } finally {
-            lock.readLock().unlock();
+
+        String upperCurrency = currency.toUpperCase();
+        if (!ModItems.EXCHANGE_RATES.containsKey(upperCurrency)) {
+            MoneyMod.LOGGER.warn("[{}] Invalid currency '{}', using EUR",
+                    MoneyMod.MOD_ID, currency);
+            this.currency = "EUR";
+            return;
         }
+
+        this.currency = upperCurrency;
     }
+
     public void setKind(AccountKind kind) {
-        lock.writeLock().lock();
-        try {
-            this.kind = kind;
-        } finally {
-            lock.writeLock().unlock();
-        }
+        this.kind = kind;
     }
-    public double getBalance() {
-        lock.readLock().lock();
-        try {
-            return balance;
-        } finally {
-            lock.readLock().unlock();
-        }
+
+    public void setBankPrefix(String bankPrefix) {
+        this.bankPrefix = bankPrefix;
     }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setCardTier(String cardTier) {
+        this.cardTier = cardTier;
+    }
+
     public void setBalance(double balance) {
-        lock.writeLock().lock();
-        try {
-            if (!Double.isFinite(balance)) {
-                MoneyMod.LOGGER.error("[{}] Attempted to set invalid balance: {}", MoneyMod.MOD_ID, balance);
-                return;
-            }
-            if (balance < 0) {
-                MoneyMod.LOGGER.warn("[{}] Attempted to set negative balance: {}, clamping to 0",
-                        MoneyMod.MOD_ID, balance);
-                this.balance = 0.0;
-                return;
-            }
-            if (balance > MAX_BALANCE) {
-                MoneyMod.LOGGER.warn("[{}] Balance exceeds maximum: {}, clamping to {}",
-                        MoneyMod.MOD_ID, balance, MAX_BALANCE);
-                this.balance = MAX_BALANCE;
-                return;
-            }
-            this.balance = balance;
-        } finally {
-            lock.writeLock().unlock();
+        if (!Double.isFinite(balance)) {
+            MoneyMod.LOGGER.error("[{}] Attempted to set invalid balance: {}",
+                    MoneyMod.MOD_ID, balance);
+            return;
         }
+
+        if (balance < 0) {
+            MoneyMod.LOGGER.warn("[{}] Attempted to set negative balance: {}, clamping to 0",
+                    MoneyMod.MOD_ID, balance);
+            this.balance = 0.0;
+            return;
+        }
+
+        if (balance > MAX_BALANCE) {
+            MoneyMod.LOGGER.warn("[{}] Balance exceeds maximum: {}, clamping to {}",
+                    MoneyMod.MOD_ID, balance, MAX_BALANCE);
+            this.balance = MAX_BALANCE;
+            return;
+        }
+
+        this.balance = balance;
     }
-    public boolean deposit(double amount) {
+    public synchronized boolean deposit(double amount) {
         if (!Double.isFinite(amount) || amount <= 0) {
             MoneyMod.LOGGER.warn("[{}] Invalid deposit amount: {}", MoneyMod.MOD_ID, amount);
             return false;
         }
-        lock.writeLock().lock();
-        try {
-            double newBalance = this.balance + amount;
-            if (newBalance > MAX_BALANCE) {
-                MoneyMod.LOGGER.warn("[{}] Deposit would exceed maximum balance", MoneyMod.MOD_ID);
-                return false;
-            }
-            this.balance = newBalance;
-            MoneyMod.LOGGER.info("[{}] Deposited {} {} to account {}, new balance: {}",
-                    MoneyMod.MOD_ID, amount, currency, iban, this.balance);
-            return true;
-        } finally {
-            lock.writeLock().unlock();
+
+        double newBalance = this.balance + amount;
+        if (newBalance > MAX_BALANCE) {
+            MoneyMod.LOGGER.warn("[{}] Deposit would exceed maximum balance", MoneyMod.MOD_ID);
+            return false;
         }
+
+        this.balance = newBalance;
+        MoneyMod.LOGGER.debug("[{}] Deposited {} {} to account {}, new balance: {}",
+                MoneyMod.MOD_ID, amount, currency, iban, this.balance);
+        return true;
     }
-    public boolean withdraw(double amount) {
+    public synchronized boolean withdraw(double amount) {
         if (!Double.isFinite(amount) || amount <= 0) {
             MoneyMod.LOGGER.warn("[{}] Invalid withdraw amount: {}", MoneyMod.MOD_ID, amount);
             return false;
         }
-        lock.writeLock().lock();
-        try {
-            if (this.balance < amount - EPSILON) {
-                MoneyMod.LOGGER.info("[{}] Insufficient funds for withdrawal: has {}, needs {}",
-                        MoneyMod.MOD_ID, this.balance, amount);
-                return false;
-            }
-            this.balance = Math.max(0, this.balance - amount);
-            MoneyMod.LOGGER.info("[{}] Withdrew {} {} from account {}, new balance: {}",
-                    MoneyMod.MOD_ID, amount, currency, iban, this.balance);
-            return true;
-        } finally {
-            lock.writeLock().unlock();
+
+        if (this.balance < amount - EPSILON) {
+            MoneyMod.LOGGER.debug("[{}] Insufficient funds for withdrawal: has {}, needs {}",
+                    MoneyMod.MOD_ID, this.balance, amount);
+            return false;
         }
-    }
-    public boolean isBalanceZero() {
-        lock.readLock().lock();
-        try {
-            return Math.abs(this.balance) < EPSILON;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-    public String getBankPrefix() {
-        lock.readLock().lock();
-        try {
-            return bankPrefix;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-    public void setBankPrefix(String bankPrefix) {
-        lock.writeLock().lock();
-        try {
-            this.bankPrefix = bankPrefix;
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
-    public int getAccountId() {
-        lock.readLock().lock();
-        try {
-            return accountId;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-    public void setAccountId(int accountId) {
-        lock.writeLock().lock();
-        try {
-            this.accountId = accountId;
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
-    public boolean isActive() {
-        lock.readLock().lock();
-        try {
-            return active;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-    public void setActive(boolean active) {
-        lock.writeLock().lock();
-        try {
-            this.active = active;
-        } finally {
-            lock.writeLock().unlock();
-        }
+
+        this.balance = Math.max(0, this.balance - amount);
+        MoneyMod.LOGGER.debug("[{}] Withdrew {} {} from account {}, new balance: {}",
+                MoneyMod.MOD_ID, amount, currency, iban, this.balance);
+        return true;
     }
 }

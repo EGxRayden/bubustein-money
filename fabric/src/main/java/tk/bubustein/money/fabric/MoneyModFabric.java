@@ -25,6 +25,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import tk.bubustein.money.MoneyMod;
 import net.fabricmc.api.ModInitializer;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.item.CardItem;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.villager.ModVillagers;
 
@@ -39,7 +40,12 @@ public class MoneyModFabric implements ModInitializer {
             MoneyMod.registerJigsaws(server);
             MoneyMod.onServerStarting(server);
         });
-        ServerLifecycleEvents.SERVER_STOPPING.register(MoneyMod::saveConfig);
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            MoneyMod.LOGGER.info("[{}] Server stopping, cleaning up...", MoneyMod.MOD_ID);
+            CardItem.shutdown();
+            MoneyMod.saveConfig(server);
+            MoneyMod.LOGGER.info("[{}] Cleanup complete", MoneyMod.MOD_ID);
+        });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> ModCommands.register(dispatcher));
     }
 }
