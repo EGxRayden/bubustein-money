@@ -37,10 +37,10 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.config.ModConfig;
-import tk.bubustein.money.item.CardItem;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.ModRecipes;
 import tk.bubustein.money.screen.ModMenuTypes;
+import tk.bubustein.money.util.CardUtils;
 import tk.bubustein.money.util.JigsawHelper;
 import tk.bubustein.money.util.PlayerJoinHandler;
 import tk.bubustein.money.villager.ModVillagers;
@@ -77,7 +77,7 @@ public class MoneyMod {
         config = ModConfig.getInstance();
 
         LOGGER.info("[{}] Registering Data Components...", MOD_ID);
-        CardItem.COMPONENTS.register();
+        CardUtils.COMPONENTS.register();
 
         LOGGER.info("[{}] Printing money. . . ;)", MOD_ID);
         ModItems.init();

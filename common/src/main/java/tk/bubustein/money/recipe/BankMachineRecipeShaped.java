@@ -26,21 +26,16 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.bank.*;
 import tk.bubustein.money.item.CardItem;
-import tk.bubustein.money.item.ModItems;
-
-import java.util.Optional;
+import tk.bubustein.money.util.CardUtils;
 import java.util.UUID;
 
 public class BankMachineRecipeShaped implements BankMachineRecipe {
@@ -88,28 +83,28 @@ public class BankMachineRecipeShaped implements BankMachineRecipe {
         if (!(source.getItem() instanceof CardItem)) {
             return result;
         }
-        String iban = CardItem.getIban(source);
-        UUID owner = CardItem.getOwner(source);
-        String ownerName = CardItem.getOwnerName(source);
-        AccountKind kind = CardItem.getAccountKind(source);
+        String iban = CardUtils.getIban(source);
+        UUID owner = CardUtils.getOwner(source);
+        String ownerName = CardUtils.getOwnerName(source);
+        AccountKind kind = CardUtils.getAccountKind(source);
 
         if (iban == null || iban.isEmpty() || owner == null) {
             return result;
         }
-        CardItem.setIban(result, iban);
-        CardItem.setOwner(result, owner);
-        CardItem.setOwnerName(result, ownerName);
-        CardItem.setAccountKind(result, kind);
-        Double sourceBalance = source.get(CardItem.MONEY_COMPONENT.get());
-        String sourceCurrency = source.get(CardItem.CURRENCY_COMPONENT.get());
+        CardUtils.setIban(result, iban);
+        CardUtils.setOwner(result, owner);
+        CardUtils.setOwnerName(result, ownerName);
+        CardUtils.setAccountKind(result, kind);
+        Double sourceBalance = source.get(CardUtils.MONEY_COMPONENT.get());
+        String sourceCurrency = source.get(CardUtils.CURRENCY_COMPONENT.get());
         if (sourceBalance != null) {
-            result.set(CardItem.MONEY_COMPONENT.get(), sourceBalance);
+            result.set(CardUtils.MONEY_COMPONENT.get(), sourceBalance);
         }
         if (sourceCurrency != null) {
-            result.set(CardItem.CURRENCY_COMPONENT.get(), sourceCurrency);
+            result.set(CardUtils.CURRENCY_COMPONENT.get(), sourceCurrency);
         }
         if (result.getItem() instanceof CardItem) {
-            String newTier = CardItem.getTierFromItem(result).name();
+            String newTier = CardUtils.getDebitTierFromItem(result).name();
             String cardNameKey = "item.bubusteinmoneymod." + newTier.toLowerCase() + "_card.named";
             result.set(DataComponents.CUSTOM_NAME,
                     Component.translatable(cardNameKey, ownerName));

@@ -365,5 +365,8 @@ public class MoneyModelDataGen extends FabricModelProvider {
         itemModelGenerator.generateFlatItem(ModItems.Plastic.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.PlasticCard.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.Key.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.ClassicCreditCard.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.GoldCreditCard.get(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.PlatinumCreditCard.get(), ModelTemplates.FLAT_ITEM);
     }
 }

@@ -26,7 +26,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.item.ModItems;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.HttpURLConnection;
@@ -45,45 +44,67 @@ public class ExchangeRateFetcher {
             if (existingRates != null && !existingRates.isEmpty()) {
                 mergedRates.putAll(existingRates);
             }
+
+            HttpURLConnection conn = null;
             try {
                 LOGGER.info("[{}] Fetching exchange rates from ECB...", MoneyMod.MOD_ID);
-                HttpURLConnection conn = (HttpURLConnection) URI.create(ECB_XML_URL).toURL().openConnection();
+                conn = (HttpURLConnection) URI.create(ECB_XML_URL).toURL().openConnection();
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(10000);
                 conn.setReadTimeout(10000);
                 conn.setRequestProperty("User-Agent", "MinecraftMod/BubusteinMoneyMod");
 
-                if (conn.getResponseCode() != 200) {
-                    LOGGER.warn("[{}] ECB API returned HTTP {}", MoneyMod.MOD_ID, conn.getResponseCode());
+                int responseCode = conn.getResponseCode();
+                if (responseCode != 200) {
+                    LOGGER.warn("[{}] ECB API returned HTTP {}", MoneyMod.MOD_ID, responseCode);
                     return filterValidCurrencies(mergedRates);
                 }
+
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+                factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+                factory.setExpandEntityReferences(false);
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(conn.getInputStream());
                 NodeList cubeNodes = doc.getElementsByTagName("Cube");
                 int updatedCount = 0;
                 int skippedCount = 0;
+
                 mergedRates.put("EUR", 1.0);
+
                 for (int i = 0; i < cubeNodes.getLength(); i++) {
                     Element cube = (Element) cubeNodes.item(i);
                     if (cube.hasAttribute("currency") && cube.hasAttribute("rate")) {
                         String currency = cube.getAttribute("currency");
                         if (ModItems.getCurrencyItems().containsKey(currency)) {
-                            double rate = Double.parseDouble(cube.getAttribute("rate"));
-                            mergedRates.put(currency, rate);
-                            updatedCount++;
+                            try {
+                                double rate = Double.parseDouble(cube.getAttribute("rate"));
+                                if (rate > 0 && rate < 1000000) {
+                                    mergedRates.put(currency, rate);
+                                    updatedCount++;
+                                } else {
+                                    LOGGER.warn("[{}] Suspicious exchange rate for {}: {}",
+                                            MoneyMod.MOD_ID, currency, rate);
+                                }
+                            } catch (NumberFormatException e) {
+                                LOGGER.warn("[{}] Invalid rate format for {}", MoneyMod.MOD_ID, currency);
+                            }
                         } else {
                             skippedCount++;
                         }
                     }
                 }
-                conn.disconnect();
                 LOGGER.info("[{}] Successfully updated {} exchange rates from ECB ({} skipped, total: {} mod currencies)",
                         MoneyMod.MOD_ID, updatedCount, skippedCount, mergedRates.size());
 
             } catch (Exception e) {
                 LOGGER.error("[{}] Failed to fetch exchange rates from ECB, using existing/fallback",
                         MoneyMod.MOD_ID, e);
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
             }
 
             return filterValidCurrencies(mergedRates);
@@ -105,7 +126,7 @@ public class ExchangeRateFetcher {
         fallback.put("GBP", 0.86);
         fallback.put("CAD", 1.61);
         fallback.put("RON", 5.05);
-        fallback.put("MDL", 19.74);      // Nu e în ECB
+        fallback.put("MDL", 20.21);      // Nu e în ECB
         fallback.put("CHF", 0.94);
         fallback.put("AUD", 1.80);
         fallback.put("JPY", 171.74);
@@ -115,7 +136,7 @@ public class ExchangeRateFetcher {
         fallback.put("SEK", 11.17);
         fallback.put("HUF", 394.74);
         fallback.put("PLN", 4.25);
-        fallback.put("RSD", 117.38);  // Nu e in ECB
+        fallback.put("RSD", 117.39);  // Nu e in ECB
         fallback.put("ISK", 143.4);
         fallback.put("CNY", 8.35);
         fallback.put("INR", 101.27);
@@ -126,7 +147,7 @@ public class ExchangeRateFetcher {
         fallback.put("TRY", 47.61);
         fallback.put("NZD", 1.99);
         fallback.put("PHP", 66.30);
-        fallback.put("EGP", 55.72);    // Nu e în ECB
+        fallback.put("EGP", 60.66);    // Nu e în ECB
         return fallback;
     }
 }

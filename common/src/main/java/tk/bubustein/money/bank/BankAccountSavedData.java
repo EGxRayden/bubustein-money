@@ -50,14 +50,24 @@ public class BankAccountSavedData extends SavedData {
                     data.accountsByOwner.clear();
                     data.accountsByIban.putAll(loaded);
 
-                    int maxAccountId = 0;
                     for (BankAccount acc : loaded.values()) {
                         data.accountsByOwner
                                 .computeIfAbsent(acc.getOwnerUuid(), k -> new ConcurrentHashMap<>())
                                 .put(acc.getIban(), acc);
+                    }
 
-                        if (acc.getAccountId() > maxAccountId) {
-                            maxAccountId = acc.getAccountId();
+                    int maxAccountId = 0;
+                    for (BankAccount acc : loaded.values()) {
+                        try {
+                            String iban = acc.getIban();
+                            String accountNumber = iban.substring(iban.length() - 10);
+                            int accountId = Integer.parseInt(accountNumber);
+                            if (accountId > maxAccountId) {
+                                maxAccountId = accountId;
+                            }
+                        } catch (Exception e) {
+                            MoneyMod.LOGGER.warn("[{}] Could not parse account ID from IBAN: {}",
+                                    MoneyMod.MOD_ID, acc.getIban());
                         }
                     }
 
@@ -68,10 +78,11 @@ public class BankAccountSavedData extends SavedData {
                         data.nextAccountId.set(maxAccountId + 1);
                     }
 
-                    MoneyMod.LOGGER.info("[{}] Loaded {} bank accounts successfully",
-                            MoneyMod.MOD_ID, loaded.size());
+                    MoneyMod.LOGGER.info("[{}] Loaded {} bank accounts successfully (next ID: {})",
+                            MoneyMod.MOD_ID, loaded.size(), data.nextAccountId.get());
                 }
             }
+
             if (tag.contains("pending_transfers")) {
                 String transfersJson = tag.getString("pending_transfers");
                 Type transfersType = new TypeToken<ConcurrentHashMap<UUID, List<PendingTransfer>>>(){}.getType();
@@ -110,15 +121,13 @@ public class BankAccountSavedData extends SavedData {
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
         dataLock.readLock().lock();
         try {
-            // Salvează conturile
             String json = GSON.toJson(accountsByIban);
             tag.putString("accounts_json", json);
             tag.putInt("next_account_id", nextAccountId.get());
 
-            MoneyMod.LOGGER.debug("[{}] Saved {} bank accounts",
-                    MoneyMod.MOD_ID, accountsByIban.size());
+            MoneyMod.LOGGER.debug("[{}] Saved {} bank accounts (next ID: {})",
+                    MoneyMod.MOD_ID, accountsByIban.size(), nextAccountId.get());
 
-            // Salvează pending transfers
             if (!pendingTransfers.isEmpty()) {
                 String transfersJson = GSON.toJson(pendingTransfers);
                 tag.putString("pending_transfers", transfersJson);
@@ -156,9 +165,9 @@ public class BankAccountSavedData extends SavedData {
                 DATA_NAME
         );
     }
-
-    public BankAccount createAccount(UUID owner, AccountKind kind, String currency,
-                                     String bankPrefix, int accountId, String iban) {
+    public BankAccount createAccount(UUID owner, String ownerName, AccountKind kind,
+                                     String currency, String bankPrefix,
+                                     int accountId, String iban, String initialTier) {
         dataLock.writeLock().lock();
         try {
             if (accountsByIban.containsKey(iban)) {
@@ -166,23 +175,26 @@ public class BankAccountSavedData extends SavedData {
                         MoneyMod.MOD_ID, iban);
                 return null;
             }
-
-            BankAccount acc = new BankAccount();
-            acc.setOwnerUuid(owner);
-            acc.setKind(kind);
-            acc.setCurrency(currency);
-            acc.setBankPrefix(bankPrefix);
-            acc.setAccountId(accountId);
-            acc.setIban(iban);
-            acc.setBalance(0.0);
-            acc.setActive(true);
+            BankAccount acc = new BankAccount(
+                    iban,
+                    owner,
+                    ownerName,
+                    0.0,
+                    currency,
+                    initialTier,
+                    kind,
+                    false,
+                    bankPrefix,
+                    0L,
+                    0L
+            );
 
             accountsByIban.put(iban, acc);
             accountsByOwner.computeIfAbsent(owner, k -> new ConcurrentHashMap<>()).put(iban, acc);
 
             setDirty();
-            MoneyMod.LOGGER.info("[{}] Created account {} for player {}",
-                    MoneyMod.MOD_ID, iban, owner);
+            MoneyMod.LOGGER.info("[{}] Created {} account {} for player {} (tier: {})",
+                    MoneyMod.MOD_ID, kind.name(), iban, ownerName, initialTier);
             return acc;
         } finally {
             dataLock.writeLock().unlock();
@@ -294,11 +306,115 @@ public class BankAccountSavedData extends SavedData {
                     }
                 }
                 setDirty();
-                MoneyMod.LOGGER.info("[{}] Deleted account {} for player {}",
-                        MoneyMod.MOD_ID, iban, acc.getOwnerUuid());
+                MoneyMod.LOGGER.info("[{}] Deleted {} account {} for player {}",
+                        MoneyMod.MOD_ID, acc.getKind().name(), iban, acc.getOwnerName());
             }
         } finally {
             dataLock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Migrates all accounts from one bank prefix to a new bank prefix.
+     * Creates new IBANs for each account, preserving balance, currency, tier, kind, etc.
+     * Old accounts are deleted, new accounts are created as INACTIVE (cards must be re-linked).
+     *
+     * @return the number of accounts migrated
+     */
+    public int migrateAccountsFromBank(String oldPrefix, String newPrefix, String countryCode) {
+        dataLock.writeLock().lock();
+        try {
+            // Find all accounts with the old prefix
+            java.util.List<BankAccount> toMigrate = new java.util.ArrayList<>();
+            for (BankAccount acc : accountsByIban.values()) {
+                if (acc.getBankPrefix().equalsIgnoreCase(oldPrefix)) {
+                    toMigrate.add(acc);
+                }
+            }
+
+            if (toMigrate.isEmpty()) {
+                return 0;
+            }
+
+            int migrated = 0;
+            for (BankAccount old : toMigrate) {
+                // Remove old account from maps
+                accountsByIban.remove(old.getIban());
+                ConcurrentHashMap<String, BankAccount> ownerAccounts = accountsByOwner.get(old.getOwnerUuid());
+                if (ownerAccounts != null) {
+                    ownerAccounts.remove(old.getIban());
+                    if (ownerAccounts.isEmpty()) {
+                        accountsByOwner.remove(old.getOwnerUuid());
+                    }
+                }
+
+                // Generate new IBAN with the new prefix
+                int newAccountId = nextAccountId.getAndIncrement();
+                String newIban;
+                try {
+                    newIban = IbanGenerator.generateIban(countryCode, newPrefix, old.getKind(), newAccountId);
+                } catch (IllegalArgumentException e) {
+                    MoneyMod.LOGGER.error("[{}] Failed to generate new IBAN for migrated account {}: {}",
+                            MoneyMod.MOD_ID, old.getIban(), e.getMessage());
+                    // Put old account back to avoid data loss
+                    accountsByIban.put(old.getIban(), old);
+                    accountsByOwner.computeIfAbsent(old.getOwnerUuid(), k -> new ConcurrentHashMap<>())
+                            .put(old.getIban(), old);
+                    continue;
+                }
+
+                // Create new account with all data copied, but inactive
+                BankAccount newAcc = new BankAccount(
+                        newIban,
+                        old.getOwnerUuid(),
+                        old.getOwnerName(),
+                        old.getBalance(),
+                        old.getCurrency(),
+                        old.getCardTier(),
+                        old.getKind(),
+                        false, // inactive — cards need to be re-linked
+                        newPrefix.toUpperCase(),
+                        old.getLastInterestTimestamp(),
+                        old.getLastInterestGameTick()
+                );
+                newAcc.setLastInterestTimestamp(old.getLastInterestTimestamp());
+
+                accountsByIban.put(newIban, newAcc);
+                accountsByOwner.computeIfAbsent(old.getOwnerUuid(), k -> new ConcurrentHashMap<>())
+                        .put(newIban, newAcc);
+
+                migrated++;
+                MoneyMod.LOGGER.info("[{}] Migrated account {} -> {} (owner: {}, balance: {} {})",
+                        MoneyMod.MOD_ID, old.getIban(), newIban, old.getOwnerName(),
+                        old.getBalance(), old.getCurrency());
+            }
+
+            if (migrated > 0) {
+                setDirty();
+            }
+            return migrated;
+        } finally {
+            dataLock.writeLock().unlock();
+        }
+    }
+
+    public int getTotalAccounts() {
+        dataLock.readLock().lock();
+        try {
+            return accountsByIban.size();
+        } finally {
+            dataLock.readLock().unlock();
+        }
+    }
+
+    public int getActiveAccounts() {
+        dataLock.readLock().lock();
+        try {
+            return (int) accountsByIban.values().stream()
+                    .filter(BankAccount::isActive)
+                    .count();
+        } finally {
+            dataLock.readLock().unlock();
         }
     }
 }

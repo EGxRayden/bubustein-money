@@ -8,7 +8,6 @@ import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.bank.BankAccount;
 import tk.bubustein.money.bank.BankAccountSavedData;
 import tk.bubustein.money.bank.PendingTransfer;
-import tk.bubustein.money.item.CardItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,12 +30,15 @@ public class PlayerJoinHandler {
         int successCount = 0;
         int failCount = 0;
 
+        List<PendingTransfer> failedTransfers = new java.util.ArrayList<>();
+
         for (PendingTransfer transfer : pending) {
             Optional<BankAccount> optAcc = data.getByIban(transfer.getTargetIban());
 
             if (optAcc.isEmpty()) {
                 MoneyMod.LOGGER.error("[{}] Pending transfer target account not found: {}",
                         MoneyMod.MOD_ID, transfer.getTargetIban());
+                failedTransfers.add(transfer);
                 failCount++;
                 continue;
             }
@@ -44,13 +46,23 @@ public class PlayerJoinHandler {
             if (!acc.isActive()) {
                 MoneyMod.LOGGER.warn("[{}] Pending transfer target account inactive: {}",
                         MoneyMod.MOD_ID, transfer.getTargetIban());
+                failedTransfers.add(transfer);
                 failCount++;
                 continue;
             }
-            acc.deposit(transfer.getAmount());
+            try {
+                acc.deposit(transfer.getAmount());
+            } catch (IllegalArgumentException e) {
+                MoneyMod.LOGGER.error("[{}] Failed to deposit pending transfer {} {} to {}: {}",
+                        MoneyMod.MOD_ID, transfer.getAmount(), transfer.getCurrency(),
+                        transfer.getTargetIban(), e.getMessage());
+                failedTransfers.add(transfer);
+                failCount++;
+                continue;
+            }
             player.sendSystemMessage(Component.translatable(
                     "message.bubusteinmoneymod.transfer.received",
-                    CardItem.formatMoney(transfer.getAmount()),
+                    CardUtils.formatMoney(transfer.getAmount()),
                     transfer.getCurrency(),
                     transfer.getSenderName(),
                     transfer.getTargetIban()
@@ -62,7 +74,11 @@ public class PlayerJoinHandler {
                     MoneyMod.MOD_ID, transfer.getAmount(), transfer.getCurrency(),
                     transfer.getTargetIban(), transfer.getSenderName());
         }
+
         data.clearPendingTransfers(player.getUUID());
+        for (PendingTransfer failed : failedTransfers) {
+            data.addPendingTransfer(failed);
+        }
         if (successCount > 0) {
             player.sendSystemMessage(Component.translatable(
                     "message.bubusteinmoneymod.transfer.processedsummary",

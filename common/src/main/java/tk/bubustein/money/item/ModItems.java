@@ -451,6 +451,12 @@ public class ModItems {
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
     public static final Supplier<Item> SupremeCard = MoneyExpectPlatform.registerItem("card_supreme",
             () -> new CardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
+    public static final Supplier<Item> ClassicCreditCard = MoneyExpectPlatform.registerItem("card_classic_credit",
+            () -> new CreditCardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).arch$tab(MoneyMod.SPECIAL)));
+    public static final Supplier<Item> GoldCreditCard = MoneyExpectPlatform.registerItem("card_gold_credit",
+            () -> new CreditCardItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).arch$tab(MoneyMod.SPECIAL)));
+    public static final Supplier<Item> PlatinumCreditCard = MoneyExpectPlatform.registerItem("card_platinum_credit",
+            () -> new CreditCardItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).arch$tab(MoneyMod.SPECIAL)));
 
     public static final Supplier<Item> SpecialPaper = registerItem("special_paper", MoneyMod.SPECIAL);
     public static final Supplier<Item> Polymer = registerItem("polymer", MoneyMod.SPECIAL);

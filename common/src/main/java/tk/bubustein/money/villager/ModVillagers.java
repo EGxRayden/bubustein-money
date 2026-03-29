@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import tk.bubustein.money.bank.CreditCardTier;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.mixin.PoiTypesInvoker;
@@ -136,7 +137,8 @@ public class ModVillagers {
                 {
                     new SimpleTrade(new ItemCost(Items.EMERALD, 10), Optional.of(new ItemCost(ModItems.PolymerSheet.get(), 1)), new ItemStack(ModItems.Pound50.get(), 2), 8, 4, 0.2f),
                     new SimpleTrade(new ItemCost(Items.EMERALD, 10), Optional.of(new ItemCost(ModItems.SpecialPaper.get(), 1)), new ItemStack(ModItems.Dollar100.get(), 1), 8, 4, 0.2f),
-                    new SimpleTrade(new ItemCost(Items.EMERALD, 26), Optional.of(new ItemCost(ModItems.SpecialPaper.get(), 1)), new ItemStack(ModItems.Euro50.get(), 5), 8, 4, 0.2f)
+                    new SimpleTrade(new ItemCost(Items.EMERALD, 26), Optional.of(new ItemCost(ModItems.SpecialPaper.get(), 1)), new ItemStack(ModItems.Euro50.get(), 5), 8, 4, 0.2f),
+                    new CreditCardTrade(CreditCardTier.CLASSIC, 5, 1000.0)
                 },
                 // Level 3
                 {
@@ -147,6 +149,7 @@ public class ModVillagers {
                 {
                     new SimpleTrade(new ItemCost(Items.EMERALD, 40), Optional.of(new ItemCost(Blocks.EMERALD_BLOCK, 8)), new ItemStack(ModItems.L50.get(), 1), 3, 20, 0.9f),
                     new SimpleTrade(new ItemCost(ModItems.L12.get(), 1), Optional.of(new ItemCost(Items.GOLD_INGOT, 3)), new ItemStack(Items.EMERALD, 5), 3, 20, 0.9f),
+                    new CreditCardTrade(CreditCardTier.GOLD, 8, 3500.0)
                 },
                 // Level 5
                 {
@@ -157,7 +160,8 @@ public class ModVillagers {
                     new SimpleTrade(new ItemCost(ModItems.L50.get(),1), Optional.empty(), HELMET, 2, 23, 0.92f),
                     new SimpleTrade(new ItemCost(ModItems.L50.get(), 1), Optional.empty(), PICKAXE,2,23,0.92f),
                     new SimpleTrade(new ItemCost(ModItems.L100.get(),1), Optional.of(new ItemCost(ModItems.L50.get(),1)), TRIDENT,2,23,0.92f),
-                    new SimpleTrade(new ItemCost(ModItems.L100.get(),1), Optional.of(new ItemCost(ModItems.L100.get(),1)), SWORD, 2,23,0.92f)
+                    new SimpleTrade(new ItemCost(ModItems.L100.get(),1), Optional.of(new ItemCost(ModItems.L100.get(),1)), SWORD, 2,23,0.92f),
+                    new CreditCardTrade(CreditCardTier.PLATINUM, 15, 18000.0)
                 }
         };
         VillagerTrades.ItemListing[][] exchangerTrades = {

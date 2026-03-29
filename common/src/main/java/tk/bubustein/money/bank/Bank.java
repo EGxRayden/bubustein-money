@@ -8,6 +8,11 @@ public class Bank {
     private String name;      // nume bancă afișat
     private boolean active = true;
 
+    public Bank(String prefix, String name) {
+        this.prefix = prefix;
+        this.name = name;
+    }
+
     public UUID getOwnerUuid() { return ownerUuid; }
     public void setOwnerUuid(UUID ownerUuid) { this.ownerUuid = ownerUuid; }
 

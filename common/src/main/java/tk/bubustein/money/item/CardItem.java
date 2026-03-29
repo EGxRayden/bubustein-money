@@ -20,14 +20,9 @@
 
 package tk.bubustein.money.item;
 
-import com.mojang.serialization.Codec;
-import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,8 +36,7 @@ import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.bank.*;
-
-import java.text.DecimalFormat;
+import tk.bubustein.money.util.CardUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -51,49 +45,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 public class CardItem extends Item {
-    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(MoneyMod.MOD_ID, Registries.DATA_COMPONENT_TYPE);
-
-    public static final Supplier<DataComponentType<String>> IBAN_COMPONENT =
-            COMPONENTS.register("iban", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
-    public static final Supplier<DataComponentType<String>> OWNER_COMPONENT =
-            COMPONENTS.register("owner", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
-    public static final Supplier<DataComponentType<String>> ACCOUNT_KIND_COMPONENT =
-            COMPONENTS.register("account_kind", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
-    public static final Supplier<DataComponentType<Double>> MONEY_COMPONENT =
-            COMPONENTS.register("money", () -> DataComponentType.<Double>builder()
-                    .persistent(Codec.DOUBLE)
-                    .networkSynchronized(ByteBufCodecs.DOUBLE)
-                    .build());
-
-    public static final Supplier<DataComponentType<String>> CURRENCY_COMPONENT =
-            COMPONENTS.register("currency", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
-    public static final Supplier<DataComponentType<String>> OWNER_NAME_COMPONENT =
-            COMPONENTS.register("owner_name", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
     private static final ConcurrentHashMap<CardCacheKey, CachedCardData> cardCache = new ConcurrentHashMap<>();
-    private static final int CACHE_DURATION_TICKS = 20;
+    private static final long CACHE_DURATION_NANOS = 1_000_000_000L; // 1 second (~20 ticks at 20 TPS)
     private static final int CACHE_CLEANUP_INTERVAL_SECONDS = 60;
     private static ScheduledExecutorService cacheCleanupExecutor;
     private static volatile boolean cleanupScheduled = false;
@@ -112,7 +67,6 @@ public class CardItem extends Item {
                         t.setDaemon(true);
                         return t;
                     });
-
                     cacheCleanupExecutor.scheduleAtFixedRate(
                             CardItem::cleanupOldCacheEntries,
                             CACHE_CLEANUP_INTERVAL_SECONDS,
@@ -130,10 +84,10 @@ public class CardItem extends Item {
     private static void cleanupOldCacheEntries() {
         try {
             int sizeBefore = cardCache.size();
-            long currentTimeApprox = System.currentTimeMillis() / 50; // Aproximare pentru game ticks
+            long now = System.nanoTime();
 
             cardCache.entrySet().removeIf(entry ->
-                    !entry.getValue().isValid(currentTimeApprox)
+                    !entry.getValue().isValid(now)
             );
 
             int sizeAfter = cardCache.size();
@@ -152,6 +106,34 @@ public class CardItem extends Item {
         cardCache.clear();
         MoneyMod.LOGGER.info("[{}] Cleared entire card cache ({} entries removed)",
                 MoneyMod.MOD_ID, size);
+    }
+
+    // --- Shared cache API for CreditCardItem ---
+
+    /**
+     * Checks if cache entry is still valid for the given card slot.
+     * Used by both CardItem and CreditCardItem to avoid per-tick SavedData lookups.
+     */
+    public static boolean isCacheValid(String iban, UUID playerUuid, int slot, long currentNanos) {
+        CardCacheKey key = new CardCacheKey(iban, playerUuid, slot);
+        CachedCardData cached = cardCache.get(key);
+        return cached != null && cached.isValid(currentNanos);
+    }
+
+    /**
+     * Stores a cache entry after a successful account sync.
+     */
+    public static void putInCache(String iban, UUID playerUuid, int slot, double balance, String currency) {
+        CardCacheKey key = new CardCacheKey(iban, playerUuid, slot);
+        cardCache.put(key, new CachedCardData(System.nanoTime(), balance, currency));
+    }
+
+    /**
+     * Removes a cache entry (e.g. when a card is invalidated).
+     */
+    public static void removeFromCache(String iban, UUID playerUuid, int slot) {
+        CardCacheKey key = new CardCacheKey(iban, playerUuid, slot);
+        cardCache.remove(key);
     }
     public static void shutdown() {
         if (cacheCleanupExecutor != null) {
@@ -172,18 +154,16 @@ public class CardItem extends Item {
         super.inventoryTick(stack, level, entity, slot, selected);
         if (level.isClientSide()) return;
         if (!(entity instanceof ServerPlayer player)) return;
-        if (stack.isEmpty() || !stack.has(IBAN_COMPONENT.get())) return;
+        if (stack.isEmpty() || !stack.has(CardUtils.IBAN_COMPONENT.get())) return;
 
         ServerLevel serverLevel = (ServerLevel) level;
         MinecraftServer server = serverLevel.getServer();
 
-        String iban = getIban(stack);
+        String iban = CardUtils.getIban(stack);
         if (iban == null || iban.isEmpty()) return;
 
-        CardCacheKey cacheKey = new CardCacheKey(iban, player.getUUID(), slot);
-        CachedCardData cached = cardCache.get(cacheKey);
-
-        if (cached != null && cached.isValid(level.getGameTime())) {
+        long now = System.nanoTime();
+        if (isCacheValid(iban, player.getUUID(), slot, now)) {
             return;
         }
 
@@ -194,28 +174,34 @@ public class CardItem extends Item {
             MoneyMod.LOGGER.warn("[{}] Card with IBAN {} has no associated account (player: {})",
                     MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
             invalidateCard(stack);
-            cardCache.remove(cacheKey);
+            removeFromCache(iban, player.getUUID(), slot);
             return;
         }
 
         BankAccount acc = optAcc.get();
 
+        if (acc.getKind() != AccountKind.DEBIT) {
+            MoneyMod.LOGGER.error("[{}] CRITICAL: CardItem {} linked to non-DEBIT account {} (type: {}). Invalidating card!",
+                    MoneyMod.MOD_ID, iban, acc.getIban(), acc.getKind().name());
+            invalidateCard(stack);
+            removeFromCache(iban, player.getUUID(), slot);
+            return;
+        }
         if (!acc.isActive()) {
             MoneyMod.LOGGER.info("[{}] Card with IBAN {} is inactive, clearing data (player: {})",
                     MoneyMod.MOD_ID, iban, player.getGameProfile().getName());
             invalidateCard(stack);
-            cardCache.remove(cacheKey);
+            removeFromCache(iban, player.getUUID(), slot);
             return;
         }
 
-        UUID cardOwner = getOwner(stack);
+        UUID cardOwner = CardUtils.getOwner(stack);
         if (cardOwner != null && !cardOwner.equals(player.getUUID())) {
             MoneyMod.LOGGER.warn("[{}] Card owner mismatch: card owner={}, holder={}",
                     MoneyMod.MOD_ID, cardOwner, player.getUUID());
             return;
         }
-
-        CardTier currentTier = getTierFromItem(stack);
+        CardTier currentTier = CardUtils.getDebitTierFromItem(stack);
         String newTier = currentTier.name();
         if (!newTier.equals(acc.getCardTier())) {
             acc.setCardTier(newTier);
@@ -225,47 +211,39 @@ public class CardItem extends Item {
         String newCurrency = acc.getCurrency();
 
         if (Double.isFinite(newBalance) && newBalance >= 0) {
-            stack.set(MONEY_COMPONENT.get(), newBalance);
+            stack.set(CardUtils.MONEY_COMPONENT.get(), newBalance);
         } else {
             MoneyMod.LOGGER.error("[{}] Invalid balance detected for IBAN {}: {}",
                     MoneyMod.MOD_ID, iban, newBalance);
-            stack.set(MONEY_COMPONENT.get(), 0.0);
+            stack.set(CardUtils.MONEY_COMPONENT.get(), 0.0);
         }
 
         if (newCurrency != null && !newCurrency.isEmpty() && ModItems.EXCHANGE_RATES.containsKey(newCurrency)) {
-            stack.set(CURRENCY_COMPONENT.get(), newCurrency);
+            stack.set(CardUtils.CURRENCY_COMPONENT.get(), newCurrency);
         } else {
             MoneyMod.LOGGER.warn("[{}] Invalid currency for IBAN {}: {}, using EUR",
                     MoneyMod.MOD_ID, iban, newCurrency);
-            stack.set(CURRENCY_COMPONENT.get(), "EUR");
+            stack.set(CardUtils.CURRENCY_COMPONENT.get(), "EUR");
         }
 
-        cardCache.put(cacheKey, new CachedCardData(level.getGameTime(), newBalance, newCurrency));
+        putInCache(iban, player.getUUID(), slot, newBalance, newCurrency);
     }
     private void invalidateCard(ItemStack stack) {
-        stack.remove(IBAN_COMPONENT.get());
-        stack.remove(OWNER_COMPONENT.get());
-        stack.remove(OWNER_NAME_COMPONENT.get());
-        stack.remove(ACCOUNT_KIND_COMPONENT.get());
-        stack.set(MONEY_COMPONENT.get(), 0.0);
-        stack.set(CURRENCY_COMPONENT.get(), "EUR");
+        stack.remove(CardUtils.IBAN_COMPONENT.get());
+        stack.remove(CardUtils.OWNER_COMPONENT.get());
+        stack.remove(CardUtils.OWNER_NAME_COMPONENT.get());
+        stack.remove(CardUtils.ACCOUNT_KIND_COMPONENT.get());
+        stack.set(CardUtils.MONEY_COMPONENT.get(), 0.0);
+        stack.set(CardUtils.CURRENCY_COMPONENT.get(), "EUR");
         stack.remove(DataComponents.CUSTOM_NAME);
-    }
-    public static void setOwnerName(ItemStack stack, String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            stack.set(OWNER_NAME_COMPONENT.get(), name.trim());
-        }
-    }
-    public static String getOwnerName(ItemStack stack) {
-        return stack.getOrDefault(OWNER_NAME_COMPONENT.get(), null);
     }
     @Override
     public boolean isFoil(ItemStack stack) {
-        double money = stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
+        double money = stack.getOrDefault(CardUtils.MONEY_COMPONENT.get(), 0.0);
         if (!Double.isFinite(money) || money < 0) {
             return false;
         }
-        String currency = stack.getOrDefault(CURRENCY_COMPONENT.get(), "EUR");
+        String currency = stack.getOrDefault(CardUtils.CURRENCY_COMPONENT.get(), "EUR");
         if (!"EUR".equals(currency)) {
             Double rate = ModItems.EXCHANGE_RATES.get(currency);
             if (rate == null || rate <= 0) {
@@ -275,56 +253,14 @@ public class CardItem extends Item {
         }
         return money >= GLOW_THRESHOLD_EUR;
     }
-    public static String formatMoney(double amount) {
-        if (!Double.isFinite(amount)) {
-            MoneyMod.LOGGER.error("[{}] Invalid money amount: {}", MoneyMod.MOD_ID, amount);
-            return "ERROR";
-        }
-        if (amount < 0) {
-            return "-" + formatMoney(Math.abs(amount));
-        }
-        amount = Math.round(amount * 100.0) / 100.0;
 
-        if (amount >= 1000000000) {
-            DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(amount / 1000000000.0) + "B";
-        } else if (amount >= 1000000) {
-            DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(amount / 1000000.0) + "M";
-        } else if (amount >= 100000) {
-            DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(amount / 1000.0) + "K";
-        } else if (amount >= 10000) {
-            // Formatare specială pentru valori între 10,000 și 99,999
-            DecimalFormat df = new DecimalFormat("#.##");
-            String formatted = df.format(amount);
-
-            if (formatted.contains(".")) {
-                String[] parts = formatted.split("\\.");
-                return formatThousandsSeparator(parts[0]) + "." + parts[1];
-            } else {
-                return formatThousandsSeparator(formatted);
-            }
-        } else {
-            DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(amount);
-        }
-    }
-    private static String formatThousandsSeparator(String number) {
-        if (number.length() >= 4) {
-            String thousands = number.substring(0, number.length() - 3);
-            String hundreds = number.substring(number.length() - 3);
-            return thousands + " " + hundreds;
-        }
-        return number;
-    }
     @Override
     public @NotNull Component getName(ItemStack stack) {
         Component custom = stack.get(DataComponents.CUSTOM_NAME);
         if (custom != null) {
             return custom;
         }
-        String ownerName = getOwnerName(stack);
+        String ownerName = CardUtils.getOwnerName(stack);
         if (ownerName == null || ownerName.trim().isEmpty()) {
             return super.getName(stack);
         }
@@ -351,61 +287,12 @@ public class CardItem extends Item {
         }
         return null;
     }
-    public static void setIban(ItemStack stack, String iban) {
-        if (iban != null && !iban.trim().isEmpty()) {
-            stack.set(IBAN_COMPONENT.get(), iban.trim());
-        }
-    }
-    public static String getIban(ItemStack stack) {
-        return stack.getOrDefault(IBAN_COMPONENT.get(), null);
-    }
-    public static void setOwner(ItemStack stack, UUID owner) {
-        if (owner != null) {
-            stack.set(OWNER_COMPONENT.get(), owner.toString());
-        }
-    }
-    public static UUID getOwner(ItemStack stack) {
-        String s = stack.getOrDefault(OWNER_COMPONENT.get(), null);
-        if (s == null || s.trim().isEmpty()) {
-            return null;
-        }
-        try {
-            return UUID.fromString(s);
-        } catch (IllegalArgumentException e) {
-            MoneyMod.LOGGER.error("[{}] Invalid UUID format for card owner: {}", MoneyMod.MOD_ID, s);
-            return null;
-        }
-    }
-    public static void setAccountKind(ItemStack stack, AccountKind kind) {
-        if (kind != null) {
-            stack.set(ACCOUNT_KIND_COMPONENT.get(), kind.name());
-        }
-    }
-    public static AccountKind getAccountKind(ItemStack stack) {
-        String s = stack.getOrDefault(ACCOUNT_KIND_COMPONENT.get(), null);
-        if (s == null) {
-            return AccountKind.DEBIT;
-        }
-        try {
-            return AccountKind.valueOf(s);
-        } catch (IllegalArgumentException e) {
-            MoneyMod.LOGGER.error("[{}] Invalid AccountKind: {}", MoneyMod.MOD_ID, s);
-            return AccountKind.DEBIT;
-        }
-    }
-    public static CardTier getTierFromItem(ItemStack stack) {
-        Item item = stack.getItem();
-        if (item == ModItems.RustyCard.get()) return CardTier.RUSTY;
-        if (item == ModItems.Card.get()) return CardTier.CLASSIC;
-        if (item == ModItems.GoldCard.get()) return CardTier.GOLD;
-        if (item == ModItems.SteelCard.get()) return CardTier.STEEL;
-        if (item == ModItems.SupremeCard.get()) return CardTier.SUPREME;
-        return CardTier.CLASSIC;
-    }
+
+
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
                                 List<Component> tooltip, TooltipFlag flag) {
-        String iban = getIban(stack);
+        String iban = CardUtils.getIban(stack);
         if (iban == null || iban.isEmpty()) {
             tooltip.add(Component.literal("Empty Card")
                     .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
@@ -422,10 +309,10 @@ public class CardItem extends Item {
                     .append(Component.literal(" for more details")
                             .withStyle(ChatFormatting.GRAY)));
         } else {
-            double balance = stack.getOrDefault(MONEY_COMPONENT.get(), 0.0);
-            String currency = stack.getOrDefault(CURRENCY_COMPONENT.get(), "EUR");
+            double balance = stack.getOrDefault(CardUtils.MONEY_COMPONENT.get(), 0.0);
+            String currency = stack.getOrDefault(CardUtils.CURRENCY_COMPONENT.get(), "EUR");
             String formattedMoney = Double.isFinite(balance) && balance >= 0
-                    ? formatMoney(balance)
+                    ? CardUtils.formatMoney(balance)
                     : "ERROR";
             tooltip.add(Component.translatable(
                             "cardItem.bubusteinmoneymod.balance",
@@ -456,33 +343,11 @@ public class CardItem extends Item {
                 .withStyle(style -> style.withColor(TextColor.fromRgb(0xFF0000))));
     }
 
-    private static class CardCacheKey {
-        private final String iban;
-        private final UUID playerUuid;
-        private final int slot;
-
-        public CardCacheKey(String iban, UUID playerUuid, int slot) {
-            this.iban = iban;
-            this.playerUuid = playerUuid;
-            this.slot = slot;
-        }
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            CardCacheKey that = (CardCacheKey) o;
-            return slot == that.slot &&
-                    Objects.equals(iban, that.iban) &&
-                    Objects.equals(playerUuid, that.playerUuid);
-        }
-        @Override
-        public int hashCode() {
-            return Objects.hash(iban, playerUuid, slot);
-        }
+    private record CardCacheKey(String iban, UUID playerUuid, int slot) {
     }
-    private record CachedCardData(long timestamp, double balance, String currency) {
-        public boolean isValid(long currentTime) {
-            return (currentTime - timestamp) < CACHE_DURATION_TICKS;
+    private record CachedCardData(long timestampNanos, double balance, String currency) {
+        public boolean isValid(long currentNanos) {
+            return (currentNanos - timestampNanos) < CACHE_DURATION_NANOS;
         }
     }
 }
