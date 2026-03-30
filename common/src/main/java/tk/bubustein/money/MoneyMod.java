@@ -39,6 +39,7 @@ import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.config.ModConfig;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.recipe.ModRecipes;
+import tk.bubustein.money.screen.ATMActionPacket;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.util.CardUtils;
 import tk.bubustein.money.util.JigsawHelper;
@@ -84,7 +85,8 @@ public class MoneyMod {
 
         LOGGER.info("[{}] Crafting ATM. . .", MOD_ID);
         ModBlocks.init();
-
+        LOGGER.info("[{}] Registering ATM packet...", MOD_ID);
+        ATMActionPacket.register();
         LOGGER.info("[{}] Registering Bank Machine GUI. . .", MOD_ID);
         ModMenuTypes.init();
 

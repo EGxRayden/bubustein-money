@@ -21,10 +21,15 @@
 package tk.bubustein.money.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -34,7 +39,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+import tk.bubustein.money.screen.ATMMenu;
 
 public class ATM extends HorizontalDirectionalBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -67,48 +74,31 @@ public class ATM extends HorizontalDirectionalBlock {
             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return;
         }
-/*
-        BlockEntity be = world.getBlockEntity(pos);
-        if(be instanceof VendingMachineBlockEntity venderBe){
-            if(venderBe.owner == null){
-                venderBe.owner = entity.getUUID();
-            }
-        }*/
-
         world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING)), 3);
         world.blockUpdated(pos, this);
     }
-/*
-    @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult trace) {
-        if (!world.isClientSide) {
-            BlockEntity tileEntity = world.getBlockEntity(blockPos);
-            if(tileEntity == null){
-                tileEntity = world.getBlockEntity(blockPos.below());
-                blockPos = blockPos.below();
-            }
-            if (tileEntity instanceof ATMBlockEntity finalTileEntity) {
-                BlockPos finalBlockPos = blockPos;
-                NetworkHooks.openScreen((ServerPlayer) player, finalTileEntity, buffer -> buffer.writeBlockPos(finalBlockPos));
 
-            } else {
-                throw new IllegalStateException("Our named container provider is missing!");
-            }
-            return InteractionResult.CONSUME;
-        }else{
+    // ── ATM GUI ───────────────────────────────────────────────────────────
+    @Override
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
+                                                        Player player, BlockHitResult hitResult) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-    }*/
+        if (player instanceof ServerPlayer serverPlayer) {
+            BlockPos lowerPos = state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos;
+            ContainerLevelAccess access = ContainerLevelAccess.create(level, lowerPos);
+            MenuProvider menuProvider = new SimpleMenuProvider(
+                    (id, inv, p) -> new ATMMenu(id, inv, access),
+                    Component.translatable("block.bubusteinmoneymod.atm"));
+            MenuRegistry.openExtendedMenu(serverPlayer, menuProvider, buf -> {});
+        }
+        return InteractionResult.CONSUME;
+    }
 
     @SuppressWarnings("deprecated")
     @Override
     public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-       /*if(state.getValue(HALF) == DoubleBlockHalf.LOWER){
-            BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-            if(worldIn instanceof ServerLevel && blockEntity instanceof ATMBlockEntity atmBe){
-                atmBe.dropContents();
-            }
-        }*/
         super.onRemove(state, worldIn, pos, newState, isMoving);
     }
     @SuppressWarnings("deprecated")
@@ -128,18 +118,4 @@ public class ATM extends HorizontalDirectionalBlock {
         super.playerWillDestroy(world, pos, state, playerEntity);
         return blockState;
     }
-/*
-    @Override
-    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(blockEntity == null){
-            blockEntity = level.getBlockEntity(pos.below());
-        }
-        return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
-    }
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? Registration.VENDER_TILE.get().create(pos, state) : null;
-    }*/
 }

@@ -38,6 +38,7 @@ import net.neoforged.bus.api.IEventBus;
 import tk.bubustein.money.command.ModCommands;
 import tk.bubustein.money.item.CardItem;
 import tk.bubustein.money.item.ModItems;
+import tk.bubustein.money.screen.ATMScreen;
 import tk.bubustein.money.screen.BankMachineScreen;
 import tk.bubustein.money.screen.ModMenuTypes;
 import tk.bubustein.money.villager.ModVillagers;
@@ -86,6 +87,7 @@ public class MoneyModNeoForge {
         @SubscribeEvent
         private static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.BANK_MACHINE_MENU.get(), BankMachineScreen::new);
+            event.register(ModMenuTypes.ATM_MENU.get(), ATMScreen::new);
         }
     }
 }

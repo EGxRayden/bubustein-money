@@ -32,6 +32,8 @@ public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(MoneyMod.MOD_ID, Registries.MENU);
     public static final RegistrySupplier<MenuType<BankMachineMenu>> BANK_MACHINE_MENU = MENUS.register("bank_machine_menu",
             () -> MenuRegistry.ofExtended((id, inventory, buf) -> new BankMachineMenu(id, inventory)));
+    public static final RegistrySupplier<MenuType<ATMMenu>> ATM_MENU = MENUS.register("atm_menu",
+            () -> MenuRegistry.ofExtended((id, inventory, buf) -> new ATMMenu(id, inventory)));
     public static void init(){
         MENUS.register();
     }
