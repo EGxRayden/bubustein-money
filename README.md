@@ -143,11 +143,11 @@ Swamp Witch Hut
 
 | Minecraft Version | Version | Forge | Fabric | NeoForge |
 |-------------------|---------|-------|--------|----------|
-| **1.16.5** | 1.x.y | 🍂 | 🍂 | ⛔ |
+| **1.16.5** | 1.x.y | 🪦 | 🪦 | ⛔ |
 | **1.20.1** | 5.x.y | ✅ | ✅ | ✅ |
 | **1.21.1** | 8.x.y | ⛔ | ✅ | ✅ |
-| **1.21.8** | 11.x.y | ⛔ | ✅ | ✅ |
-| **1.21.9** | 12.x.y | ⛔ | 📅 | 📅 |
+| **1.21.11** | 12.x.y | ⛔ | ✅ | ✅ |
+| **26.1** | 13.x.y | ⛔ | 📅 | 📅 |
 
 
 
@@ -201,7 +201,6 @@ Swamp Witch Hut
 
 <div align="center">
 
-<a href="https://patreon.com/bubustein"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdonate%2Fpatreon-singular_vector.svg&n=-1"></a>
 <a href="https://ko-fi.com/bubustein"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fdonate%2Fkofi-singular_vector.svg&n=-1"></a>
 <a href="https://github.com/BUBUSTEIN13/bubustein-money"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Favailable%2Fgithub_vector.svg&n=-1"></a>
 <a href="https://dsc.gg/bubustein"><img src="https://wsrv.nl/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40intergrav%2Fdevins-badges%403%2Fassets%2Fcozy%2Fsocial%2Fdiscord-plural_vector.svg&n=-1"></a>
@@ -257,6 +256,6 @@ This mod is a **fictional entertainment project** for Minecraft gameplay only. I
 
 ---
 
-*Made with ❤️ by BUBUSTEIN | © 2023-2025*
+*Made with ❤️ by BUBUSTEIN | © 2023-2026*
 
 </div>

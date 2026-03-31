@@ -14,7 +14,7 @@
 ### ✨ Key Features
 
 **🏦 Advanced Banking System**
-- ATMs for easy money management (Not available yet WIP)
+- ATMs for easy money management
 - Secure card-based transactions using commands (`/bubustein help`)
 - Multiple card types with different tax rates
 
@@ -132,8 +132,8 @@
 | **1.16.5** | 1.x.y | 🍂 | 🍂 | ⛔ |
 | **1.20.1** | 5.x.y | ✅ | ✅ | ✅ |
 | **1.21.1** | 8.x.y | ⛔ | ✅ | ✅ |
-| **1.21.8** | 11.x.y | ⛔ | ✅ | ✅ |
-| **1.21.9** | 12.x.y | ⛔ | 📅 | 📅 |
+| **1.21.11**| 12.x.y | ⛔ | ✅ | ✅ |
+| **26.1**  | 13.x.y | ⛔ | 📅 | 📅 |
 
 **Legend:** ✅ Active Development | 🍂 Occasional Updates | ⛔ Not Available | 🪦 No More Updates
 
@@ -177,7 +177,7 @@
 
 ## 🤝 Community & Support
 
-[![Patreon](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/patreon-singular_vector.svg&n=-1)](https://patreon.com/bubustein) [![Ko-Fi](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg&n=-1)](https://ko-fi.com/bubustein) [![Github](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg&n=-1)](https://github.com/BUBUSTEIN13/bubustein-money) [![Discord](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg&n=-1)](https://dsc.gg/bubustein) [![Wiki](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/gitbook_vector.svg&n=-1)](https://wiki.bubustein.tk/) 
+[![Ko-Fi](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg&n=-1)](https://ko-fi.com/bubustein) [![Github](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg&n=-1)](https://github.com/BUBUSTEIN13/bubustein-money) [![Discord](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg&n=-1)](https://dsc.gg/bubustein) [![Wiki](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/gitbook_vector.svg&n=-1)](https://wiki.bubustein.tk/) 
 [![Modrinth](https://wsrv.nl/?url=https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg&n=-1)](https://modrinth.com/mod/bubustein-money)
 
 ### 🦸‍♂️ Become a Beta Tester!
@@ -211,10 +211,10 @@ This mod is a **fictional entertainment project** for Minecraft gameplay only. I
 ## 📦 Modpack Usage Policy
 
 ### ✅ Allowed:
-- **Modrinth uploads** with proper credit
+- **Curseforge uploads** with proper credit
 
-### ⚠️ CurseForge:
-- Must use official CurseForge version
+### ⚠️ Modrinth:
+- Must use official Modrinth version
 - **NO file overrides permitted**
 
 ---
@@ -225,4 +225,4 @@ This mod is a **fictional entertainment project** for Minecraft gameplay only. I
 
 ---
 
-*Made with ❤️ by BUBUSTEIN | © 2023-2025*
+*Made with ❤️ by BUBUSTEIN | © 2023-2026*
