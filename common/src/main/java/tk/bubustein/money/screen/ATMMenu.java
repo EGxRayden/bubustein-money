@@ -283,6 +283,7 @@ public class ATMMenu extends AbstractContainerMenu {
                 return;
             }
         }
+
         String currency = acc.getCurrency();
         NavigableMap<Double, Item> items = ModItems.getCurrencyItems().get(currency);
         if (items == null) return;
@@ -393,7 +394,6 @@ public class ATMMenu extends AbstractContainerMenu {
                                 .withStyle(ChatFormatting.RED));
                 return;
             }
-
             // Global debt cap check
             if (acc.getBalance() - amount < 0) {
                 double debtIncrease = Math.min(amount, amount - Math.max(acc.getBalance(), 0));

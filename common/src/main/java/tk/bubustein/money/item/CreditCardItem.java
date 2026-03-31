@@ -43,8 +43,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CreditCardItem extends Item {
-//  2 zile × 24h × 60min ÷ 20min/zi × 24000 ticks/zi = 3456000 ticks
-    public static final long INTEREST_PERIOD_TICKS = 3_456_000L;
+    public static final long INTEREST_PERIOD_TICKS = 576_000L;
 
     public CreditCardItem(Properties properties) {
         super(properties);

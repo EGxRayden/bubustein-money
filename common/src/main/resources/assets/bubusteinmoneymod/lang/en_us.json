@@ -578,5 +578,7 @@
 
   "message.bubusteinmoneymod.credit.interest_applied": "⚠ Interest applied: %s %s on credit account %s",
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Forced debt recovery: %s %s taken from your debit/savings to repay credit account %s",
-  "message.bubusteinmoneymod.credit.global_debt_cap": "Maximum total debt limit reached (%s %s). You cannot accumulate more debt."
+  "message.bubusteinmoneymod.credit.global_debt_cap": "Maximum total debt limit reached (%s %s). You cannot accumulate more debt.",
+  "message.bubusteinmoneymod.atm.insert_card": "Insert a card",
+  "message.bubusteinmoneymod.atm.card": "Card: "
 }

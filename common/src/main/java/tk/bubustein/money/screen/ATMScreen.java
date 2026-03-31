@@ -28,6 +28,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import tk.bubustein.money.item.ModItems;
 import tk.bubustein.money.util.CardUtils;
 
@@ -149,7 +150,7 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         try {
             NavigableMap<Double, ?> currencyMap = ModItems.getCurrencyItems().get(currency);
             if (currencyMap != null && !currencyMap.isEmpty()) {
-                List<Double> newList = new ArrayList<>(currencyMap.keySet());
+                List<Double> newList = getList(currencyMap);
                 if (!newList.equals(denominations)) {
                     denominations = newList;
                     denomIndex = Math.min(denomIndex, denominations.size() - 1);
@@ -161,6 +162,18 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         if (denominations.size() != 16) {
             buildDefaultDenominations();
         }
+    }
+    private static @NotNull List<Double> getList(NavigableMap<Double, ?> currencyMap) {
+        List<Double> newList = new ArrayList<>(currencyMap.keySet());
+
+        double largest = newList.getLast();
+        double extra1  = largest * 2.0;
+        double extra2  = largest  * 5.0;
+        double extra3  = largest * 10.0;
+        newList.add(extra1);
+        newList.add(extra2);
+        newList.add(extra3);
+        return newList;
     }
 
     // ── Init ─────────────────────────────────────────────────────────────────
@@ -330,23 +343,24 @@ public class ATMScreen extends AbstractContainerScreen<ATMMenu> {
         ItemStack cardStack = menu.slots.getFirst().getItem();
 
         // ── Header title ─────────────────────────────────────────────────────
-        String title = "ATM";
+        Component title = Component.translatable("block.bubusteinmoneymod.atm");
         int tw = this.font.width(title);
         gfx.drawString(this.font, title, (GUI_W - tw) / 2, 4, COL_WHITE, false);
 
+        Component cardName = Component.translatable("message.bubusteinmoneymod.atm.card");
         // ── Card slot label ──────────────────────────────────────────────────
-        gfx.drawString(this.font, "Card:", CARD_SLOT_X - 28, CARD_SLOT_Y + 4, COL_GRAY, false);
+        gfx.drawString(this.font, cardName, CARD_SLOT_X - 40, CARD_SLOT_Y + 4, COL_GRAY, false);
 
         // ── Balance / status ─────────────────────────────────────────────────
         if (!cardStack.isEmpty()) {
             double shownBalance = cardStack.getOrDefault(CardUtils.MONEY_COMPONENT.get(), 0.0);
             String shownCurrency = cardStack.getOrDefault(CardUtils.CURRENCY_COMPONENT.get(), cardCurrency);
 
-            String balanceStr = "Balance: " + CardUtils.formatMoney(shownBalance) + " " + shownCurrency;
+            Component balanceStr = Component.translatable("cardItem.bubusteinmoneymod.balance", CardUtils.formatMoney(shownBalance), shownCurrency);
             int bw = this.font.width(balanceStr);
             gfx.drawString(this.font, balanceStr, (GUI_W - bw) / 2, CARD_SLOT_Y + 24, COL_YELLOW, false);
         } else {
-            String noCard = "Insert a card";
+            Component noCard = Component.translatable("message.bubusteinmoneymod.atm.insert_card");
             int nw = this.font.width(noCard);
             gfx.drawString(this.font, noCard, (GUI_W - nw) / 2, CARD_SLOT_Y + 24, COL_GRAY, false);
         }
