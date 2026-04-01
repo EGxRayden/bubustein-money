@@ -561,5 +561,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Recuperare forțată a datoriei: %s %s luate din contul tău de debit/economii pentru a rambursa contul de credit %s",
   "message.bubusteinmoneymod.credit.global_debt_cap": "A fost atinsă limita maximă totală de datorie (%s %s). Nu mai poți acumula alte datorii.",
   "message.bubusteinmoneymod.atm.insert_card": "Introdu un card",
-  "message.bubusteinmoneymod.atm.card": "Card: "
+  "message.bubusteinmoneymod.atm.card": "Card: ",
+  "message.bubusteinmoneymod.max_credit": "Limita ta personală de credit este %s %s (de 2× soldul tău de debit/economii de %s %s, maxim 500K EUR). Datorie curentă: %s %s. Nu mai există spațiu pentru credit suplimentar."
 }

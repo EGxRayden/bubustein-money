@@ -194,13 +194,13 @@ public class CardItem extends Item {
             removeFromCache(iban, player.getUUID(), slot);
             return;
         }
-
+        /*
         UUID cardOwner = CardUtils.getOwner(stack);
         if (cardOwner != null && !cardOwner.equals(player.getUUID())) {
             MoneyMod.LOGGER.warn("[{}] Card owner mismatch: card owner={}, holder={}",
                     MoneyMod.MOD_ID, cardOwner, player.getUUID());
             return;
-        }
+        }*/
         CardTier currentTier = CardUtils.getDebitTierFromItem(stack);
         String newTier = currentTier.name();
         if (!newTier.equals(acc.getCardTier())) {

@@ -140,12 +140,13 @@ public class CreditCardItem extends Item {
                 ).withStyle(net.minecraft.ChatFormatting.YELLOW));
             }
         }
+        /*
         UUID cardOwner = CardUtils.getOwner(stack);
         if (cardOwner != null && !cardOwner.equals(player.getUUID())) {
             MoneyMod.LOGGER.warn("[{}] Credit card owner mismatch: card owner={}, holder={}",
                     MoneyMod.MOD_ID, cardOwner, player.getUUID());
             return;
-        }
+        }*/
         CreditCardTier currentTier = CardUtils.getCreditTierFromItem(stack);
         String newTier = currentTier.name();
         if (!newTier.equals(acc.getCardTier())) {

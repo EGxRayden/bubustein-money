@@ -549,5 +549,6 @@
   "message.bubusteinmoneymod.credit.global_debt_cap": "The realm’s utmost burden of debt (%s %s) is reach’d. No further chain may be forg’d.",
 
   "message.bubusteinmoneymod.atm.insert_card": "Present thy parchment unto the Automaton of Coin",
-  "message.bubusteinmoneymod.atm.card": "Parchment: "
+  "message.bubusteinmoneymod.atm.card": "Parchment: ",
+  "message.bubusteinmoneymod.max_credit": "Your personal credit limit is %s %s (2× your debit/savings balance of %s %s, max 500K EUR). Current debt: %s %s. No room for more credit."
 }

@@ -577,5 +577,6 @@
   "message.bubusteinmoneymod.credit.global_debt_cap": "Se ha alcanzado el límite máximo de deuda total (%s %s). No puedes acumular más deuda.",
 
   "message.bubusteinmoneymod.atm.insert_card": "Inserta Una Tarjeta",
-  "message.bubusteinmoneymod.atm.card": "Tarjeta: "
+  "message.bubusteinmoneymod.atm.card": "Tarjeta: ",
+  "message.bubusteinmoneymod.max_credit": "Tu límite de crédito personal es %s %s (2× tu saldo de débito/ahorros de %s %s, máx. 500K EUR). Deuda actual: %s %s. No hay más crédito disponible."
 }

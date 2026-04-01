@@ -560,5 +560,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Forced debt recovery: %s %s taken from your debit/savings to repay credit account %s",
   "message.bubusteinmoneymod.credit.global_debt_cap": "Maximum total debt limit reached (%s %s). You cannot accumulate more debt.",
   "message.bubusteinmoneymod.atm.insert_card": "Insert a card",
-  "message.bubusteinmoneymod.atm.card": "Card: "
+  "message.bubusteinmoneymod.atm.card": "Card: ",
+  "message.bubusteinmoneymod.max_credit": "Your personal credit limit is %s %s (2× your debit/savings balance of %s %s, max 500K EUR). Current debt: %s %s. No room for more credit."
 }

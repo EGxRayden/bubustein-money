@@ -581,5 +581,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Gedwongen schuldinning: %s %s afgeschreven van je betaal-/spaarrekening om kredietrekening %s af te lossen",
   "message.bubusteinmoneymod.credit.global_debt_cap": "Maximale totale schuldenlimiet bereikt (%s %s). Je kunt geen extra schuld opbouwen.",
   "message.bubusteinmoneymod.atm.insert_card": "Voer een kaart in",
-  "message.bubusteinmoneymod.atm.card": "Kaart: "
+  "message.bubusteinmoneymod.atm.card": "Kaart: ",
+  "message.bubusteinmoneymod.max_credit": "Je persoonlijke kredietlimiet is %s %s (2× je debet-/spaartegoed van %s %s, max. 500K EUR). Huidige schuld: %s %s. Geen ruimte voor extra krediet."
 }

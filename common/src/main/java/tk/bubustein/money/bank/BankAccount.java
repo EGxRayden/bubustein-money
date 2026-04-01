@@ -221,17 +221,30 @@ public class BankAccount {
 
         if (this.kind == AccountKind.CREDIT) {
             CreditCardTier tier = getCreditCardTier();
+
+            double creditLimitInAccountCurrency;
+            try {
+                creditLimitInAccountCurrency = tk.bubustein.money.command.ModCommands.convertCurrency(
+                        tier.getCreditLimit(), "EUR", this.currency
+                );
+            } catch (IllegalArgumentException e) {
+                MoneyMod.LOGGER.warn("[{}] Could not convert credit limit from EUR to {} for account {}, using raw limit fallback",
+                        MoneyMod.MOD_ID, this.currency, this.iban);
+                creditLimitInAccountCurrency = tier.getCreditLimit();
+            }
+
             double newBalance = this.balance - amount;
-            // Credit cards: balance can be positive (overpay), but cannot go below -creditLimit
-            if (newBalance < -tier.getCreditLimit()) {
-                MoneyMod.LOGGER.warn("[{}] Credit card {} withdrawal of {} would exceed limit of {}",
-                        MoneyMod.MOD_ID, this.iban, amount, tier.getCreditLimit());
+            if (newBalance < -creditLimitInAccountCurrency) {
+                MoneyMod.LOGGER.warn("[{}] Credit card {} withdrawal of {} {} would exceed limit of {} {}",
+                        MoneyMod.MOD_ID, this.iban,
+                        amount, this.currency,
+                        creditLimitInAccountCurrency, this.currency);
                 return false;
             }
+
             this.balance = newBalance;
             return true;
         } else {
-            // DEBIT and SAVINGS: cannot go below 0
             if (this.balance < amount) {
                 return false;
             }
@@ -251,9 +264,21 @@ public class BankAccount {
         if (this.kind != AccountKind.CREDIT) {
             return 0.0;
         }
+
         CreditCardTier tier = getCreditCardTier();
-        // Available = creditLimit + balance (if positive, you have more room; if negative, less)
-        return tier.getCreditLimit() + this.balance;
+
+        double creditLimitInAccountCurrency;
+        try {
+            creditLimitInAccountCurrency = tk.bubustein.money.command.ModCommands.convertCurrency(
+                    tier.getCreditLimit(), "EUR", this.currency
+            );
+        } catch (IllegalArgumentException e) {
+            MoneyMod.LOGGER.warn("[{}] Could not convert credit limit from EUR to {} for account {}, using raw limit fallback",
+                    MoneyMod.MOD_ID, this.currency, this.iban);
+            creditLimitInAccountCurrency = tier.getCreditLimit();
+        }
+
+        return creditLimitInAccountCurrency + this.balance;
     }
 
     public double applyInterest() {
@@ -296,11 +321,24 @@ public class BankAccount {
 
         if (this.kind == AccountKind.DEBIT || this.kind == AccountKind.SAVINGS) {
             return this.balance >= amount;
-        } else if (this.kind == AccountKind.CREDIT) {
+        }
+
+        if (this.kind == AccountKind.CREDIT) {
             CreditCardTier tier = getCreditCardTier();
+
+            double creditLimitInAccountCurrency;
+            try {
+                creditLimitInAccountCurrency = tk.bubustein.money.command.ModCommands.convertCurrency(
+                        tier.getCreditLimit(), "EUR", this.currency
+                );
+            } catch (IllegalArgumentException e) {
+                MoneyMod.LOGGER.warn("[{}] Could not convert credit limit from EUR to {} for account {}, using raw limit fallback",
+                        MoneyMod.MOD_ID, this.currency, this.iban);
+                creditLimitInAccountCurrency = tier.getCreditLimit();
+            }
+
             double newBalance = this.balance - amount;
-            // Cannot go below -creditLimit
-            return newBalance >= -tier.getCreditLimit();
+            return newBalance >= -creditLimitInAccountCurrency;
         }
 
         return false;
@@ -312,13 +350,24 @@ public class BankAccount {
         }
 
         CreditCardTier tier = getCreditCardTier();
-        if (tier.getCreditLimit() <= 0) {
+
+        double creditLimitInAccountCurrency;
+        try {
+            creditLimitInAccountCurrency = tk.bubustein.money.command.ModCommands.convertCurrency(
+                    tier.getCreditLimit(), "EUR", this.currency
+            );
+        } catch (IllegalArgumentException e) {
+            MoneyMod.LOGGER.warn("[{}] Could not convert credit limit from EUR to {} for account {}, using raw limit fallback",
+                    MoneyMod.MOD_ID, this.currency, this.iban);
+            creditLimitInAccountCurrency = tier.getCreditLimit();
+        }
+
+        if (creditLimitInAccountCurrency <= 0) {
             return 0.0;
         }
 
-        // Only count negative balance (debt) for utilization
         double debt = Math.max(0.0, -this.balance);
-        return Math.min(1.0, debt / tier.getCreditLimit());
+        return Math.min(1.0, debt / creditLimitInAccountCurrency);
     }
 
     public String getStatusDescription() {

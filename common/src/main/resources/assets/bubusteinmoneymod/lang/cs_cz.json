@@ -578,5 +578,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Vynucené splacení dluhu: %s %s odebráno z tvého debetního/spořicího účtu pro splacení kreditního účtu %s",
   "message.bubusteinmoneymod.credit.global_debt_cap": "Byl dosažen maximální limit celkového dluhu (%s %s). Nemůžeš si vzít další dluh.",
   "message.bubusteinmoneymod.atm.insert_card": "Vlož kartu",
-  "message.bubusteinmoneymod.atm.card": "Karta: "
+  "message.bubusteinmoneymod.atm.card": "Karta: ",
+  "message.bubusteinmoneymod.max_credit": "Váš osobní úvěrový limit je %s %s (2× váš zůstatek na debetním/spořicím účtu %s %s, max. 500 K EUR). Aktuální dluh: %s %s. Žádný prostor pro další úvěr."
 }

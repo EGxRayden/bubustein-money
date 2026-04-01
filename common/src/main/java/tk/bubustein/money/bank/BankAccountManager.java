@@ -19,9 +19,11 @@
  */
 package tk.bubustein.money.bank;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import tk.bubustein.money.MoneyMod;
 import tk.bubustein.money.command.ModCommands;
+import tk.bubustein.money.util.CardUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -253,11 +255,10 @@ public class BankAccountManager {
             }
 
             // Show the player their ACTUAL cap, not the global 500K
-            return Optional.of(String.format(
-                    "Your personal credit limit is %s %s (2× your debit/savings balance of %s %s, max 500K EUR). Current debt: %s %s. No room for more credit.",
-                    tk.bubustein.money.util.CardUtils.formatMoney(capInDefault), defaultCurrency,
-                    tk.bubustein.money.util.CardUtils.formatMoney(incomeInDefault), defaultCurrency,
-                    tk.bubustein.money.util.CardUtils.formatMoney(debtInDefault), defaultCurrency
+            return Optional.of(String.format(Component.translatable("message.bubusteinmoneymod.max_credit").getString(),
+                    CardUtils.formatMoney(capInDefault), defaultCurrency,
+                    CardUtils.formatMoney(incomeInDefault), defaultCurrency,
+                    CardUtils.formatMoney(debtInDefault), defaultCurrency
             ));
         }
 

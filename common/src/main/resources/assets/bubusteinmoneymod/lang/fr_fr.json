@@ -577,5 +577,6 @@
   "message.bubusteinmoneymod.credit.global_debt_cap": "Plafond de dette totale atteint (%s %s). Vous ne pouvez pas accumuler plus de dette.",
 
   "message.bubusteinmoneymod.atm.insert_card": "Insérez une carte",
-  "message.bubusteinmoneymod.atm.card": "Carte : "
+  "message.bubusteinmoneymod.atm.card": "Carte : ",
+  "message.bubusteinmoneymod.max_credit": "Votre limite de crédit personnelle est de %s %s (2× le solde de votre compte débit/épargne de %s %s, max 500K EUR). Dette actuelle: %s %s. Aucun crédit supplémentaire disponible."
 }

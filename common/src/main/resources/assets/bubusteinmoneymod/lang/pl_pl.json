@@ -578,5 +578,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Wymuszona spłata długu: %s %s pobrano z twojego konta debetowego/oszczędnościowego, aby spłacić konto kredytowe %s",
   "message.bubusteinmoneymod.credit.global_debt_cap": "Osiągnięto maksymalny całkowity limit zadłużenia (%s %s). Nie możesz zaciągnąć więcej długu.",
   "message.bubusteinmoneymod.atm.insert_card": "Włóż kartę",
-  "message.bubusteinmoneymod.atm.card": "Karta: "
+  "message.bubusteinmoneymod.atm.card": "Karta: ",
+  "message.bubusteinmoneymod.max_credit": "Twój osobisty limit kredytowy wynosi %s %s (2× saldo Twojego konta debetowego/oszczędnościowego %s %s, maks. 500K EUR). Aktualne zadłużenie: %s %s. Brak możliwości uzyskania dodatkowego kredytu."
 }

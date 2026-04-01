@@ -575,6 +575,7 @@
   "message.bubusteinmoneymod.bank_delete": "Delete a bank you created (requires confirmation).",
   "message.bubusteinmoneymod.confirm": "Confirm a pending action (e.g. bank deletion).",
   "message.bubusteinmoneymod.invalidateAll": "Invalidate all cards of a player by UUID.",
+  "message.bubusteinmoneymod.max_credit": "Your personal credit limit is %s %s (2× your debit/savings balance of %s %s, max 500K EUR). Current debt: %s %s. No room for more credit.",
 
   "message.bubusteinmoneymod.credit.interest_applied": "⚠ Interest applied: %s %s on credit account %s",
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Forced debt recovery: %s %s taken from your debit/savings to repay credit account %s",

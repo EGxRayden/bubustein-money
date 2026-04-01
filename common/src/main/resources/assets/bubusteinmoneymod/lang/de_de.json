@@ -577,5 +577,6 @@
   "message.bubusteinmoneymod.credit.forced_recovery": "⚠ Erzwungene Schuldentilgung: %s %s von deinem Debit-/Sparkonto abgebucht, um Kreditkonto %s zu tilgen",
   "message.bubusteinmoneymod.credit.global_debt_cap": "Maximales Gesamtschuldenlimit erreicht (%s %s). Du kannst keine weiteren Schulden aufnehmen.",
   "message.bubusteinmoneymod.atm.insert_card": "Karte einführen",
-  "message.bubusteinmoneymod.atm.card": "Karte: "
+  "message.bubusteinmoneymod.atm.card": "Karte: ",
+  "message.bubusteinmoneymod.max_credit": "Dein persönliches Kreditlimit beträgt %s %s (2× dein Debit-/Sparkontostand von %s %s, max. 500K EUR). Aktueller Schuldenstand: %s %s. Kein weiterer Kredit verfügbar."
 }

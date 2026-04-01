@@ -35,10 +35,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import tk.bubustein.money.bank.AccountKind;
-import tk.bubustein.money.bank.BankAccount;
-import tk.bubustein.money.bank.BankAccountManager;
-import tk.bubustein.money.bank.BankAccountSavedData;
+import tk.bubustein.money.bank.*;
 import tk.bubustein.money.block.ModBlocks;
 import tk.bubustein.money.command.ModCommands;
 import tk.bubustein.money.item.CardItem;
@@ -376,15 +373,25 @@ public class ATMMenu extends AbstractContainerMenu {
             return;
         }
 
-        if (amount <= 0) return;
+        if (amount <= 0 || ModCommands.hasMoreThanTwoDecimals(amount)) {
+            serverPlayer.sendSystemMessage(
+                    Component.translatable("message.bubusteinmoneymod.amount_positive")
+                            .withStyle(ChatFormatting.RED));
+            return;
+        }
+
         boolean isAdmin = serverPlayer.hasPermissions(2);
+        boolean isAdminAction = isAdmin && !acc.getOwnerUuid().equals(serverPlayer.getUUID());
+
         if (!isAdmin && !acc.getOwnerUuid().equals(serverPlayer.getUUID())) {
             serverPlayer.sendSystemMessage(
                     Component.translatable("message.bubusteinmoneymod.not_card_owner")
                             .withStyle(ChatFormatting.RED));
             return;
         }
+
         String currency = acc.getCurrency();
+        double currentBalance = acc.getBalance();
 
         if (acc.getKind() == AccountKind.CREDIT) {
             if (!acc.canWithdraw(amount)) {
@@ -394,24 +401,29 @@ public class ATMMenu extends AbstractContainerMenu {
                                 .withStyle(ChatFormatting.RED));
                 return;
             }
-            // Global debt cap check
-            if (acc.getBalance() - amount < 0) {
-                double debtIncrease = Math.min(amount, amount - Math.max(acc.getBalance(), 0));
-                double debtIncreaseEur;
+
+            double currentDebtInCardCurrency = Math.max(0.0, -acc.getBalance());
+            double newBalance = acc.getBalance() - amount;
+            double newDebtInCardCurrency = Math.max(0.0, -newBalance);
+            double additionalDebtInCardCurrency = newDebtInCardCurrency - currentDebtInCardCurrency;
+
+            if (additionalDebtInCardCurrency > 0.0) {
+                double additionalDebtEur;
                 try {
-                    debtIncreaseEur = ModCommands.convertCurrency(debtIncrease, currency, "EUR");
-                } catch (Exception e) {
-                    debtIncreaseEur = debtIncrease;
+                    additionalDebtEur = ModCommands.convertCurrency(additionalDebtInCardCurrency, currency, "EUR");
+                } catch (IllegalArgumentException e) {
+                    additionalDebtEur = additionalDebtInCardCurrency;
                 }
 
-                if (!mgr.canAccumulateMoreDebt(server, serverPlayer.getUUID(), debtIncreaseEur)) {
+                if (!mgr.canAccumulateMoreDebt(server, serverPlayer.getUUID(), additionalDebtEur)) {
                     double cap = mgr.getPersonalCreditCapEur(server, serverPlayer.getUUID());
                     double capInCurrency;
                     try {
                         capInCurrency = ModCommands.convertCurrency(cap, "EUR", currency);
-                    } catch (Exception e) {
+                    } catch (IllegalArgumentException e) {
                         capInCurrency = cap;
                     }
+
                     serverPlayer.sendSystemMessage(
                             Component.translatable("message.bubusteinmoneymod.credit.global_debt_cap",
                                             CardUtils.formatMoney(capInCurrency), currency)
@@ -422,56 +434,98 @@ public class ATMMenu extends AbstractContainerMenu {
 
             boolean ok = acc.withdraw(amount);
             if (!ok) return;
-
         } else if (acc.getKind() == AccountKind.DEBIT) {
-            boolean isAdminAction = serverPlayer.hasPermissions(2) && !acc.getOwnerUuid().equals(serverPlayer.getUUID());
             double fee = isAdminAction ? 0.0 : ModCommands.calculateWithdrawFee(cardStack, amount);
             double total = amount + fee;
+
             if (acc.getBalance() < total) {
-                serverPlayer.sendSystemMessage(
-                        Component.translatable("message.bubusteinmoneymod.not_enough_funds")
-                                .withStyle(ChatFormatting.RED));
+                if (isAdminAction) {
+                    serverPlayer.sendSystemMessage(
+                            Component.translatable("message.bubusteinmoneymod.not_enough_funds")
+                                    .append(" ")
+                                    .append(Component.translatable("message.bubusteinmoneymod.available",
+                                            CardUtils.formatMoney(acc.getBalance()), currency))
+                                    .withStyle(ChatFormatting.RED));
+                } else {
+                    double feeRate = fee / amount;
+                    BigDecimal maxWithdrawable = BigDecimal.valueOf(acc.getBalance())
+                            .divide(BigDecimal.ONE.add(BigDecimal.valueOf(feeRate)), 2, java.math.RoundingMode.DOWN);
+
+                    serverPlayer.sendSystemMessage(
+                            Component.translatable("message.bubusteinmoneymod.not_enough_funds_with_fee",
+                                            CardUtils.formatMoney(maxWithdrawable.doubleValue()), currency,
+                                            CardUtils.formatMoney(ModCommands.calculateWithdrawFee(cardStack, maxWithdrawable.doubleValue())), currency)
+                                    .withStyle(ChatFormatting.RED));
+                }
                 return;
             }
-            acc.setBalance(acc.getBalance() - total);
         } else {
-            // Savings — not supported at ATM
             return;
         }
 
-        // Give physical currency items to player
+        double remainingAmount;
         if (ModItems.getCurrencyItems().containsKey(currency)) {
-            ModCommands.withdrawCurrency(serverPlayer, amount, currency);
+            remainingAmount = ModCommands.withdrawCurrency(serverPlayer, amount, currency);
+            if (remainingAmount > 0.0) {
+                serverPlayer.sendSystemMessage(
+                        Component.translatable("message.bubusteinmoneymod.withdraw_partial",
+                                        CardUtils.formatMoney(remainingAmount), currency)
+                                .withStyle(ChatFormatting.YELLOW));
+            }
+        } else {
+            remainingAmount = amount;
+            serverPlayer.sendSystemMessage(
+                    Component.translatable("message.bubusteinmoneymod.withdraw_no_currency", currency)
+                            .withStyle(ChatFormatting.YELLOW));
         }
 
-        // Sync data components on the card
+        double actuallyWithdrawn = amount - remainingAmount;
+        double actualFee = 0.0;
+
+        if (actuallyWithdrawn > 0.0) {
+            if (acc.getKind() == AccountKind.CREDIT) {
+                CreditCardTier tier = acc.getCreditCardTier();
+
+                double cardLimitInCardCurrency;
+                try {
+                    cardLimitInCardCurrency = ModCommands.convertCurrency(
+                            tier.getCreditLimit(), "EUR", currency
+                    );
+                } catch (IllegalArgumentException e) {
+                    cardLimitInCardCurrency = tier.getCreditLimit();
+                }
+
+                double postWithdrawBalance = acc.getBalance() - actuallyWithdrawn;
+                if (postWithdrawBalance < -cardLimitInCardCurrency) {
+                    serverPlayer.sendSystemMessage(
+                            Component.translatable("message.bubusteinmoneymod.credit_limit_exceeded",
+                                            CardUtils.formatMoney(actuallyWithdrawn), currency)
+                                    .withStyle(ChatFormatting.RED));
+                    return;
+                }
+
+                acc.setBalance(postWithdrawBalance);
+            } else if (acc.getKind() == AccountKind.DEBIT) {
+                actualFee = isAdminAction ? 0.0 : ModCommands.calculateWithdrawFee(cardStack, actuallyWithdrawn);
+                acc.setBalance(acc.getBalance() - actuallyWithdrawn - actualFee);
+            }
+        }
+
         cardStack.set(CardUtils.MONEY_COMPONENT.get(), acc.getBalance());
         cardStack.set(CardUtils.CURRENCY_COMPONENT.get(), acc.getCurrency());
 
         BankAccountSavedData.get(server).setDirty();
 
-        // Refresh synced balance
         syncedBalance = (long) (acc.getBalance() * 100.0);
         syncedStatus = 1;
         broadcastChanges();
 
-        if (acc.getKind() == AccountKind.DEBIT) {
-            boolean isAdminAction = serverPlayer.hasPermissions(2) && !acc.getOwnerUuid().equals(serverPlayer.getUUID());
-            double fee = isAdminAction ? 0.0 : ModCommands.calculateWithdrawFee(cardStack, amount);
-            serverPlayer.sendSystemMessage(
-                    Component.translatable("message.bubusteinmoneymod.withdraw_success",
-                                    CardUtils.formatMoney(amount), currency,
-                                    CardUtils.formatMoney(fee), currency,
-                                    CardUtils.formatMoney(acc.getBalance()), currency)
-                            .withStyle(ChatFormatting.GREEN));
-        } else {
-            serverPlayer.sendSystemMessage(
-                    Component.translatable("message.bubusteinmoneymod.withdraw_success",
-                                    CardUtils.formatMoney(amount), currency,
-                                    CardUtils.formatMoney(0), currency,
-                                    CardUtils.formatMoney(acc.getBalance()), currency)
-                            .withStyle(ChatFormatting.GREEN));
-        }
+        serverPlayer.sendSystemMessage(
+                Component.translatable("message.bubusteinmoneymod.withdraw_success",
+                                CardUtils.formatMoney(actuallyWithdrawn), currency,
+                                CardUtils.formatMoney(actualFee), currency,
+                                CardUtils.formatMoney(acc.getBalance()), currency)
+                        .withStyle(ChatFormatting.GREEN));
 
         serverPlayer.inventoryMenu.broadcastChanges();
     }
