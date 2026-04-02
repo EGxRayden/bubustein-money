@@ -427,10 +427,10 @@
   "commands.bubusteinmoneymod.update.failed": "فشل تحديث الأسعار: %s",
 
   "item.bubusteinmoneymod.rusty_card.named": "بطاقة %s الصدئة",
-  "item.bubusteinmoneymod.classic_card.named": "بطاقة %s",
+  "item.bubusteinmoneymod.classic_card.named": "بطاقة %s عادية",
   "item.bubusteinmoneymod.gold_card.named": "بطاقة %s الذهبية",
   "item.bubusteinmoneymod.steel_card.named": "بطاقة %s الفولاذية",
-  "item.bubusteinmoneymod.supreme_card.named": "بطاقة %s العليا",
+  "item.bubusteinmoneymod.supreme_card.named": "بطاقة %s النخبة",
 
   "message.bubusteinmoneymod.accounts": "عرض حساباتك البنكية (أو حسابات لاعب آخر إن كنت OP)",
   "message.bubusteinmoneymod.no_permission": "ليس لديك صلاحية لعرض حسابات لاعبين آخرين.",
